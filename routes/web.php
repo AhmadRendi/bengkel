@@ -36,3 +36,7 @@ Route::get(('/products'), function () {
 Route::get('/add-product', function () {
     return view('addProduct');
 })->name('add-product');
+
+Route::get('/users', function () {
+    return view('users');
+})->name('users');

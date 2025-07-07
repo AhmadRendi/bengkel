@@ -25,8 +25,8 @@
             <ul class="collapse submenu list-group {{ request()->routeIs('user.*') ? 'show' : '' }}"
                 id="usersSubmenu">
                 <li>
-                    <a href="{{ route('dashboard') }}"
-                        class="list-group-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                    <a href="{{ route('users') }}"
+                        class="list-group-item {{ request()->routeIs('users') ? 'active' : '' }}">
                         <i class="fas fa-list"></i>
                         Semua Pengguna
                     </a>

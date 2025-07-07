@@ -1,7 +1,9 @@
 @include('layouts.header')
-
-<div class="auth-container">
-    <div class="auth-card">
+@include('layouts.sidebar')
+<main class="main-content" id="mainContent">
+    @include('layouts.navbar', ['page' => 'Registrasi'])
+    <div class="container-fluid px-4">
+        <div class="auth-card">
         <!-- Left Panel -->
         <div class="auth-left">
             <div class="auth-logo">
@@ -78,6 +80,7 @@
             </div>
         </div>
     </div>
-</div>
+    </div>
+</main>
 
 @include('layouts.footer')
