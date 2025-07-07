@@ -17,6 +17,53 @@ toggleButtons.forEach(button => {
   });
 });
 
+// Image upload
+const imageUpload = document.getElementById('productImage');
+const uploadArea = document.querySelector('.image-upload-area');
+
+if (imageUpload && uploadArea) {
+  uploadArea.addEventListener('click', () => imageUpload.click());
+  imageUpload.addEventListener('change', (e) => handleImageUpload(e));
+
+  console.log('Image upload initialized');
+  // Drag and drop
+  uploadArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadArea.classList.add('dragover');
+  });
+
+  uploadArea.addEventListener('dragleave', () => {
+    uploadArea.classList.remove('dragover');
+  });
+
+  uploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadArea.classList.remove('dragover');
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+      handleImageUpload({ target: { files } });
+    }
+  });
+}
+
+function handleImageUpload(e) {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const preview = document.querySelector('.image-preview');
+      const uploadArea = document.querySelector('.image-upload-area');
+
+      if (preview) {
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+        uploadArea.style.display = 'none';
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
 window.addEventListener('scroll', function () {
   const nav = document.querySelector('.floating-nav');
   if (window.scrollY > 100) {
@@ -144,4 +191,6 @@ document.querySelectorAll('.stats-card').forEach(card => {
   card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
   observer.observe(card);
 });
+
+
 

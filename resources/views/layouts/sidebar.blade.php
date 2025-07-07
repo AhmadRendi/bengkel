@@ -59,8 +59,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('register') }}"
-                        class="list-group-item {{ request()->routeIs('register') ? 'active' : '' }}">
+                    <a href="{{ route('add-product') }}"
+                        class="list-group-item {{ request()->routeIs('add-product') ? 'active' : '' }}">
                         <i class="fas fa-plus"></i>
                         Tambah Produk
                     </a>

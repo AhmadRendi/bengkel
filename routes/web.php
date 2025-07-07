@@ -32,3 +32,7 @@ Route::get('/register', function () {
 Route::get(('/products'), function () {
     return view('products');
 })->name('products');
+
+Route::get('/add-product', function () {
+    return view('addProduct');
+})->name('add-product');
