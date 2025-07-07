@@ -1,0 +1,126 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class UserController extends Controller
+{
+    //
+
+    public function getAllUser(){
+        $users = [
+            [
+                'id' => 1,
+                'name' => 'Rendi',
+                'email' => '',
+                'role' => 'Admin',
+                'status' => 'Active',
+                'created_at' => '2023-10-01',
+                'updated_at' => '2023-10-01',
+            ],
+            [
+                'id' => 2,
+                'name' => 'Budi',
+                'email' => '',
+                'role' => 'User',
+                'status' => 'Active',
+                'created_at' => '2023-10-02',
+                'updated_at' => '2023-10-02',
+            ],
+            [
+                'id' => 3,
+                'name' => 'Siti',
+                'email' => '',
+                'role' => 'User',
+                'status' => 'Inactive',
+                'created_at' => '2023-10-03',
+                'updated_at' => '2023-10-03',
+            ],
+            [
+                'id' => 4,
+                'name' => 'Andi',
+                'email' => '',
+                'role' => 'User',
+                'status' => 'Active',
+                'created_at' => '2023-10-04',
+                'updated_at' => '2023-10-04',
+            ],
+            [
+                'id' => 5,
+                'name' => 'Dewi',
+                'email' => '',
+                'role' => 'User',
+                'status' => 'Active',
+                'created_at' => '2023-10-05',
+                'updated_at' => '2023-10-05',
+            ],
+            [
+                'id' => 6,
+                'name' => 'Joko',
+                'email' => '',
+                'role' => 'User',
+                'status' => 'Inactive',
+                'created_at' => '2023-10-06',
+                'updated_at' => '2023-10-06',
+            ],
+            [
+                'id' => 7,
+                'name' => 'Tina',
+                'email' => '',
+                'role' => 'User',
+                'status' => 'Active',
+                'created_at' => '2023-10-07',
+                'updated_at' => '2023-10-07',
+            ],
+            [
+                'id' => 8,
+                'name' => 'Rina',
+                'email' => '',
+                'role' => 'User',
+                'status' => 'Active',
+                'created_at' => '2023-10-08',
+                'updated_at' => '2023-10-08',
+            ],
+            [
+                'id' => 9,
+                'name' => 'Budi',
+                'email' => '',
+                'role' => 'User',
+                'status' => 'Inactive',
+                'created_at' => '2023-10-09',
+                'updated_at' => '2023-10-09',
+            ],
+            [
+                'id' => 10,
+                'name' => 'Siti',
+                'email' => '',
+                'role' => 'User',
+                'status' => 'Active',
+                'created_at' => '2023-10-10',
+                'updated_at' => '2023-10-10',
+            ],
+            [
+                'id' => 11,
+                'name' => 'Andi',
+                'email' => '',
+                'role' => 'User',
+                'status' => 'Active',
+                'created_at' => '2023-10-11',
+                'updated_at' => '2023-10-11',
+            ],
+            [
+                'id' => 12,
+                'name' => 'Dewi',
+                'email' => '',
+                'role' => 'User',
+                'status' => 'Inactive',
+                'created_at' => '2023-10-12',
+                'updated_at' => '2023-10-12',
+            ],
+            
+        ];
+
+        return $users;
+    }
+}

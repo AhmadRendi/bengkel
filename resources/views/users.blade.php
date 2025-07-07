@@ -35,14 +35,6 @@
                     <option value="offline">Offline</option>
                     <option value="away">Away</option>
                 </select>
-                <div class="view-toggle">
-                    <button class="view-btn active" data-view="grid">
-                        <i class="fas fa-th"></i>
-                    </button>
-                    <button class="view-btn" data-view="table">
-                        <i class="fas fa-list"></i>
-                    </button>
-                </div>
             </div>
         </div>
 
@@ -50,7 +42,7 @@
         <div id="usersContainer">
             <!-- Users will be rendered here -->
             <div class="users-table-container">
-                <table class="table users-table">
+                <table class="table products-table table-hover" id="tableUsers">
                     <thead>
                         <tr>
                             <th>User</th>
@@ -61,42 +53,46 @@
                         </tr>
                     </thead>
                     <tbody>
-
-                        <tr>
-                            <td>
-                                <div class="user-table-info">
-                                    <div>
-                                        <div class="fw-semibold">Ahmad Rendi</div>
-                                        <small class="text-muted">ahmad@gmail.com</small>
+                        @foreach ($users as $user)
+                            <tr>
+                                <td>
+                                    <div class="user-table-info">
+                                        <div>
+                                            <div class="fw-semibold">{{ $user['name'] }}</div>
+                                            <small class="text-muted">{{ $user['email'] }}</small>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="user-role role-${user.role}">ADMIN</span>
-                            </td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div class="user-status-indicator status-${user.status} me-2"
-                                        style="width: 10px; height: 10px;"></div>
-                                    Aktive
-                                </div>
-                            </td>
-                            <td>{{ \Carbon\Carbon::parse('2024-07-01')->format('d M Y') }}</td>
-                            <td>
-                                <div class="d-flex gap-1">
-                                    <button class="btn-action btn-view-user" onclick="viewUser(${user.id})" title="Lihat">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="btn-action btn-edit-user" onclick="editUser(${user.id})" title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="btn-action btn-delete-user" onclick="deleteUser(${user.id})"
-                                        title="Hapus">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                                <td>
+                                    <span class="user-role role-${user.role}">{{ $user['role'] }}</span>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="user-status-indicator status-${user.status} me-2"
+                                            style="width: 10px; height: 10px;"></div>
+                                        {{ $user['status'] }}
+                                    </div>
+                                </td>
+                                <td>{{ \Carbon\Carbon::parse( $user['created_at'] )->format('d M Y') }}</td>
+                                <td>
+                                    <div class="d-flex gap-1">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="viewUser(${user.id})"
+                                            title="Lihat">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-success" onclick="editUser(${user.id})"
+                                            title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger" onclick="deleteUser(${user.id})"
+                                            title="Hapus">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+
                     </tbody>
                 </table>
             </div>

@@ -192,5 +192,15 @@ document.querySelectorAll('.stats-card').forEach(card => {
   observer.observe(card);
 });
 
+// new DataTable('#example');
 
+document.addEventListener('DOMContentLoaded', function () {
+  console.log('Initializing DataTable for products');
+        new DataTable('#tableProducts');
+        new DataTable('#tableUsers');
+});
 
+// $(document).ready(function () {
+//   console.log('Initializing DataTable for products');
+//         $('#tableProducts').DataTable();
+//     });

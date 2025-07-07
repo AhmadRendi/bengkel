@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +32,9 @@ Route::get('/register', function () {
 })->name('register');
 
 Route::get(('/products'), function () {
-    return view('products');
+    $controller = new ProductController();
+    $products = $controller->getAllProduct();
+    return view('products', compact('products'));
 })->name('products');
 
 Route::get('/add-product', function () {
@@ -38,5 +42,7 @@ Route::get('/add-product', function () {
 })->name('add-product');
 
 Route::get('/users', function () {
-    return view('users');
+    $controller = new UserController();
+    $users = $controller->getAllUser();
+    return view('users', compact('users'));
 })->name('users');

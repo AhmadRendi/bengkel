@@ -38,22 +38,13 @@
                     <option value="inactive">Tidak Aktif</option>
                     <option value="draft">Draft</option>
                 </select>
-                <div class="view-toggle">
-                    <button class="view-btn active" data-view="grid">
-                        <i class="fas fa-th"></i>
-                    </button>
-                    <button class="view-btn" data-view="table">
-                        <i class="fas fa-list"></i>
-                    </button>
-                </div>
             </div>
         </div>
 
         <!-- Products Container -->
         <div id="productsContainer">
-            <!-- Products will be rendered here -->
             <div class="products-table-container">
-                <table class="table products-table">
+                <table class="table products-table" id="tableProducts">
                     <thead>
                         <tr>
                             <th>Produk</th>
@@ -65,50 +56,46 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div class="me-3">
-                                        <img  class="product-table-image" src="{{ asset('img/admin.jpeg') }}" alt="Shampoo">
+                        @foreach ($products as $product)
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-3">
+                                            <img class="product-table-image" src="{{ $product['image'] }}"
+                                                alt="{{ $product['name'] }}">
+                                        </div>
+                                        <div>
+                                            <div class="fw-semibold">{{ $product['name'] }}</div>
+                                            <small class="text-muted">SKU: {{ $product['sku'] }}</small>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <div class="fw-semibold">Shampoo</div>
-                                        <small class="text-muted">SKU: Shampoo</small>
+                                </td>
+                                <td>{{ $product['category'] }}</td>
+                                <td>{{ 'Rp ' . number_format($product['price'], 0, ',', '.') }}</td>
+                                <td>{{ $product['stock'] }} unit</td>
+                                <td>{{ $product['status'] }}</td>
+                                <td>
+                                    <div class="d-flex gap-1">
+                                        <button class="btn btn-sm btn-outline-primary"
+                                            onclick="viewProduct({{ $product['id'] }})" title="Lihat">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-success"
+                                            onclick="editProduct({{ $product['id'] }})" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger"
+                                            onclick="deleteProduct({{ $product['id'] }})" title="Hapus">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
                                     </div>
-                                </div>
-                            </td>
-                            <td>Sabun</td>
-                            <td class="">{{ 'Rp ' . number_format(200, 0, ',', '.') }}</td>
-                            <td>
-                                <span class="">
-                                    200 unit
-                                </span>
-                            </td>
-                            <td>
-                                <span class="">
-                                    Ada
-                                </span>
-                            </td>
-                            <td>
-                                <div class="d-flex gap-1">
-                                    <button class="btn-action btn-view-product" onclick="viewProduct(${product.id})"
-                                        title="Lihat">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="btn-action btn-edit-product" onclick="editProduct(${product.id})"
-                                        title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="btn-action btn-delete-product" onclick="deleteProduct(${product.id})"
-                                        title="Hapus">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
+
         </div>
     </div>
 </main>
