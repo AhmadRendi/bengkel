@@ -18,6 +18,25 @@
 //   }
 // });
 
+// Toggle password visibility
+const toggleButtons = document.querySelectorAll('.password-toggle');
+toggleButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const input = button.parentNode.querySelector('input');
+    const icon = button.querySelector('i');
+
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.classList.remove('fa-eye');
+      icon.classList.add('fa-eye-slash');
+    } else {
+      input.type = 'password';
+      icon.classList.remove('fa-eye-slash');
+      icon.classList.add('fa-eye');
+    }
+  });
+});
+
 window.addEventListener('scroll', function () {
   const nav = document.querySelector('.floating-nav');
   if (window.scrollY > 100) {
@@ -141,3 +160,12 @@ document.querySelectorAll('.stats-card').forEach(card => {
   card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
   observer.observe(card);
 });
+
+// Global functions for social login
+function handleGoogleLogin() {
+    AuthManager.handleGoogleLogin();
+}
+
+function handleFacebookLogin() {
+    AuthManager.handleFacebookLogin();
+}
