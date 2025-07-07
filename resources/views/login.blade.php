@@ -52,7 +52,7 @@
                     </button>
             </form>
             <div class="auth-footer">
-                <p>Belum punya akun? <a href="register.html">Daftar sekarang</a></p>
+                <p>Belum punya akun? <a href={{ route('register') }}>Daftar sekarang</a></p>
             </div>
         </div>
     </div>

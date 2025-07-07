@@ -1,23 +1,3 @@
-// document.getElementById('loginForm').addEventListener('submit', function (event) {
-//   event.preventDefault();
-
-//   const form = event.target;
-//   form.classList.add('was-validated');
-
-//   if (!form.checkValidity()) return false;
-
-//   const username = document.getElementById("username").value;
-//   const password = document.getElementById("password").value;
-
-//   if (username === "admin" && password === "1234") {
-//     alert("✅ Login berhasil! Selamat datang, " + username);
-//     const modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
-//     modal.hide();
-//   } else {
-//     alert("❌ Login gagal. Username atau password salah.");
-//   }
-// });
-
 // Toggle password visibility
 const toggleButtons = document.querySelectorAll('.password-toggle');
 toggleButtons.forEach(button => {
@@ -115,16 +95,6 @@ window.addEventListener('resize', function () {
   }
 });
 
-// Active navigation
-// const navLinks = document.querySelectorAll('.sidebar-nav .nav-link');
-// navLinks.forEach(link => {
-//   link.addEventListener('click', function (e) {
-//     // e.preventDefault();
-//     navLinks.forEach(l => l.classList.remove('active'));
-//     this.classList.add('active');
-//   });
-// });
-
 document.addEventListener('DOMContentLoaded', function () {
   const dropdownToggle = document.getElementById('usersMenuToggle');
 
@@ -161,11 +131,3 @@ document.querySelectorAll('.stats-card').forEach(card => {
   observer.observe(card);
 });
 
-// Global functions for social login
-function handleGoogleLogin() {
-    AuthManager.handleGoogleLogin();
-}
-
-function handleFacebookLogin() {
-    AuthManager.handleFacebookLogin();
-}
