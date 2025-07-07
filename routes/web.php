@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
@@ -9,12 +10,12 @@ use App\Http\Controllers\Authentication;
 
 
 Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+    return view('admin.dashboard');
+})->name('dashboard');
 
 Route::get('/home', function () {
-        return view('user.home');
-    })->name('user.home');
+    return view('user.home');
+})->name('user.home');
 
 Route::get('/logout', function () {
     Auth::logout();
@@ -30,6 +31,8 @@ Route::post('/login', [Authentication::class, 'auth'])->name('login.auth');
 Route::get('/register', function () {
     return view('register');
 })->name('register');
+
+Route::post('/register', [RegistrationController::class, 'register'])->name('register.store');
 
 Route::get(('/products'), function () {
     $controller = new ProductController();

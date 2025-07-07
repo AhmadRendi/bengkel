@@ -192,15 +192,33 @@ document.querySelectorAll('.stats-card').forEach(card => {
   observer.observe(card);
 });
 
-// new DataTable('#example');
-
 document.addEventListener('DOMContentLoaded', function () {
   console.log('Initializing DataTable for products');
-        new DataTable('#tableProducts');
-        new DataTable('#tableUsers');
+  new DataTable('#tableProducts');
+  new DataTable('#tableUsers');
 });
 
-// $(document).ready(function () {
-//   console.log('Initializing DataTable for products');
-//         $('#tableProducts').DataTable();
-//     });
+// Show error modal if there's an error message in the session
+document.addEventListener('DOMContentLoaded', function () {
+  const errorMessage = document.getElementById('hasModalError')?.value;
+
+  if (errorMessage) {
+    const modalBody = document.querySelector('#errorModal .modal-body');
+    modalBody.textContent = errorMessage;
+
+    const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+    errorModal.show();
+  }
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  const errorMessage = document.getElementById('hasModalSuccess')?.value;
+
+  if (errorMessage) {
+    const modalBody = document.querySelector('#successModal .modal-body');
+    modalBody.textContent = errorMessage;
+
+    const errorModal = new bootstrap.Modal(document.getElementById('successModal'));
+    errorModal.show();
+  }
+});
