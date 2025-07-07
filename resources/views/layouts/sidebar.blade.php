@@ -15,14 +15,14 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="#usersSubmenu" class="nav-link {{ request()->routeIs('pesanan.*') ? 'active' : '' }}"
-                data-bs-toggle="collapse" aria-expanded="{{ request()->routeIs('pesanan.*') ? 'true' : 'false' }}"
+            <a href="#usersSubmenu" class="nav-link {{ request()->routeIs('user.*') ? 'active' : '' }}"
+                data-bs-toggle="collapse" aria-expanded="{{ request()->routeIs('user.*') ? 'true' : 'false' }}"
                 data-bs-target="#usersSubmenu" id="usersMenuToggle">
                 <i class="fas fa-users"></i>
                 Pengguna
                 <i class="fas fa-chevron-down float-end"></i>
             </a>
-            <ul class="collapse submenu list-group {{ request()->routeIs('pesanan.*') ? 'show' : '' }}"
+            <ul class="collapse submenu list-group {{ request()->routeIs('user.*') ? 'show' : '' }}"
                 id="usersSubmenu">
                 <li>
                     <a href="{{ route('dashboard') }}"
@@ -32,8 +32,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('dashboard') }}"
-                        class="list-group-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                    <a href="{{ route('register') }}"
+                        class="list-group-item {{ request()->routeIs('register') ? 'active' : '' }}">
                         <i class="fas fa-plus"></i>
                         Tambah Pengguna
                     </a>
@@ -42,6 +42,33 @@
         </li>
 
         <li class="nav-item">
+            <a href="#usersSubmenu" class="nav-link {{ request()->routeIs('product.*') ? 'active' : '' }}"
+                data-bs-toggle="collapse" aria-expanded="{{ request()->routeIs('product.*') ? 'true' : 'false' }}"
+                data-bs-target="#productSubMenu" id="produkMenuToggle">
+                <i class="fas fa-box"></i>
+                Produk
+                <i class="fas fa-chevron-down float-end"></i>
+            </a>
+            <ul class="collapse submenu list-group {{ request()->routeIs('product.*') ? 'show' : '' }}"
+                id="productSubMenu">
+                <li>
+                    <a href="{{ route('products') }}"
+                        class="list-group-item {{ request()->routeIs('products') ? 'active' : '' }}">
+                        <i class="fas fa-list"></i>
+                        Semua Produk
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('register') }}"
+                        class="list-group-item {{ request()->routeIs('register') ? 'active' : '' }}">
+                        <i class="fas fa-plus"></i>
+                        Tambah Produk
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- <li class="nav-item">
             <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#productSubmenu"
                 aria-expanded="false">
                 <i class="fas fa-box"></i>
@@ -58,7 +85,7 @@
                 <i class="fas fa-plus"></i>
                 Tambah Produk
             </a>
-        </div>
+        </div> -->
         <!-- <li class="nav-item">
             <a href="{{ route('dashboard') }}" class="nav-link {{  request()->routeIs('dashboard') ? 'active' : '' }}">
                 <i class="fas fa-shopping-cart"></i>

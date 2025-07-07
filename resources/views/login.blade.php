@@ -18,11 +18,16 @@
                 <p>Silakan masukkan kredensial Anda untuk melanjutkan</p>
             </div>
 
-            <form id="loginForm" class="auth-form">
+            <form id="loginForm" action="{{ route('login.auth') }}" method="POST" class="auth-form">
+                @csrf
+
                 <div class="form-group">
                     <label class="form-label" for="email">Email</label>
                     <input type="email" id="email" name="email" class="form-control" placeholder="Masukkan email Anda"
                         required>
+                    @error('email')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="form-group">
@@ -35,6 +40,9 @@
                                 <i class="fas fa-eye"></i>
                             </span>
                         </div>
+                        @error('password')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div class="form-check">

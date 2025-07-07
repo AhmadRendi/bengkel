@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Authentication;
 
 
 Route::get('/dashboard', function () {
@@ -14,10 +15,6 @@ Route::get('/home', function () {
     })->name('user.home');
 
 Route::get('/logout', function () {
-        return view('login');
-    })->name('lagout');
-
-Route::get('/logout', function () {
     Auth::logout();
     return redirect()->route('login');
 })->name('logout');
@@ -26,6 +23,12 @@ Route::get('/login', function () {
     return view('login');
 })->name('login');
 
+Route::post('/login', [Authentication::class, 'auth'])->name('login.auth');
+
 Route::get('/register', function () {
     return view('register');
 })->name('register');
+
+Route::get(('/products'), function () {
+    return view('products');
+})->name('products');

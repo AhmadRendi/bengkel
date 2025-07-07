@@ -109,6 +109,20 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+  const dropdownToggle = document.getElementById('produkMenuToggle');
+
+  dropdownToggle.addEventListener('click', function () {
+    // Hapus 'active' dari semua nav-link lain (opsional)
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.classList.remove('active');
+    });
+
+    // Tambahkan class active ke menu dropdown yang diklik
+    this.classList.add('active');
+  });
+});
+
 // Smooth animations for stats cards
 const observerOptions = {
   threshold: 0.1,
