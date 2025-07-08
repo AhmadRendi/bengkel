@@ -2,7 +2,7 @@
 @include('layouts.sidebar')
 <main class="main-content" id="mainContent">
     @include('layouts.navbar', ['page' => 'Registrasi'])
-    <div class="container-fluid px-4">
+    <div class="container-fluid px-4 justify-content-center d-flex">
         <div class="auth-card">
             <!-- Left Panel -->
             <div class="auth-left">

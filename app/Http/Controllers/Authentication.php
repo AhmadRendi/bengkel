@@ -13,9 +13,11 @@ class Authentication extends Controller
             'password' => 'required',
         ]);
 
+        $user = $request->user();
+        
+
         if ($request->input('password') === "123" && $request->input('email') === "admin@gmail.com") {
-            // Simulasikan login berhasil
-            return redirect()->route('dashboard'); // pastikan route 'dashboard' tersedia
+            return redirect()->route('dashboard');
         } else {
             return redirect()->back()->withErrors(['error' => 'Invalid credentials']);
         }

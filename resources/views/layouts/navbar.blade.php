@@ -8,7 +8,8 @@
             </div>
             <div class="d-flex align-items-center gap-3">
                 <div class="user-info">
-                    <div class="user-avatar">JD</div>
+                    <h4>BENGKEL SINAR MOTOR</h4>
+                    <!-- <div class="user-avatar">JD</div>
                     <div class="dropdown">
                         <button class="btn btn-link text-decoration-none text-dark" type="button" data-bs-toggle="dropdown">
                             <span>John Doe</span>
@@ -20,7 +21,7 @@
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i>Keluar</a></li>
                         </ul>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </nav>
