@@ -47,7 +47,7 @@
                         <tr>
                             <th>User</th>
                             <th>Role</th>
-                            <th>Status</th>
+                            <!-- <th>Status</th> -->
                             <th>Bergabung</th>
                             <th>Aksi</th>
                         </tr>
@@ -66,13 +66,13 @@
                                 <td>
                                     <span class="user-role role-${user.role}">{{ $user['role'] }}</span>
                                 </td>
-                                <td>
+                                <!-- <td>
                                     <div class="d-flex align-items-center">
                                         <div class="user-status-indicator status-${user.status} me-2"
                                             style="width: 10px; height: 10px;"></div>
                                         {{ $user['status'] }}
                                     </div>
-                                </td>
+                                </td> -->
                                 <td>{{ \Carbon\Carbon::parse( $user['created_at'] )->format('d M Y') }}</td>
                                 <td>
                                     <div class="d-flex gap-1">

@@ -2,24 +2,55 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class Authentication extends Controller
 {
+
+    private $objectUser;
+
+    public function __construct()
+    {
+        $this->objectUser = new User();
+    }
+
+    private function findUserByEmail(string $email): ?User
+    {
+        $user = $this->objectUser->findUserByEmail($email);
+        if(!$user) {
+            throw new \Exception('Email Tidak Ditemukan');
+        }
+        return $user;
+    }
+
+    private function validationPassword(string $plainPassword, $hashedPassword){
+        if(!Hash::check($plainPassword, $hashedPassword)){
+            throw new \Exception('Passwords Salah');
+        }
+        return;
+    }
+
     public function auth(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        try {
 
-        $user = $request->user();
-        
+            $request->validate([
+                'email' => 'required|string|email',
+                'password' => 'required',
+            ]);
 
-        if ($request->input('password') === "123" && $request->input('email') === "admin@gmail.com") {
-            return redirect()->route('dashboard');
-        } else {
-            return redirect()->back()->withErrors(['error' => 'Invalid credentials']);
+            $creadentials = $request->only('email', 'password');
+
+            $user = $this->findUserByEmail($request->input('email'));
+
+            $this->validationPassword($creadentials['password'], $user->password);
+
+            return redirect()->route('login')->with(['success' => 'Login Berhasil']);
+        } catch (\Exception $e) {
+            return redirect()->route('login')->with(['modal_error' => $e->getMessage()]);
         }
     }
 }
