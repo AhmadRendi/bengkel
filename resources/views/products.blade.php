@@ -51,7 +51,7 @@
                             <th>Kategori</th>
                             <th>Harga</th>
                             <th>Stok</th>
-                            <th>Status</th>
+                            <!-- <th>Status</th> -->
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -60,20 +60,20 @@
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <div class="me-3">
+                                        <!-- <div class="me-3">
                                             <img class="product-table-image" src="{{ $product['image'] }}"
                                                 alt="{{ $product['name'] }}">
-                                        </div>
+                                        </div> -->
                                         <div>
-                                            <div class="fw-semibold">{{ $product['name'] }}</div>
+                                            <div class="fw-semibold">{{ $product['nama'] }}</div>
                                             <small class="text-muted">SKU: {{ $product['sku'] }}</small>
                                         </div>
                                     </div>
                                 </td>
-                                <td>{{ $product['category'] }}</td>
+                                <td>{{ $product['kategori'] }}</td>
                                 <td>{{ 'Rp ' . number_format($product['price'], 0, ',', '.') }}</td>
                                 <td>{{ $product['stock'] }} unit</td>
-                                <td>{{ $product['status'] }}</td>
+                                <!-- <td>{{ $product['status'] }}</td> -->
                                 <td>
                                     <div class="d-flex gap-1">
                                         <button class="btn btn-sm btn-outline-primary"
