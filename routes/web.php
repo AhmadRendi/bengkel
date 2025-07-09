@@ -44,6 +44,8 @@ Route::get('/add-product', function () {
     return view('addProduct');
 })->name('add-product');
 
+Route::post('/add-product', [ProductController::class, 'store'])->name('product.store');
+
 Route::get('/users', function () {
     $controller = new UserController();
     $users = $controller->getAllUser();

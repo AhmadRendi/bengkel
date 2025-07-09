@@ -5,15 +5,16 @@
     <div class="container-fluid px-4">
         <div id="productFormContainer" class="product-form-container">
             <h5 class="mb-3">Tambah Produk Baru</h5>
-            <form id="productForm">
+            <form id="productForm" action="{{ route('product.store') }}" method="POST">
+                @csrf
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <div class="form-section">
                             <h6>Informasi Dasar</h6>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Nama Produk</label>
-                                    <input type="text" name="name" class="form-control" required>
+                                    <input type="text" name="nama" class="form-control" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">SKU</label>
@@ -22,12 +23,12 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Deskripsi</label>
-                                <textarea name="description" class="form-control" rows="4"></textarea>
+                                <textarea name="deskripsi" class="form-control" rows="4"></textarea>
                             </div>
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label">Kategori</label>
-                                    <select name="category" class="form-select" required>
+                                    <select name="kategori" class="form-select" required>
                                         <option value="">Pilih Kategori</option>
                                         <option value="Electronics">Electronics</option>
                                         <option value="Fashion">Fashion</option>
@@ -38,16 +39,23 @@
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label">Harga (Rp)</label>
-                                    <input type="number" name="price" class="form-control" required>
+                                    <input type="number" name="harga" class="form-control" required>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label">Stok</label>
-                                    <input type="number" name="stock" class="form-control" required>
+                                    <input type="number" name="stok" class="form-control" required>
                                 </div>
                             </div>
-                        </div>
+                            <div class="d-flex gap-2 justify-content-end">
+                                <a href="{{ route('dashboard') }}" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left me-2"></i>Batal
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-2"></i>Simpan Produk
+                                </button>
+                            </div>
 
-                        <div class="form-section">
+                            <!-- <div class="form-section">
                             <h6>Detail Produk</h6>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
@@ -67,11 +75,11 @@
                                     <option value="draft">Draft</option>
                                 </select>
                             </div>
+                        </div> -->
                         </div>
-                    </div>
 
-                    <div class="col-md-4">
-                        <div class="form-section">
+                        <!-- <div class="col-md-4"> -->
+                        <!-- <div class="form-section">
                             <h6>Gambar Produk</h6>
                             <div class="image-upload-area">
                                 <div class="upload-icon">
@@ -82,24 +90,23 @@
                             </div>
                             <input type="file" id="productImage" accept="image/*" style="display: none;">
                             <img class="image-preview" style="display: none;">
-                        </div>
+                        </div> -->
 
                         <!-- <div class="form-section">
                                 <h6>Tag Kategori</h6>
                                 <input type="text" id="productCategories" class="form-control" placeholder="Tekan Enter untuk menambah tag">
                                 <div class="category-tags mt-2"></div>
                             </div> -->
+                        <!-- </div> -->
                     </div>
-                </div>
 
-                <div class="d-flex gap-2 justify-content-end">
-                    <!-- <button type="button" class="btn btn-secondary" onclick="toggleProductForm()">Batal</button> -->
+                    <!-- <div class="d-flex gap-2 justify-content-end">
                     <a href="{{ route('dashboard') }}" class="btn btn-secondary">
                         <i class="fas fa-arrow-left me-2"></i>Batal
                     </a>
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-save me-2"></i>Simpan Produk
-                    </button>
+                    </button> -->
                 </div>
             </form>
         </div>
