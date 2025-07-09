@@ -51,3 +51,9 @@ Route::get('/users', function () {
     $users = $controller->getAllUser();
     return view('users', compact('users'));
 })->name('users');
+
+Route::get('/add-invoice', function () {
+    $controller = new ProductController();
+    $products = $controller->getAllProduct();
+    return view('addInvoice', compact('products'));
+})->name('add-invoice');

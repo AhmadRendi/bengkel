@@ -68,6 +68,33 @@
             </ul>
         </li>
 
+        <li class="nav-item">
+            <a href="#invoiceSubmenu" class="nav-link {{ request()->routeIs('invoice.*') ? 'active' : '' }}"
+                data-bs-toggle="collapse" aria-expanded="{{ request()->routeIs('invoice.*') ? 'true' : 'false' }}"
+                data-bs-target="#invoiceSubmenu" id="invoiceMenuToggle">
+                <i class="fas fa-file-invoice"></i>
+                Nota
+                <i class="fas fa-chevron-down float-end"></i>
+            </a>
+            <ul class="collapse submenu list-group {{ request()->routeIs('invoice.*') ? 'show' : '' }}"
+                id="invoiceSubmenu">
+                <li>
+                    <a href="{{ route('users') }}"
+                        class="list-group-item {{ request()->routeIs('users') ? 'active' : '' }}">
+                        <i class="fas fa-list"></i>
+                        Semua Nota
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('add-invoice') }}"
+                        class="list-group-item {{ request()->routeIs('add-invoice') ? 'active' : '' }}">
+                        <i class="fas fa-plus"></i>
+                        Tambah Nota
+                    </a>
+                </li>
+            </ul>
+        </li>
+
         <!-- <li class="nav-item">
             <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#productSubmenu"
                 aria-expanded="false">

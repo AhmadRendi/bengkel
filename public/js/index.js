@@ -157,6 +157,20 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
+  const dropdownToggle = document.getElementById('invoiceMenuToggle');
+
+  dropdownToggle.addEventListener('click', function () {
+    // Hapus 'active' dari semua nav-link lain (opsional)
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.classList.remove('active');
+    });
+
+    // Tambahkan class active ke menu dropdown yang diklik
+    this.classList.add('active');
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
   const dropdownToggle = document.getElementById('produkMenuToggle');
 
   dropdownToggle.addEventListener('click', function () {
@@ -222,3 +236,99 @@ document.addEventListener('DOMContentLoaded', function () {
     errorModal.show();
   }
 });
+
+// Add Invoice functionality
+// This script handles the addition of products to the invoice form dynamically
+
+const selectElement = document.getElementById('produkSelect');
+const selectedItemsContainer = document.getElementById('selectedItems');
+const addedProducts = {};
+
+selectElement.addEventListener('change', function () {
+  const selectedOption = this.options[this.selectedIndex];
+  const productId = selectedOption.value;
+  const productName = selectedOption.getAttribute('data-nama');
+  const productPrice = parseFloat(selectedOption.getAttribute('data-harga'));
+
+  if (!productId) return;
+
+  if (addedProducts[productId]) {
+    const qtyInput = document.querySelector(`#qty-${productId}`);
+    qtyInput.value = parseInt(qtyInput.value) + 1;
+    updateTotal(productId, productPrice);
+  } else {
+    addedProducts[productId] = true;
+
+    const row = document.createElement('tr');
+    row.setAttribute('id', `row-${productId}`);
+    row.innerHTML = `
+            <td>${productName}
+                <input type="hidden" name="produk_ids[]" value="${productId}">
+            </td>
+            <td class="text-center">Rp <span id="price-${productId}">${productPrice.toLocaleString()}</span></td>
+            <td class="text-center">
+                <input type="number" name="jumlah[${productId}]" value="1" min="1"
+                    class=" form-control text-center mx-auto border-0 bg-light"
+                    id="qty-${productId}" onchange="updateTotal('${productId}', ${productPrice})">
+            </td>
+            <td class="text-center">
+                Rp <span id="total-${productId}">${productPrice.toLocaleString()}</span>
+            </td>
+            <td class="text-center">
+                <button type="button" onclick="removeItem('${productId}')" class="btn btn-sm btn-outline-danger d-flex align-items-center mx-auto">
+                    <i class="fas fa-trash me-1"></i> Hapus
+                </button>
+            </td>
+        `;
+    selectedItemsContainer.appendChild(row);
+
+    calculateTotals();
+  }
+
+  this.value = '';
+});
+
+function updateTotal(productId, price) {
+  const qtyInput = document.getElementById(`qty-${productId}`);
+  const qty = parseInt(qtyInput.value) || 0;
+  const total = price * qty;
+  document.getElementById(`total-${productId}`).textContent = total.toLocaleString();
+
+  calculateTotals();
+}
+
+function removeItem(productId) {
+  const row = document.getElementById(`row-${productId}`);
+  if (row) row.remove();
+  delete addedProducts[productId];
+
+  calculateTotals();
+}
+
+function calculateTotals() {
+  let subtotal = 0;
+
+  Object.keys(addedProducts).forEach(id => {
+    const qty = parseInt(document.getElementById(`qty-${id}`).value) || 0;
+    const price = parseFloat(document.getElementById(`price-${id}`)?.textContent.replace(/[^0-9.-]+/g, "")) || 0;
+    subtotal += qty * price;
+  });
+
+  const pajak = subtotal * 0.10;
+  const grandTotal = subtotal + pajak;
+
+  document.getElementById('summarySubtotal').textContent = subtotal.toLocaleString();
+  document.getElementById('summaryTax').textContent = pajak.toLocaleString();
+  document.getElementById('summaryTotal').textContent = grandTotal.toLocaleString();
+}
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0'); // bulan dari 0-11
+        const dd = String(today.getDate()).padStart(2, '0');
+
+        const formattedToday = `${yyyy}-${mm}-${dd}`;
+        document.getElementById('invoiceDate').value = formattedToday;
+        document.getElementById('invoiceDueDate').value = formattedToday;
+    });
