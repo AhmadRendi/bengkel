@@ -70,3 +70,7 @@ Route::post('/add-invoice', [InvoiceController::class, 'store'])->name('invoice.
 Route::get('/invoice/preview/{id}', [InvoiceController::class, 'findInvoiceById'])->name('invoice.preview');
 
 Route::get('/invoice/{id}/download-pdf', [InvoiceController::class, 'downloadPdf'])->name('invoice.download.pdf');
+
+Route::get('/find/user/{id}', [UserController::class, 'findUserById'])->name('find.user');
+
+Route::post('/reset-password/{id}', [UserController::class, 'resetPassword'])->name('user.reset.password');

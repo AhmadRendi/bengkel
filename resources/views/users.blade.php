@@ -31,17 +31,20 @@
                                 <td>
                                     <span class="user-role role-${user.role}">{{ $user['role'] }}</span>
                                 </td>
-                                <td>{{ \Carbon\Carbon::parse( $user['created_at'] )->format('d M Y') }}</td>
-                                <td>{{ \Carbon\Carbon::parse( $user['updated_at'] )->format('d M Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($user['created_at'])->format('d M Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($user['updated_at'])->format('d M Y') }}</td>
                                 <td>
                                     <div class="d-flex gap-1">
-                                        <button class="btn btn-sm btn-outline-success" onclick="editUser(${user.id})"
+                                        <button class="btn btn-sm btn-outline-success" onclick="editUser({{ $user['id'] }})"
                                             title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </button>
                                         <button class="btn btn-sm btn-outline-danger" onclick="deleteUser(${user.id})"
                                             title="Hapus">
                                             <i class="fas fa-trash"></i>
+                                        </button>
+                                        <button class="btn btn-outline-warning" onclick="resetPassword({{ $user['id'] }})">
+                                            <i class="fas fa-redo"></i>
                                         </button>
                                     </div>
                                 </td>

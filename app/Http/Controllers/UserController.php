@@ -125,4 +125,27 @@ class UserController extends Controller
 
         return $users;
     }
+
+    public function findUserById($id)
+    {
+        // dd($id);
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+        return response()->json($user, 200);
+    }
+
+    public function resetPassword($id){
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        $newPassword = 'user123';
+        $user->password = bcrypt($newPassword);
+        $user->save();
+
+        return response()->json(['message' => 'Password reset successfully'], 200);
+    }
 }

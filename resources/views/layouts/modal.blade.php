@@ -30,7 +30,7 @@
             <div class="modal-header bg-danger text-white">
                 <h5 class="modal-title" id="errorModalLabel">
                     <i class="fas fa-times-circle me-2 text-white animate__animated animate__bounceIn"></i>
-                    Terjadi Kesalahan
+                    Sukses
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                     aria-label="Tutup"></button>
@@ -45,7 +45,7 @@
     </div>
 </div>
 
-<!-- Scrollable modal -->
+<!-- Modal Preview Invoice -->
 <div class="modal modal-xl" id="previewModal" tabindex="-1" aria-labelledby="previewModalModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="container-fluid px-4">
@@ -141,6 +141,38 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Tutup</button>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Edit User -->
+<div class="modal fade" id="editUserModal" aria-hidden="true" aria-labelledby="editUserModalLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="" method="post">
+                    <input type="hidden" name="id" id="editUserId" arial-hidden="true">
+                    <label for="editUserName" class="form-label">Nama Pengguna</label>
+                    <input type="text" name="name" id="editUserName" class="form-control mb-3"
+                        placeholder="Nama Pengguna">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" name="email" id="editUserEmail" class="form-control mb-3"
+                        placeholder="Email Pengguna">
+                    <!-- <label for="role" class="form-label"> Role</label> -->
+                    <!-- <select name="role" id="editUserRole" class="form-control mb-3">
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                    </select> -->
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

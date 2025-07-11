@@ -407,3 +407,76 @@ function openInvoiceModal(invoiceId) {
       alert('Terjadi kesalahan saat mengambil data invoice.');
     });
 }
+
+function editUser(id) {
+  fetch(`/find/user/${id}`)
+    .then(res => res.json())
+    .then(response => {
+
+      console.log('User data fetched:', response);
+
+      // Set input values
+      document.getElementById('editUserId').value = response.id;
+      document.getElementById('editUserName').value = response.name;
+      document.getElementById('editUserEmail').value = response.email;
+      // document.getElementById('editUserRole').value = response.role;
+
+      // Show modal
+      const modal = new bootstrap.Modal(document.getElementById('editUserModal'));
+      modal.show();
+    })
+    .catch(err => {
+      console.error('Failed to fetch user data:', err);
+      alert('Terjadi kesalahan saat mengambil data pengguna.');
+    });
+}
+
+function resetPassword(id) {
+  Swal.fire({
+    title: 'Reset Password?',
+    text: "Apakah Anda yakin ingin mereset password pengguna ini?",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Ya, reset!',
+    cancelButtonText: 'Batal'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      console.log('Resetting password for user ID:', id);
+      fetch(`/reset-password/${id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+      })
+      .then(res => res.json())
+      .then(response => {
+        if (response.success) {
+          console.log('Password reset successful:', response);
+          Swal.fire(
+            'Berhasil!',
+            'Password telah direset.',
+            'success'
+          );
+        } else {
+          console.log('Password reset failed:', response);
+          Swal.fire(
+            'Gagal!',
+            response.message || 'Gagal mereset password.',
+            'error'
+          );
+        }
+      })
+      .catch(err => {
+        console.error('Error resetting password:', err);
+        Swal.fire(
+          'Kesalahan!',
+          'Terjadi kesalahan saat mereset password.',
+          'error'
+        );
+      });
+    }
+  });
+}
