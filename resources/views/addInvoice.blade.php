@@ -7,7 +7,8 @@
     <div class="container-fluid px-4">
         <!-- Invoice Container -->
         <div class="invoice-container">
-            <form action="" method="post">
+            <form action="{{ route('add-invoice') }}" method="POST">
+                @csrf
                 <!-- Invoice Header -->
                 <div class="invoice-header">
                     <div class="company-info">
@@ -23,19 +24,6 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="invoice-details">
-                            <!-- <div class="invoice-number" id="invoiceNumber">INV-202401-001</div> -->
-                            <div class="invoice-date">
-                                <label class="form-label">Tanggal:</label>
-                                <input type="date" id="invoiceDate" class="form-control form-control-sm"
-                                    style="width: auto; display: inline-block;">
-                            </div>
-                            <div class="invoice-date">
-                                <label class="form-label">Jatuh Tempo:</label>
-                                <input type="date" id="invoiceDueDate" class="form-control form-control-sm"
-                                    style="width: auto; display: inline-block;">
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -44,7 +32,7 @@
                     <div class="billing-section">
                         <h6>Bill To:</h6>
                         <div class="customer-select">
-                            <input type="text" id="customerSearch" class="form-control" placeholder="Cari customer..."
+                            <input type="text" id="namaPelanggan" name="namaPelanggan" class="form-control" placeholder="Nama customer..."
                                 autocomplete="off">
                             <div id="customerDropdown" class="customer-dropdown"></div>
                         </div>
@@ -53,7 +41,7 @@
                         <div class="invoice-items mt-3">
                             <h6 class="mb-3">Select Pesanan</h6>
                             <div id="invoiceItems">
-                                <select id="produkSelect" class="form-control" required>
+                                <select id="produkSelect" class="form-control" name="produk_id[]">
                                     <option value="">Pilih Produk</option>
                                     @foreach ($products as $product)
                                         <option value="{{ $product->id }}" data-nama="{{ $product->nama }}"
@@ -68,14 +56,8 @@
                     <div class="billing-section">
                         <h6>Ship To:</h6>
                         <div class="billing-details">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="sameAsBilling" checked>
-                                <label class="form-check-label" for="sameAsBilling">
-                                    Sama dengan alamat penagihan
-                                </label>
-                            </div>
-                            <textarea class="form-control mt-2" rows="3" placeholder="Alamat pengiriman (opsional)"
-                                id="shippingAddress"></textarea>
+                            <textarea class="form-control mt-2" rows="3" name="alamat" placeholder="Alamat pengiriman (opsional)"
+                                id="alamat"></textarea>
                         </div>
                         <div class="billing-details mt-3">
                             <h6 class="mb-3">Item Pesanan</h6>
@@ -103,7 +85,7 @@
                         <!-- Notes Section -->
                         <div class="invoice-notes">
                             <h6>Catatan</h6>
-                            <textarea class="notes-textarea" id="invoiceNotes"
+                            <textarea class="notes-textarea" id="catatan"name="catatan"
                                 placeholder="Tambahkan catatan untuk customer (opsional)..."></textarea>
                         </div>
                     </div>
@@ -139,7 +121,7 @@
                     <i class="fas fa-eye"></i>
                     Preview
                 </button> -->
-                    <button type="button" class="btn-invoice btn-send" onclick="sendInvoice()">
+                    <button type="submit" class="btn-invoice btn-send">
                         <i class="fas fa-paper-plane"></i>
                         Simpan
                     </button>

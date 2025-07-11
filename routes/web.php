@@ -57,3 +57,5 @@ Route::get('/add-invoice', function () {
     $products = $controller->getAllProduct();
     return view('addInvoice', compact('products'));
 })->name('add-invoice');
+
+Route::post('/add-invoice', [\App\Http\Controllers\InvoiceController::class, 'store'])->name('invoice.store');

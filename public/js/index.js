@@ -260,26 +260,35 @@ selectElement.addEventListener('change', function () {
     addedProducts[productId] = true;
 
     const row = document.createElement('tr');
-    row.setAttribute('id', `row-${productId}`);
-    row.innerHTML = `
-            <td>${productName}
-                <input type="hidden" name="produk_ids[]" value="${productId}">
-            </td>
-            <td class="text-center">Rp <span id="price-${productId}">${productPrice.toLocaleString()}</span></td>
-            <td class="text-center">
-                <input type="number" name="jumlah[${productId}]" value="1" min="1"
-                    class=" form-control text-center mx-auto border-0 bg-light"
-                    id="qty-${productId}" onchange="updateTotal('${productId}', ${productPrice})">
-            </td>
-            <td class="text-center">
-                Rp <span id="total-${productId}">${productPrice.toLocaleString()}</span>
-            </td>
-            <td class="text-center">
-                <button type="button" onclick="removeItem('${productId}')" class="btn btn-sm btn-outline-danger d-flex align-items-center mx-auto">
-                    <i class="fas fa-trash me-1"></i> Hapus
-                </button>
-            </td>
-        `;
+row.setAttribute('id', `row-${productId}`);
+row.innerHTML = `
+    <td>
+        ${productName}
+        <input type="hidden" name="produk_ids[]" value="${productId}">
+    </td>
+    <td class="text-center">
+        Rp <span id="price-${productId}">${parseInt(productPrice).toLocaleString()}</span>
+    </td>
+    <td class="text-center">
+        <input type="number" 
+               name="jumlah[${productId}]" 
+               value="1" 
+               min="1"
+               class="form-control text-center mx-auto border-0 bg-light"
+               id="qty-${productId}" 
+               onchange="updateTotal('${productId}', ${productPrice})">
+    </td>
+    <td class="text-center">
+        Rp <span id="total-${productId}">${parseInt(productPrice).toLocaleString()}</span>
+    </td>
+    <td class="text-center">
+        <button type="button" onclick="removeItem('${productId}')" 
+                class="btn btn-sm btn-outline-danger d-flex align-items-center mx-auto">
+            <i class="fas fa-trash me-1"></i> Hapus
+        </button>
+    </td>
+`;
+
     selectedItemsContainer.appendChild(row);
 
     calculateTotals();
