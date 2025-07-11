@@ -79,8 +79,8 @@
             <ul class="collapse submenu list-group {{ request()->routeIs('invoice.*') ? 'show' : '' }}"
                 id="invoiceSubmenu">
                 <li>
-                    <a href="{{ route('users') }}"
-                        class="list-group-item {{ request()->routeIs('users') ? 'active' : '' }}">
+                    <a href="{{ route('invoices') }}"
+                        class="list-group-item {{ request()->routeIs('invoices') ? 'active' : '' }}">
                         <i class="fas fa-list"></i>
                         Semua Nota
                     </a>
@@ -94,31 +94,6 @@
                 </li>
             </ul>
         </li>
-
-        <!-- <li class="nav-item">
-            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#productSubmenu"
-                aria-expanded="false">
-                <i class="fas fa-box"></i>
-                Produk
-                <i class="fas fa-chevron-down float-end"></i>
-            </a>
-        </li>
-        <div class="collapse submenu" id="productSubmenu">
-            <a href="{{ route('dashboard') }}" class="list-group-item">
-                <i class="fas fa-list"></i>
-                Semua Produk
-            </a>
-            <a href="{{ route('dashboard') }}" class="list-group-item">
-                <i class="fas fa-plus"></i>
-                Tambah Produk
-            </a>
-        </div> -->
-        <!-- <li class="nav-item">
-            <a href="{{ route('dashboard') }}" class="nav-link {{  request()->routeIs('dashboard') ? 'active' : '' }}">
-                <i class="fas fa-shopping-cart"></i>
-                Pesanan
-            </a>
-        </li> -->
         <li class="nav-item">
             <a class="nav-link" href="#analytics">
                 <i class="fas fa-chart-bar"></i>

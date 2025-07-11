@@ -8,13 +8,21 @@ class Items extends Model
 {
     //
     protected $fillable = [
-        'produk_id',
+        'produks_id',
         'jumlah',
-        'invoice_id',
+        'invoices_id',
     ];
 
+    // App\Models\Items.php
     public function invoice()
     {
-        return $this->belongsTo(Invoice::class);
+        return $this->belongsTo(Invoice::class, 'invoices_id');
     }
+
+    public function produk()
+    {
+        return $this->belongsTo(Produk::class, 'produks_id');
+    }
+
+
 }

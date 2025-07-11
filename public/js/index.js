@@ -260,8 +260,8 @@ selectElement.addEventListener('change', function () {
     addedProducts[productId] = true;
 
     const row = document.createElement('tr');
-row.setAttribute('id', `row-${productId}`);
-row.innerHTML = `
+    row.setAttribute('id', `row-${productId}`);
+    row.innerHTML = `
     <td>
         ${productName}
         <input type="hidden" name="produk_ids[]" value="${productId}">
@@ -331,13 +331,79 @@ function calculateTotals() {
   document.getElementById('summaryTotal').textContent = grandTotal.toLocaleString();
 }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const today = new Date();
-        const yyyy = today.getFullYear();
-        const mm = String(today.getMonth() + 1).padStart(2, '0'); // bulan dari 0-11
-        const dd = String(today.getDate()).padStart(2, '0');
+document.addEventListener('DOMContentLoaded', function () {
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0'); // bulan dari 0-11
+  const dd = String(today.getDate()).padStart(2, '0');
 
-        const formattedToday = `${yyyy}-${mm}-${dd}`;
-        document.getElementById('invoiceDate').value = formattedToday;
-        document.getElementById('invoiceDueDate').value = formattedToday;
+  const formattedToday = `${yyyy}-${mm}-${dd}`;
+  document.getElementById('invoiceDate').value = formattedToday;
+  document.getElementById('invoiceDueDate').value = formattedToday;
+});
+
+function openInvoiceModal(invoiceId) {
+  console.log('Opening invoice modal for ID:', invoiceId);
+
+  fetch(`/invoice/preview/${invoiceId}`)
+    .then(res => res.json())
+    .then(response => {
+      if (response.error) {
+        alert(response.message);
+        return;
+      }
+
+      const invoice = response.invoice;
+
+      // Set input values
+      document.getElementById('namaPelanggan').value = invoice.namaPelanggan || '';
+      document.getElementById('alamat').value = invoice.alamat || '';
+      document.getElementById('catatan').value = invoice.catatan || '';
+
+      // Clear table items
+      const tableBody = document.getElementById('selectedItems');
+      tableBody.innerHTML = '';
+
+      let subtotal = 0;
+
+      console.log('Invoice items:', invoice.items);
+
+      // Loop item pesanan
+      invoice.items.forEach(item => {
+        const harga = parseFloat(item.produk.harga);
+        const jumlah = parseInt(item.jumlah);
+        const total = harga * jumlah;
+        subtotal += total;
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${item.produk.nama}
+            <input type="hidden" name="produk_ids[]" value="${item.produk.id}">
+          </td>
+          <td class="text-center">Rp ${harga.toLocaleString()}</td>
+          <td class="text-center">
+            <input type="number" class="form-control text-center bg-light border-0"
+                   name="jumlah[${item.produk.id}]" value="${jumlah}" min="1" readonly>
+          </td>
+          <td class="text-center">Rp ${total.toLocaleString()}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+
+      // Hitung Pajak dan Total
+      const tax = subtotal * 0.1;
+      const grandTotal = subtotal + tax;
+
+      document.getElementById('summarySubtotal').innerText = `Rp ${subtotal.toLocaleString()}`;
+      document.getElementById('summaryTax').innerText = `Rp ${tax.toLocaleString()}`;
+      document.getElementById('summaryTotal').innerText = `Rp ${grandTotal.toLocaleString()}`;
+
+      // Show modal
+      const modal = new bootstrap.Modal(document.getElementById('previewModal'));
+      modal.show();
+    })
+    .catch(err => {
+      console.error('Gagal mengambil data invoice:', err);
+      alert('Terjadi kesalahan saat mengambil data invoice.');
     });
+}

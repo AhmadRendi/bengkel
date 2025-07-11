@@ -15,4 +15,9 @@ class Produk extends Model
         "stok",
         "picture"
     ];
+
+    public function items()
+    {
+        return $this->hasMany(Items::class, 'produks_id');
+    }
 }

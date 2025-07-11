@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Authentication;
+use \App\Http\Controllers\InvoiceController;
 
 
 Route::get('/dashboard', function () {
@@ -58,4 +59,12 @@ Route::get('/add-invoice', function () {
     return view('addInvoice', compact('products'));
 })->name('add-invoice');
 
-Route::post('/add-invoice', [\App\Http\Controllers\InvoiceController::class, 'store'])->name('invoice.store');
+Route::get('/invoices', function () {
+    $controller = new InvoiceController();
+    $invoices = $controller->findAllInvoices();
+    return view('invoices', compact('invoices'));
+})->name('invoices');
+
+Route::post('/add-invoice', [InvoiceController::class, 'store'])->name('invoice.store');
+
+Route::get('/invoice/preview/{id}', [InvoiceController::class, 'findInvoiceById'])->name('invoice.preview');
