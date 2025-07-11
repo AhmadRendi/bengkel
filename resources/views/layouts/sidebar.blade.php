@@ -100,7 +100,7 @@
                 <span>Analitik</span>
             </a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a class="nav-link" href="#reports">
                 <i class="fas fa-file-alt"></i>
                 <span>Laporan</span>
@@ -111,7 +111,7 @@
                 <i class="fas fa-cog"></i>
                 <span>Pengaturan</span>
             </a>
-        </li>
+        </li> -->
         <li class="nav-item" mt-4>
             <a href="{{ route('logout') }}" class="nav-link {{  request()->routeIs('logout') ? 'active' : '' }}">
                 <i class="fas fa-sign-out-alt"></i>

@@ -3,41 +3,6 @@
 <main class="main-content" id="mainContent">
     @include('layouts.navbar', ['page' => 'Pengguna'])
     <div class="container-fluid px-4">
-        <!-- Users Header -->
-        <div class="products-header">
-            <div class="d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Daftar Pengguna</h5>
-                <div class="d-flex gap-2">
-                    <button class="btn btn-outline-success btn-sm">
-                        <i class="fas fa-download me-1"></i>Export
-                    </button>
-                    <button class="btn btn-outline-primary btn-sm">
-                        <i class="fas fa-sync-alt me-1"></i>Refresh
-                    </button>
-                </div>
-            </div>
-
-            <!-- Filter Controls -->
-            <div class="filter-controls">
-                <div class="search-box">
-                    <input type="text" class="form-control" placeholder="Cari pengguna..." id="userSearch">
-                    <i class="fas fa-search"></i>
-                </div>
-                <select class="form-select" id="roleFilter" style="width: auto;">
-                    <option value="">Semua Role</option>
-                    <option value="admin">Admin</option>
-                    <option value="manager">Manager</option>
-                    <option value="user">User</option>
-                </select>
-                <select class="form-select" id="statusFilter" style="width: auto;">
-                    <option value="">Semua Status</option>
-                    <option value="online">Online</option>
-                    <option value="offline">Offline</option>
-                    <option value="away">Away</option>
-                </select>
-            </div>
-        </div>
-
         <!-- Users Container -->
         <div id="usersContainer">
             <!-- Users will be rendered here -->
@@ -48,6 +13,7 @@
                             <th>User</th>
                             <th>Role</th>
                             <th>Bergabung</th>
+                            <th>Update</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -66,12 +32,9 @@
                                     <span class="user-role role-${user.role}">{{ $user['role'] }}</span>
                                 </td>
                                 <td>{{ \Carbon\Carbon::parse( $user['created_at'] )->format('d M Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse( $user['updated_at'] )->format('d M Y') }}</td>
                                 <td>
                                     <div class="d-flex gap-1">
-                                        <button class="btn btn-sm btn-outline-primary" onclick="viewUser(${user.id})"
-                                            title="Lihat">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
                                         <button class="btn btn-sm btn-outline-success" onclick="editUser(${user.id})"
                                             title="Edit">
                                             <i class="fas fa-edit"></i>
