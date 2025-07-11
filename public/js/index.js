@@ -217,11 +217,17 @@ document.addEventListener('DOMContentLoaded', function () {
   const errorMessage = document.getElementById('hasModalError')?.value;
 
   if (errorMessage) {
-    const modalBody = document.querySelector('#errorModal .modal-body');
-    modalBody.textContent = errorMessage;
+    // const modalBody = document.querySelector('#errorModal .modal-body');
+    // modalBody.textContent = errorMessage;
 
-    const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
-    errorModal.show();
+    // const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+    // errorModal.show();
+
+    Swal.fire(
+          'Kesalahan!',
+          errorMessage,
+          'error'
+        );
   }
 });
 
@@ -229,11 +235,16 @@ document.addEventListener('DOMContentLoaded', function () {
   const errorMessage = document.getElementById('hasModalSuccess')?.value;
 
   if (errorMessage) {
-    const modalBody = document.querySelector('#successModal .modal-body');
-    modalBody.textContent = errorMessage;
+    // const modalBody = document.querySelector('#successModal .modal-body');
+    // modalBody.textContent = errorMessage;
 
-    const errorModal = new bootstrap.Modal(document.getElementById('successModal'));
-    errorModal.show();
+    // const errorModal = new bootstrap.Modal(document.getElementById('successModal'));
+    // errorModal.show();
+    Swal.fire(
+            'Berhasil!',
+            errorMessage,
+            'success'
+          );
   }
 });
 
@@ -476,4 +487,34 @@ function resetPassword(id) {
       });
     }
   });
+}
+
+
+function editProduct(id) {
+  fetch(`/find/product/${id}`)
+    .then(res => res.json())
+    .then(response => {
+
+      console.log('User data fetched:', response);
+
+      // // Set input values
+      document.getElementById('editProdukId').value = response.id;
+      document.getElementById('editNamaProduk').value = response.nama;
+      document.getElementById('editSKUProduk').value = response.sku;
+      document.getElementById('editDeskripsiProduk').value = response.deskripsi;
+      document.getElementById('editKategoriProduk').value = response.kategori;
+      document.getElementById('editHargaProduk').value = response.harga;
+      document.getElementById('editStokProduk').value = response.stok;
+
+      // Show modal
+      const modal = new bootstrap.Modal(document.getElementById('editProdukModal'));
+      modal.show();
+    })
+    .catch(err => {
+      Swal.fire(
+          'Kesalahan!',
+          'Terjadi kesalahan saat Mengambil data.',
+          'error'
+        );
+    });
 }

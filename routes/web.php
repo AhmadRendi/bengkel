@@ -75,4 +75,8 @@ Route::get('/find/user/{id}', [UserController::class, 'findUserById'])->name('fi
 
 Route::post('/reset-password/{id}', [UserController::class, 'resetPassword'])->name('user.reset.password');
 
+Route::get('/find/product/{id}', [ProductController::class, 'findProductById'])->name('find.product');
+
 Route::post('/update/user', [UserController::class,'updateUser'])->name('update.user');
+
+Route::post('/update/product', [ProductController::class, 'update'])->name('update.product');

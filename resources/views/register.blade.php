@@ -39,7 +39,7 @@
                                 <label class="form-label" for="password">Password</label>
                                 <div class="input-group">
                                     <input type="password" id="password" name="password" class="form-control"
-                                        placeholder="Minimal 6 karakter" required>
+                                        placeholder="Minimal 8 karakter" required>
                                     <span class="input-group-text password-toggle">
                                         <i class="fas fa-eye"></i>
                                     </span>

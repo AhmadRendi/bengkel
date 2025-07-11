@@ -178,3 +178,72 @@
         </div>
     </div>
 </div>
+
+
+<!-- Modal Edit Produk -->
+<div class="modal modal-lg" id="editProdukModal" aria-hidden="true" aria-labelledby="editProdukModalLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProdukModalLabel">Edit User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('update.product') }}" method="POST">
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-section">
+                                <h6>Informasi Dasar</h6>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <input type="hidden" name="id" id="editProdukId" arial-hidden="true">
+                                        <label class="form-label">Nama Produk</label>
+                                        <input type="text" name="nama" id="editNamaProduk" class="form-control" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">SKU</label>
+                                        <input type="text" name="sku" id="editSKUProduk" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Deskripsi</label>
+                                    <textarea name="deskripsi" id="editDeskripsiProduk" class="form-control" rows="4"></textarea>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Kategori</label>
+                                        <select name="kategori" id="editKategoriProduk" class="form-control" required>
+                                            <option value="">Pilih Kategori</option>
+                                            <option value="Electronics">Electronics</option>
+                                            <option value="Fashion">Fashion</option>
+                                            <option value="Home">Home & Living</option>
+                                            <option value="Sports">Sports</option>
+                                            <option value="Books">Books</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Harga (Rp)</label>
+                                        <input type="number" name="harga" id="editHargaProduk" class="form-control" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Stok</label>
+                                        <input type="number" name="stok" id="editStokProduk" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="d-flex gap-2 justify-content-end">
+                                    <a href="{{ route('products') }}" class="btn btn-secondary">
+                                        <i class="fas fa-arrow-left me-2"></i>Batal
+                                    </a>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save me-2"></i>Simpan Produk
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

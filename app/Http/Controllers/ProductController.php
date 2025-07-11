@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produk;
+use GuzzleHttp\Psr7\Message;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -146,6 +147,37 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('add-product')->with('modal_error', $e->getMessage());
         }
+    }
 
+    public function findProductById($id)
+    {
+        $product = Produk::findOrFail($id);
+        if(empty($product)){
+            return response()->json(['error' => 'Error'], 404);
+        }
+        return response()->json($product);
+    }
+
+    public function update(Request $request)
+    {
+        // Validate the request data
+        try {
+            $validatedData = $request->validate([
+                'id' => 'required|integer|exists:produks,id',
+                'nama' => 'required|string|max:50',
+                'sku' => 'required|string|max:50',
+                'deskripsi' => 'nullable|string',
+                'kategori' => 'required|string|max:35',
+                'harga' => 'required|integer|min:0',
+                'stok' => 'required|integer|min:0',
+            ]);
+
+            $product = Produk::findOrFail($validatedData['id']);
+            $product->update($validatedData);
+
+            return redirect()->route('products')->with('success', 'Product updated successfully');
+        } catch (\Exception $e) {
+            return redirect()->route('products')->with('modal_error', $e->getMessage());
+        }
     }
 }
