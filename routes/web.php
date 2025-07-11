@@ -74,3 +74,5 @@ Route::get('/invoice/{id}/download-pdf', [InvoiceController::class, 'downloadPdf
 Route::get('/find/user/{id}', [UserController::class, 'findUserById'])->name('find.user');
 
 Route::post('/reset-password/{id}', [UserController::class, 'resetPassword'])->name('user.reset.password');
+
+Route::post('/update/user', [UserController::class,'updateUser'])->name('update.user');

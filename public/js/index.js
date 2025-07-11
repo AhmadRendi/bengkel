@@ -453,15 +453,13 @@ function resetPassword(id) {
       })
       .then(res => res.json())
       .then(response => {
-        if (response.success) {
-          console.log('Password reset successful:', response);
+        if (response.message === 'Success') {
           Swal.fire(
             'Berhasil!',
             'Password telah direset.',
             'success'
           );
         } else {
-          console.log('Password reset failed:', response);
           Swal.fire(
             'Gagal!',
             response.message || 'Gagal mereset password.',
@@ -470,7 +468,6 @@ function resetPassword(id) {
         }
       })
       .catch(err => {
-        console.error('Error resetting password:', err);
         Swal.fire(
           'Kesalahan!',
           'Terjadi kesalahan saat mereset password.',

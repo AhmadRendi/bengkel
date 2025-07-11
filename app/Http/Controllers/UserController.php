@@ -146,6 +146,21 @@ class UserController extends Controller
         $user->password = bcrypt($newPassword);
         $user->save();
 
-        return response()->json(['message' => 'Password reset successfully'], 200);
+        return response()->json(['message' => 'Success'], 200);
+    }
+
+    public function updateUser(Request $request)
+    {
+        $user = User::find($request->input('id'));
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        $user->id= $request->input('id');
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->save();
+
+        return redirect()->route('users')->with('success', 'User updated successfully.');
     }
 }

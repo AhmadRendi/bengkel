@@ -155,7 +155,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="" method="post">
+                <form action="{{ route('update.user') }}" method="POST">
+                    @csrf
                     <input type="hidden" name="id" id="editUserId" arial-hidden="true">
                     <label for="editUserName" class="form-label">Nama Pengguna</label>
                     <input type="text" name="name" id="editUserName" class="form-control mb-3"
