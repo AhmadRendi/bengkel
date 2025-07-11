@@ -68,3 +68,5 @@ Route::get('/invoices', function () {
 Route::post('/add-invoice', [InvoiceController::class, 'store'])->name('invoice.store');
 
 Route::get('/invoice/preview/{id}', [InvoiceController::class, 'findInvoiceById'])->name('invoice.preview');
+
+Route::get('/invoice/{id}/download-pdf', [InvoiceController::class, 'downloadPdf'])->name('invoice.download.pdf');

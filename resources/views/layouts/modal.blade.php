@@ -82,21 +82,21 @@
                         <!-- Invoice Items -->
                         <div class="invoice-items mt-3">
                             <div class="billing-details mt-3">
-                            <h6 class="mb-3">Item Pesanan</h6>
-                            <table class="table products-table align-middle">
-                                <thead class="table-light">
-                                    <tr class="text-center">
-                                        <th>Nama Produk</th>
-                                        <th>Harga</th>
-                                        <th>Jumlah</th>
-                                        <th>Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="selectedItems">
-                                    <!-- Baris produk akan di-generate via JavaScript -->
-                                </tbody>
-                            </table>
-                        </div>
+                                <h6 class="mb-3">Item Pesanan</h6>
+                                <table class="table products-table align-middle">
+                                    <thead class="table-light">
+                                        <tr class="text-center">
+                                            <th>Nama Produk</th>
+                                            <th>Harga</th>
+                                            <th>Jumlah</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="selectedItems">
+                                        <!-- Baris produk akan di-generate via JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <div class="billing-section">
@@ -138,13 +138,10 @@
                     </div>
                 </div>
 
-        <div class="modal-footer">
-                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Tutup</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Tutup</button>
+                </div>
             </div>
-
-            </div>
-            
         </div>
-        
     </div>
 </div>

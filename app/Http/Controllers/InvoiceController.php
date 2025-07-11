@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\Invoice;
 use App\Models\Items;
-
+use Barryvdh\DomPDF\Facade\Pdf; 
 class InvoiceController extends Controller
 {
 
@@ -68,4 +68,25 @@ class InvoiceController extends Controller
             return redirect()->route('invoices')->with('modal_error', 'Gagal mengambil data invoice: ' . $e->getMessage());
         }
     }
+
+
+public function downloadPdf($id)
+{
+    try {
+        $invoice = Invoice::with('items.produk')->findOrFail($id);
+
+        $subtotal = 0;
+        foreach ($invoice->items as $item) {
+            $subtotal += $item->produk->harga * $item->jumlah;
+        }
+        $tax = $subtotal * 0.1;
+        $total = $subtotal + $tax;
+
+        return PDF::loadView('pdfInvoice', compact('invoice', 'subtotal', 'tax', 'total'))
+            ->setPaper('a4')
+            ->download('Invoice-' . $invoice->id . '.pdf');
+    } catch (\Exception $e) {
+        return redirect()->back()->with('modal_error', 'Gagal generate PDF: ' . $e->getMessage());
+    }
+}
 }
