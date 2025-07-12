@@ -27,16 +27,13 @@
                                             onclick="openInvoiceModal({{ $invoice['id'] }})">
                                             <i class="fas fa-eye"></i> Lihat
                                         </button>
-                                        <!-- <button class="btn btn-sm btn-info text-white">
-                                            <i class="fas fa-download"></i> PDF
-                                        </button> -->
                                         <a href="{{ route('invoice.download.pdf', $invoice->id) }}"
                                             class="btn btn-sm btn-info text-white" target="_blank">
                                             <i class="fas fa-download"></i> PDF
                                         </a>
-                                        <button class="btn btn-sm btn-danger">
+                                        <!-- <button class="btn btn-sm btn-danger">
                                             <i class="fas fa-trash"></i> Hapus
-                                        </button>
+                                        </button> -->
                                     </div>
                                 </td>
                             </tr>

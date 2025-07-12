@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('namaPelanggan');
             $table->text('catatan')->nullable();
             $table->string('alamat')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('kategori');
             $table->integer('harga');
             $table->integer('stok');
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

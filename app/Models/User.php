@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_active',
     ];
 
     /**
@@ -53,7 +54,17 @@ class User extends Authenticatable
 
     public function countAllUser(){
         return User::selectRaw('COUNT(*) as total_user')
+            ->where('is_active', true)
             ->first()
             ->total_user;
+    }
+
+    public function deleteUserById(int $id){
+        $user = User::find($id);
+        if($user){
+            $user->update(['is_active' => false]);
+            return true;
+        }
+        return false;
     }
 }

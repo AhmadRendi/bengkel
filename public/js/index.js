@@ -224,10 +224,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // errorModal.show();
 
     Swal.fire(
-          'Kesalahan!',
-          errorMessage,
-          'error'
-        );
+      'Kesalahan!',
+      errorMessage,
+      'error'
+    );
   }
 });
 
@@ -241,10 +241,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // const errorModal = new bootstrap.Modal(document.getElementById('successModal'));
     // errorModal.show();
     Swal.fire(
-            'Berhasil!',
-            errorMessage,
-            'success'
-          );
+      'Berhasil!',
+      errorMessage,
+      'success'
+    );
   }
 });
 
@@ -462,29 +462,29 @@ function resetPassword(id) {
           'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         }
       })
-      .then(res => res.json())
-      .then(response => {
-        if (response.message === 'Success') {
+        .then(res => res.json())
+        .then(response => {
+          if (response.message === 'Success') {
+            Swal.fire(
+              'Berhasil!',
+              'Password telah direset.',
+              'success'
+            );
+          } else {
+            Swal.fire(
+              'Gagal!',
+              response.message || 'Gagal mereset password.',
+              'error'
+            );
+          }
+        })
+        .catch(err => {
           Swal.fire(
-            'Berhasil!',
-            'Password telah direset.',
-            'success'
-          );
-        } else {
-          Swal.fire(
-            'Gagal!',
-            response.message || 'Gagal mereset password.',
+            'Kesalahan!',
+            'Terjadi kesalahan saat mereset password.',
             'error'
           );
-        }
-      })
-      .catch(err => {
-        Swal.fire(
-          'Kesalahan!',
-          'Terjadi kesalahan saat mereset password.',
-          'error'
-        );
-      });
+        });
     }
   });
 }
@@ -512,9 +512,56 @@ function editProduct(id) {
     })
     .catch(err => {
       Swal.fire(
-          'Kesalahan!',
-          'Terjadi kesalahan saat Mengambil data.',
-          'error'
-        );
+        'Kesalahan!',
+        'Terjadi kesalahan saat Mengambil data.',
+        'error'
+      );
     });
+}
+
+function deleteUser(id) {
+  console.log('Deleting user with ID:', id);
+  Swal.fire({
+    title: 'Hapus Pengguna?',
+    text: "Apakah Anda yakin ingin Menghapus pengguna ini?",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Ya, reset!',
+    cancelButtonText: 'Batal'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(`delete/user/${id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+      })
+        .then(res => res.json())
+        .then(response => {
+          if (response.message === 'Success') {
+            Swal.fire(
+              'Berhasil!',
+              response.message,
+              'success'
+            );
+          } else {
+            Swal.fire(
+              'Gagal!',
+              response.message || 'Gagal mereset password.',
+              'error'
+            );
+          }
+        })
+        .catch(err => {
+          Swal.fire(
+            'Kesalahan!',
+            err.message,
+            'error'
+          );
+        });
+    }
+  });
 }

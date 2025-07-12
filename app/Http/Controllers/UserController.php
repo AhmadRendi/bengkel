@@ -10,7 +10,7 @@ class UserController extends Controller
     //
 
     public function getAllUser(){
-        $users = User::all();
+        $users = User::all()->where('is_active', true);
         return $users;
     }
 
@@ -50,5 +50,19 @@ class UserController extends Controller
         $user->save();
 
         return redirect()->route('users')->with('success', 'User updated successfully.');
+    }
+
+    public function deleteUser($id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        if ($user->deleteUserById($id)) {
+            return response()->json(['message' => 'Success'], 200);
+        } else {
+            return response()->json(['message' => 'Failed to delete user'], 500);
+        }
     }
 }

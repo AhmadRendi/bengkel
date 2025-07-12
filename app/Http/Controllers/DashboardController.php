@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Items;
 use App\Models\Produk;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
@@ -20,12 +19,10 @@ class DashboardController extends Controller
         $data = [
             'total_user' => $user->countAllUser(),
             'total_produk' => $produk->countAllProduk(),
-            'total_penjualan' => $items->getTotalPenjualan()->totalJumlah,
-            'total_pendapatan' => $items->getTotalPendapatan()->totalPendapatan,
+            'total_penjualan' => $items->getTotalPenjualan()->totalJumlah ?? 0,
+            'total_pendapatan' => $items->getTotalPendapatan()->totalPendapatan ?? 0,
             'pesanan_terbaru' => $items->getPesananTerbaru(),
         ];
-
-        // dd($data);
 
         return $data;
     }

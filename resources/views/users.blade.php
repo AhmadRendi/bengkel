@@ -39,7 +39,7 @@
                                             title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <button class="btn btn-sm btn-outline-danger" onclick="deleteUser(${user.id})"
+                                        <button class="btn btn-sm btn-outline-danger" onclick="deleteUser( {{ $user['id'] }})"
                                             title="Hapus">
                                             <i class="fas fa-trash"></i>
                                         </button>

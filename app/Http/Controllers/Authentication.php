@@ -48,7 +48,7 @@ class Authentication extends Controller
 
             $this->validationPassword($creadentials['password'], $user->password);
 
-            return redirect()->route('login')->with(['success' => 'Login Berhasil']);
+            return redirect()->route('dashboard')->with(['success' => 'Login Berhasil']);
         } catch (\Exception $e) {
             return redirect()->route('login')->with(['modal_error' => $e->getMessage()]);
         }
