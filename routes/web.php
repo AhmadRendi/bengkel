@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Authentication;
 use \App\Http\Controllers\InvoiceController;
+use \App\Http\Controllers\AnalitikController;
 
 
 Route::get('/dashboard', function () {
@@ -80,3 +81,9 @@ Route::get('/find/product/{id}', [ProductController::class, 'findProductById'])-
 Route::post('/update/user', [UserController::class,'updateUser'])->name('update.user');
 
 Route::post('/update/product', [ProductController::class, 'update'])->name('update.product');
+
+Route::get('/analitik', function () {
+    $controller = new AnalitikController();
+    $data = $controller->analitik();
+    return view('analitik', compact('data'));
+})->name('analitik');

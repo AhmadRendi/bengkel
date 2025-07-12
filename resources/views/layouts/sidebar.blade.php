@@ -22,8 +22,7 @@
                 Pengguna
                 <i class="fas fa-chevron-down float-end"></i>
             </a>
-            <ul class="collapse submenu list-group {{ request()->routeIs('user.*') ? 'show' : '' }}"
-                id="usersSubmenu">
+            <ul class="collapse submenu list-group {{ request()->routeIs('user.*') ? 'show' : '' }}" id="usersSubmenu">
                 <li>
                     <a href="{{ route('users') }}"
                         class="list-group-item {{ request()->routeIs('users') ? 'active' : '' }}">
@@ -94,8 +93,14 @@
                 </li>
             </ul>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a class="nav-link" href="#analytics">
+                <i class="fas fa-chart-bar"></i>
+                <span>Analitik</span>
+            </a>
+        </li> -->
+        <li class="nav-item">
+            <a href="{{ route('analitik') }}" class="nav-link {{ request()->routeIs('analitik') ? 'active' : '' }}">
                 <i class="fas fa-chart-bar"></i>
                 <span>Analitik</span>
             </a>
