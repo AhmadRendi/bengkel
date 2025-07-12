@@ -20,4 +20,11 @@ class Produk extends Model
     {
         return $this->hasMany(Items::class, 'produks_id');
     }
+
+    public function countAllProduk()
+    {
+        return Produk::selectRaw('COUNT(*) as total_produk')
+            ->first()
+            ->total_produk;
+    }
 }

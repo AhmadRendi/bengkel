@@ -12,7 +12,9 @@ use \App\Http\Controllers\AnalitikController;
 
 
 Route::get('/dashboard', function () {
-    return view('admin.dashboard');
+    $controller = new DashboardController();
+    $data = $controller->data();
+    return view('admin.dashboard', compact('data'));
 })->name('dashboard');
 
 Route::get('/home', function () {

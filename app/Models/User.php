@@ -50,4 +50,10 @@ class User extends Authenticatable
     {
         return self::where('email', $email)->first();
     }
+
+    public function countAllUser(){
+        return User::selectRaw('COUNT(*) as total_user')
+            ->first()
+            ->total_user;
+    }
 }

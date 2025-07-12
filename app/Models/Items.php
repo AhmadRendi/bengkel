@@ -37,4 +37,31 @@ class Items extends Model
             ->get();
     }
 
+    public function getTotalPenjualan()
+    {
+        $startDate = Carbon::now()->startOfMonth();  // 2025-07-01 00:00:00
+        $endDate = Carbon::now()->endOfMonth();      // 2025-07-31 23:59:59
+
+        return Items::whereBetween('created_at', [$startDate, $endDate])
+            ->select(DB::raw('SUM(jumlah) as totalJumlah'))
+            ->first();
+    }
+
+    public function getTotalPendapatan(){
+        $startDate = Carbon::now()->startOfMonth();  // 2025-07-01 00:00:00
+        $endDate = Carbon::now()->endOfMonth();      // 2025-07-31 23:59:59
+
+        return Items::whereBetween('items.created_at', [$startDate, $endDate])
+            ->join('produks', 'produks.id', '=', 'items.produks_id')
+            ->select(DB::raw('SUM(items.jumlah * produks.harga) as totalPendapatan'))
+            ->first();
+    }
+
+    public function getPesananTerbaru(){
+        return Items::with('produk')
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
+    }
+
 }
