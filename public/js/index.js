@@ -565,3 +565,50 @@ function deleteUser(id) {
     }
   });
 }
+
+function deleteProduk(id) {
+  console.log('Deleting user with ID:', id);
+  Swal.fire({
+    title: 'Hapus Produk?',
+    text: "Apakah Anda yakin ingin Menghapus pengguna ini?",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Ya, reset!',
+    cancelButtonText: 'Batal'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(`delete/product/${id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+      })
+        .then(res => res.json())
+        .then(response => {
+          if (response.message === 'Success') {
+            Swal.fire(
+              'Berhasil!',
+              response.message,
+              'success'
+            );
+          } else {
+            Swal.fire(
+              'Gagal!',
+              response.message || 'Gagal mereset password.',
+              'error'
+            );
+          }
+        })
+        .catch(err => {
+          Swal.fire(
+            'Kesalahan!',
+            err.message,
+            'error'
+          );
+        });
+    }
+  });
+}

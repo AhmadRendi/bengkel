@@ -91,3 +91,5 @@ Route::get('/analitik', function () {
 })->name('analitik');
 
 Route::post('delete/user/{id}', [UserController::class, 'deleteUser'])->name('delete.user');
+
+Route::post('delete/product/{id}', [ProductController::class, 'destroy'])->name('delete.product');

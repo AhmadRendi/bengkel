@@ -13,7 +13,8 @@ class Produk extends Model
         "kategori",
         "harga",
         "stok",
-        "picture"
+        "picture",
+        "is_active",
     ];
 
     public function items()
@@ -24,7 +25,17 @@ class Produk extends Model
     public function countAllProduk()
     {
         return Produk::selectRaw('COUNT(*) as total_produk')
+            ->where('is_active', true)
             ->first()
             ->total_produk;
+    }
+
+    public function hapusProduk($id){
+        $produk = Produk::find($id);
+        if ($produk) {
+            $produk->update(['is_active' => false]);
+            return true;
+        }
+        return false;
     }
 }

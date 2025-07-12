@@ -43,7 +43,7 @@
                                             <i class="fas fa-edit"></i>
                                         </button>
                                         <button class="btn btn-sm btn-outline-danger"
-                                            onclick="deleteProduct({{ $product['id'] }})" title="Hapus">
+                                            onclick="deleteProduk({{ $product['id'] }})" title="Hapus">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </div>

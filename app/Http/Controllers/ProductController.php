@@ -12,121 +12,7 @@ class ProductController extends Controller
 
     public function getAllProduct()
     {
-        $products = Produk::all();
-        // $products = [
-        //     [
-        //         'id' => 1,
-        //         'name' => 'Shampoo',
-        //         'sku' => 'SHMP001',
-        //         'category' => 'Sabun',
-        //         'price' => 200000,
-        //         'stock' => 200,
-        //         'status' => 'Ada',
-        //         'image' => asset('img/admin.jpeg'),
-        //     ],
-        //     [
-        //         'id' => 2,
-        //         'name' => 'Sabun Mandi',
-        //         'sku' => 'SBND002',
-        //         'category' => 'Sabun',
-        //         'price' => 15000,
-        //         'stock' => 120,
-        //         'status' => 'Ada',
-        //         'image' => asset('img/admin.jpeg'),
-        //     ],
-        //     [
-        //         'id' => 3,
-        //         'name' => 'Pasta Gigi',
-        //         'sku' => 'PG001',
-        //         'category' => 'Perawatan',
-        //         'price' => 18000,
-        //         'stock' => 0,
-        //         'status' => 'Habis',
-        //         'image' => asset('img/admin.jpeg'),
-        //     ],
-        //     [
-        //         'id' => 4,
-        //         'name' => 'Sabun Cuci Piring',
-        //         'sku' => 'SCP004',
-        //         'category' => 'Sabun',
-        //         'price' => 25000,
-        //         'stock' => 50,
-        //         'status' => 'Ada',
-        //         'image' => asset('img/admin.jpeg'),
-        //     ],
-        //     [
-        //         'id' => 5,
-        //         'name' => 'Pembersih Lantai',
-        //         'sku' => 'PL005',
-        //         'category' => 'Pembersih',
-        //         'price' => 30000,
-        //         'stock' => 80,
-        //         'status' => 'Ada',
-        //         'image' => asset('img/admin.jpeg'),
-        //     ],
-        //     [
-        //         'id' => 6,
-        //         'name' => 'Pembersih Kaca',
-        //         'sku' => 'PK006',
-        //         'category' => 'Pembersih',
-        //         'price' => 22000,
-        //         'stock' => 60,
-        //         'status' => 'Ada',
-        //         'image' => asset('img/admin.jpeg'),
-        //     ],
-        //     [
-        //         'id' => 7,
-        //         'name' => 'Sabun Mandi Cair',
-        //         'sku' => 'SMC007',
-        //         'category' => 'Sabun',
-        //         'price' => 35000,
-        //         'stock' => 90,
-        //         'status' => 'Ada',
-        //         'image' => asset('img/admin.jpeg'),
-        //     ],
-        //     [
-        //         'id' => 8,
-        //         'name' => 'Pembersih Dapur',
-        //         'sku' => 'PD008',
-        //         'category' => 'Pembersih',
-        //         'price' => 27000,
-        //         'stock' => 40,
-        //         'status' => 'Ada',
-        //         'image' => asset('img/admin.jpeg'),
-        //     ],
-        //     [
-        //         'id' => 9,
-        //         'name' => 'Sabun Cuci Tangan',
-        //         'sku' => 'SCT009',
-        //         'category' => 'Sabun',
-        //         'price' => 15000,
-        //         'stock' => 100,
-        //         'status' => 'Ada',
-        //         'image' => asset('img/admin.jpeg'),
-        //     ],
-        //     [
-        //         'id' => 10,
-        //         'name' => 'Pembersih Toilet',
-        //         'sku' => 'PT010',
-        //         'category' => 'Pembersih',
-        //         'price' => 40000,
-        //         'stock' => 30,
-        //         'status' => 'Ada',
-        //         'image' => asset('img/admin.jpeg'),
-        //     ],
-        //     [
-        //         'id' => 11,
-        //         'name' => 'Pembersih Karpet',
-        //         'sku' => 'PK011',
-        //         'category' => 'Pembersih',
-        //         'price' => 32000,
-        //         'stock' => 70,
-        //         'status' => 'Ada',
-        //         'image' => asset('img/admin.jpeg'),
-        //     ],
-
-        // ];
-
+        $products = Produk::all()->where('is_active', true);
         return $products;
     }
 
@@ -152,7 +38,7 @@ class ProductController extends Controller
     public function findProductById($id)
     {
         $product = Produk::findOrFail($id);
-        if(empty($product)){
+        if (empty($product)) {
             return response()->json(['error' => 'Error'], 404);
         }
         return response()->json($product);
@@ -178,6 +64,17 @@ class ProductController extends Controller
             return redirect()->route('products')->with('success', 'Product updated successfully');
         } catch (\Exception $e) {
             return redirect()->route('products')->with('modal_error', $e->getMessage());
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $product = Produk::find($id);
+            $product->hapusProduk($id);
+            return response()->json(['message' => 'Success'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to delete user'], 500);
         }
     }
 }
