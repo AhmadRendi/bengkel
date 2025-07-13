@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+<!-- ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
@@ -58,4 +58,38 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT). -->
+
+## Persyaratan
+
+- PHP >= 8.1
+- laravel >= 5.14.2
+- Composer
+- Mysql/Xampp
+- Node.js
+
+## Langkah-Langkah Instalasi
+
+1. Clone Repository
+    - https://github.com/AhmadRendi/bengkel.git
+2. Ganti dengan branch rendi dengan cara "git checkout rendi"
+3. install Dependency PHP
+    - composer install
+4. Tambahkan .env ke dalam projek
+4. Konfigurasi Database
+    Edit di .env
+        DB_CONNECTION=mysql
+        DB_HOST=127.0.0.1
+        DB_PORT=3306
+        DB_DATABASE=bengkel
+        DB_USERNAME=root
+        DB_PASSWORD=
+5. Install Dependency Js
+    - npm install
+6. Jalankan Mysql/Xampp
+    - start mysql
+7. Import Database
+8. Jalankan Server Laravel
+    - php artisan serve
+9. Akses di localhost:8000/login
+
