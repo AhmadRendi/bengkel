@@ -23,7 +23,7 @@
                     <option value="12">Desember</option>
                 </select>
                 <div class="d-flex gap-2">
-                    <button class="btn btn-outline-success btn-sm">
+                    <button class="btn btn-outline-success btn-sm" onclick="exportTableToPDF()">
                         <i class="fas fa-download me-1"></i>Export
                     </button>
                     <button class="btn btn-outline-primary btn-sm">

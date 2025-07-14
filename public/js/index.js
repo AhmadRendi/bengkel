@@ -615,13 +615,20 @@ function deleteProduk(id) {
 
 document.getElementById('tanggal').valueAsDate = new Date();
 
-// function updateFilterMountAnalitik(){
+function exportTableToPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('p', 'pt', 'a4');
 
-//   const mount = document.getElementById('monthFilter').value;
+    html2canvas(document.getElementById('tableProducts')).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const imgProps= doc.getImageProperties(imgData);
+        const pdfWidth = doc.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-//   console.log('Updating filter for month:', mount);
-
-// }
+        doc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        doc.save('laporan-analitik.pdf');
+    });
+}
 
 function updateFilterMountAnalitik() {
     const month = document.getElementById('monthFilter').value;
