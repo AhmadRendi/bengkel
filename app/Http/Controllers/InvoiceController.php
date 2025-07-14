@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Produk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\Invoice;
 use App\Models\Items;
-use Barryvdh\DomPDF\Facade\Pdf; 
+use Barryvdh\DomPDF\Facade\Pdf;
 class InvoiceController extends Controller
 {
 
     public function store(Request $request)
     {
         try {
+            $product = new Produk();
+
             // Validasi input
             $request->validate([
                 'namaPelanggan' => 'required|string|max:255',
@@ -34,6 +37,7 @@ class InvoiceController extends Controller
             // // Simpan item terkait dengan invoice
             foreach ($request->produk_ids as $productId) {
                 $item = new Items();
+                $product->updateStokAfterPurchase($productId, $request->jumlah[$productId]);
                 $item->produks_id = $productId;
                 $item->jumlah = $request->jumlah[$productId];
                 $item->created_at = $request->tanggal ?? now();
@@ -72,23 +76,23 @@ class InvoiceController extends Controller
     }
 
 
-public function downloadPdf($id)
-{
-    try {
-        $invoice = Invoice::with('items.produk')->findOrFail($id);
+    public function downloadPdf($id)
+    {
+        try {
+            $invoice = Invoice::with('items.produk')->findOrFail($id);
 
-        $subtotal = 0;
-        foreach ($invoice->items as $item) {
-            $subtotal += $item->produk->harga * $item->jumlah;
+            $subtotal = 0;
+            foreach ($invoice->items as $item) {
+                $subtotal += $item->produk->harga * $item->jumlah;
+            }
+            $tax = $subtotal * 0.1;
+            $total = $subtotal + $tax;
+
+            return PDF::loadView('pdfInvoice', compact('invoice', 'subtotal', 'tax', 'total'))
+                ->setPaper('a4')
+                ->download('Invoice-' . $invoice->id . '.pdf');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('modal_error', 'Gagal generate PDF: ' . $e->getMessage());
         }
-        $tax = $subtotal * 0.1;
-        $total = $subtotal + $tax;
-
-        return PDF::loadView('pdfInvoice', compact('invoice', 'subtotal', 'tax', 'total'))
-            ->setPaper('a4')
-            ->download('Invoice-' . $invoice->id . '.pdf');
-    } catch (\Exception $e) {
-        return redirect()->back()->with('modal_error', 'Gagal generate PDF: ' . $e->getMessage());
     }
-}
 }

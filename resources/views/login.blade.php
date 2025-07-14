@@ -43,7 +43,6 @@
                             <input type="checkbox" id="remember" name="remember" class="form-check-input">
                             <label class="form-check-label" for="remember">Ingat saya</label>
                         </div>
-                        <a href="forgot-password.html" class="text-decoration-none">Lupa password?</a>
                     </div>
 
                     <button type="submit" class="btn btn-auth btn-primary">
@@ -53,9 +52,6 @@
                         </div>
                     </button>
             </form>
-            <div class="auth-footer">
-                <p>Belum punya akun? <a href={{ route('register') }}>Daftar sekarang</a></p>
-            </div>
         </div>
     </div>
 </div>

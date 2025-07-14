@@ -38,4 +38,18 @@ class Produk extends Model
         }
         return false;
     }
+
+    public function updateStokAfterPurchase($id, $jumlah)
+    {
+        $produk = Produk::find($id);
+        if ($produk) {
+            $produk->stok -= $jumlah;
+            if ($produk->stok < 0) {
+                $produk->stok = 0;
+            }
+            $produk->save();
+            return true;
+        }
+        return false;
+    }
 }
