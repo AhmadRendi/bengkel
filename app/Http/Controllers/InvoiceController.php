@@ -20,6 +20,7 @@ class InvoiceController extends Controller
                 'alamat' => 'nullable|string|max:500',
                 'produk_ids' => 'required|array',
                 'jumlah' => 'required|array',
+                'created_at' => 'nullable|date',
             ]);
 
             // Simpan data invoice
@@ -27,6 +28,7 @@ class InvoiceController extends Controller
             $invoice->namaPelanggan = $request->namaPelanggan;
             $invoice->catatan = $request->catatan ?? "Tidak Tersedia";
             $invoice->alamat = $request->alamat ?? "Tidak Tersedia";
+            $invoice->created_at = $request->tanggal ?? now(); // Gunakan tanggal saat ini jika tidak ada input
             $invoice->save();
 
             // // Simpan item terkait dengan invoice

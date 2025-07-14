@@ -612,3 +612,5 @@ function deleteProduk(id) {
     }
   });
 }
+
+document.getElementById('tanggal').valueAsDate = new Date();

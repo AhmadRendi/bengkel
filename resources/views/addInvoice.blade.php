@@ -35,8 +35,9 @@
                             <input type="text" id="namaPelanggan" name="namaPelanggan" class="form-control" placeholder="Nama customer..."
                                 autocomplete="off">
                             <div id="customerDropdown" class="customer-dropdown"></div>
+                            <h6 class="mt-3">Tanggal</h6>
+                            <input type="date" name="tanggal" id="tanggal" class="form-control mt-2" placeholder="Tanggal Invoice">
                         </div>
-
                         <!-- Invoice Items -->
                         <div class="invoice-items mt-3">
                             <h6 class="mb-3">Select Pesanan</h6>

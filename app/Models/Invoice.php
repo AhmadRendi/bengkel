@@ -10,6 +10,7 @@ class Invoice extends Model
         'namaPelanggan',
         'catatan',
         'alamat',
+        'created_at',
     ];
 
     public function items()
