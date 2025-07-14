@@ -84,9 +84,16 @@ Route::post('/update/user', [UserController::class,'updateUser'])->name('update.
 
 Route::post('/update/product', [ProductController::class, 'update'])->name('update.product');
 
+// Route::get('/analitik', function () {
+//     $controller = new AnalitikController();
+//     $data = $controller->analitik();
+//     return view('analitik', compact('data'));
+// })->name('analitik');
+
 Route::get('/analitik', function () {
+    $bulan = Request::query('month');  // Ambil query string ?month=07
     $controller = new AnalitikController();
-    $data = $controller->analitik();
+    $data = $controller->analitik($bulan);
     return view('analitik', compact('data'));
 })->name('analitik');
 

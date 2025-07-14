@@ -4,10 +4,32 @@
 <main class="main-content" id="mainContent">
     @include('layouts.navbar', ['page' => 'Analitik'])
     <div class="container-fluid px-4">
-        <div class="row">
-            <div class="col-md-12">
-                <h2>Analitik</h2>
-                <p>Halaman ini akan menampilkan berbagai analitik terkait produk, penjualan, dan lainnya.</p>
+        <!-- Filter Controls -->
+        <div class="products-header">
+            <div class="filter-controls">
+                <select class="form-select" id="monthFilter" style="width: auto;" onclick="updateFilterMountAnalitik()">
+                    <option value="">Semua Bulan</option>
+                    <option value="01">Januari</option>
+                    <option value="02">Februari</option>
+                    <option value="03">Maret</option>
+                    <option value="04">April</option>
+                    <option value="05">Mei</option>
+                    <option value="06">Juni</option>
+                    <option value="07">Juli</option>
+                    <option value="08">Agustus</option>
+                    <option value="09">September</option>
+                    <option value="10">Oktober</option>
+                    <option value="11">November</option>
+                    <option value="12">Desember</option>
+                </select>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-success btn-sm">
+                        <i class="fas fa-download me-1"></i>Export
+                    </button>
+                    <button class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-sync-alt me-1"></i>Refresh
+                    </button>
+                </div>
             </div>
         </div>
         <div id="productsContainer">

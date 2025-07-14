@@ -28,7 +28,7 @@ class InvoiceController extends Controller
             $invoice->namaPelanggan = $request->namaPelanggan;
             $invoice->catatan = $request->catatan ?? "Tidak Tersedia";
             $invoice->alamat = $request->alamat ?? "Tidak Tersedia";
-            $invoice->created_at = $request->tanggal ?? now(); // Gunakan tanggal saat ini jika tidak ada input
+            $invoice->created_at = $request->tanggal ?? now();
             $invoice->save();
 
             // // Simpan item terkait dengan invoice
@@ -36,7 +36,7 @@ class InvoiceController extends Controller
                 $item = new Items();
                 $item->produks_id = $productId;
                 $item->jumlah = $request->jumlah[$productId];
-                ;
+                $item->created_at = $request->tanggal ?? now();
                 $item->invoices_id = $invoice->id;
                 $item->save();
             }

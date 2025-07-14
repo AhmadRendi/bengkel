@@ -38,14 +38,25 @@ class AnalitikController extends Controller
         return $prediksiStok;
     }
 
-    public function analitik()
+    // public function analitik()
+    // {
+
+    //     $itemsObject = new Items();
+
+    //     $data = $itemsObject->getDataPenjuala();
+
+    //     return $this->kalkulasi($data);
+    // }
+
+    public function analitik($bulan = null)
     {
-
         $itemsObject = new Items();
+        $data = $itemsObject->getDataPenjuala($bulan);
 
-        $data = $itemsObject->getDataPenjuala();
+        // dd($data); // Debugging line to check the data  
 
         return $this->kalkulasi($data);
     }
+
 
 }

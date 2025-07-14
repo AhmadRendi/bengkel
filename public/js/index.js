@@ -614,3 +614,22 @@ function deleteProduk(id) {
 }
 
 document.getElementById('tanggal').valueAsDate = new Date();
+
+// function updateFilterMountAnalitik(){
+
+//   const mount = document.getElementById('monthFilter').value;
+
+//   console.log('Updating filter for month:', mount);
+
+// }
+
+function updateFilterMountAnalitik() {
+    const month = document.getElementById('monthFilter').value;
+    const baseUrl = "analitik";  // route dinamically from Laravel
+
+    if (month === "") {
+        window.location.href = baseUrl;  // Tampilkan semua
+    } else {
+        window.location.href = baseUrl + '?month=' + month;
+    }
+}

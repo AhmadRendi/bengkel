@@ -26,10 +26,26 @@ class Items extends Model
         return $this->belongsTo(Produk::class, 'produks_id');
     }
 
-    public function getDataPenjuala()
+    // public function getDataPenjuala()
+    // {
+    //     $startDate = Carbon::now()->startOfMonth();  // 2025-07-01 00:00:00
+    //     $endDate = Carbon::now()->endOfMonth();      // 2025-07-31 23:59:59
+
+    //     return Items::whereBetween('created_at', [$startDate, $endDate])
+    //         ->select('produks_id', DB::raw('SUM(jumlah) as totalJumlah'))
+    //         ->groupBy('produks_id')
+    //         ->get();
+    // }
+
+    public function getDataPenjuala($bulan = null)
     {
-        $startDate = Carbon::now()->startOfMonth();  // 2025-07-01 00:00:00
-        $endDate = Carbon::now()->endOfMonth();      // 2025-07-31 23:59:59
+        if ($bulan) {
+            $startDate = Carbon::createFromDate(now()->year, $bulan, 1)->startOfMonth();
+            $endDate = Carbon::createFromDate(now()->year, $bulan, 1)->endOfMonth();
+        } else {
+            $startDate = Carbon::now()->startOfMonth();
+            $endDate = Carbon::now()->endOfMonth();
+        }
 
         return Items::whereBetween('created_at', [$startDate, $endDate])
             ->select('produks_id', DB::raw('SUM(jumlah) as totalJumlah'))
@@ -47,7 +63,8 @@ class Items extends Model
             ->first();
     }
 
-    public function getTotalPendapatan(){
+    public function getTotalPendapatan()
+    {
         $startDate = Carbon::now()->startOfMonth();  // 2025-07-01 00:00:00
         $endDate = Carbon::now()->endOfMonth();      // 2025-07-31 23:59:59
 
@@ -57,7 +74,8 @@ class Items extends Model
             ->first();
     }
 
-    public function getPesananTerbaru(){
+    public function getPesananTerbaru()
+    {
         return Items::with('produk')
             ->orderBy('created_at', 'desc')
             ->take(5)
