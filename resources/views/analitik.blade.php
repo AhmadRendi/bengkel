@@ -26,9 +26,9 @@
                     <button class="btn btn-outline-success btn-sm" onclick="exportTableToPDF()">
                         <i class="fas fa-download me-1"></i>Export
                     </button>
-                    <button class="btn btn-outline-primary btn-sm">
+                    <!-- <button class="btn btn-outline-primary btn-sm">
                         <i class="fas fa-sync-alt me-1"></i>Refresh
-                    </button>
+                    </button> -->
                 </div>
             </div>
         </div>
