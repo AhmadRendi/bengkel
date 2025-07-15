@@ -10,87 +10,95 @@ use App\Http\Controllers\Authentication;
 use \App\Http\Controllers\InvoiceController;
 use \App\Http\Controllers\AnalitikController;
 
-
-Route::get('/dashboard', function () {
-    $controller = new DashboardController();
-    $data = $controller->data();
-    return view('admin.dashboard', compact('data'));
-})->name('dashboard');
-
-Route::get('/home', function () {
-    return view('user.home');
-})->name('user.home');
-
-Route::get('/logout', function () {
-    Auth::logout();
-    return redirect()->route('login');
-})->name('logout');
-
+// Route Tanpa Proteksi
 Route::get('/login', function () {
     return view('login');
 })->name('login');
 
 Route::post('/login', [Authentication::class, 'auth'])->name('login.auth');
 
-Route::get('/register', function () {
-    return view('register');
-})->name('register');
 
-Route::post('/register', [RegistrationController::class, 'register'])->name('register.store');
 
-Route::get(('/products'), function () {
-    $controller = new ProductController();
-    $products = $controller->getAllProduct();
-    return view('products', compact('products'));
-})->name('products');
+Route::get('/logout', function (Request $request) {
+    Auth::logout();
+    return redirect()->route('login');
+})->name('logout');
 
-Route::get('/add-product', function () {
-    return view('addProduct');
-})->name('add-product');
 
-Route::post('/add-product', [ProductController::class, 'store'])->name('product.store');
+// Semua Route Setelah Login
+Route::middleware(['auth'])->group(function () {
 
-Route::get('/users', function () {
-    $controller = new UserController();
-    $users = $controller->getAllUser();
-    return view('users', compact('users'));
-})->name('users');
+    Route::get('/dashboard', function () {
+        $controller = new DashboardController();
+        $data = $controller->data();
+        return view('admin.dashboard', compact('data'));
+    })->name('dashboard');
 
-Route::get('/add-invoice', function () {
-    $controller = new ProductController();
-    $products = $controller->getAllProduct();
-    return view('addInvoice', compact('products'));
-})->name('add-invoice');
+    Route::get('/home', function () {
+        return view('user.home');
+    })->name('user.home');
 
-Route::get('/invoices', function () {
-    $controller = new InvoiceController();
-    $invoices = $controller->findAllInvoices();
-    return view('invoices', compact('invoices'));
-})->name('invoices');
+    Route::get('/register', function () {
+        return view('register');
+    })->name('register');
 
-Route::post('/add-invoice', [InvoiceController::class, 'store'])->name('invoice.store');
+    Route::post('/register', [RegistrationController::class, 'register'])->name('register.store');
 
-Route::get('/invoice/preview/{id}', [InvoiceController::class, 'findInvoiceById'])->name('invoice.preview');
+    Route::get('/products', function () {
+        $controller = new ProductController();
+        $products = $controller->getAllProduct();
+        return view('products', compact('products'));
+    })->name('products');
 
-Route::get('/invoice/{id}/download-pdf', [InvoiceController::class, 'downloadPdf'])->name('invoice.download.pdf');
+    Route::get('/add-product', function () {
+        return view('addProduct');
+    })->name('add-product');
 
-Route::get('/find/user/{id}', [UserController::class, 'findUserById'])->name('find.user');
+    Route::post('/add-product', [ProductController::class, 'store'])->name('product.store');
 
-Route::post('/reset-password/{id}', [UserController::class, 'resetPassword'])->name('user.reset.password');
+    Route::get('/users', function () {
+        $controller = new UserController();
+        $users = $controller->getAllUser();
+        return view('users', compact('users'));
+    })->name('users');
 
-Route::get('/find/product/{id}', [ProductController::class, 'findProductById'])->name('find.product');
+    Route::get('/add-invoice', function () {
+        $controller = new ProductController();
+        $products = $controller->getAllProduct();
+        return view('addInvoice', compact('products'));
+    })->name('add-invoice');
 
-Route::post('/update/user', [UserController::class,'updateUser'])->name('update.user');
+    Route::get('/invoices', function () {
+        $controller = new InvoiceController();
+        $invoices = $controller->findAllInvoices();
+        return view('invoices', compact('invoices'));
+    })->name('invoices');
 
-Route::post('/update/product', [ProductController::class, 'update'])->name('update.product');
+    Route::post('/add-invoice', [InvoiceController::class, 'store'])->name('invoice.store');
 
-Route::get('/analitik', function () {
-    $bulan = Request::query('month');  // Ambil query string ?month=07
-    $controller = new AnalitikController();
-    $data = $controller->analitik($bulan);
-    return view('analitik', compact('data'));
-})->name('analitik');
+    Route::get('/invoice/preview/{id}', [InvoiceController::class, 'findInvoiceById'])->name('invoice.preview');
 
-Route::post('delete/user/{id}', [UserController::class, 'deleteUser'])->name('delete.user');
+    Route::get('/invoice/{id}/download-pdf', [InvoiceController::class, 'downloadPdf'])->name('invoice.download.pdf');
 
-Route::post('delete/product/{id}', [ProductController::class, 'destroy'])->name('delete.product');
+    Route::get('/find/user/{id}', [UserController::class, 'findUserById'])->name('find.user');
+
+    Route::post('/reset-password/{id}', [UserController::class, 'resetPassword'])->name('user.reset.password');
+
+    Route::get('/find/product/{id}', [ProductController::class, 'findProductById'])->name('find.product');
+
+    Route::post('/update/user', [UserController::class, 'updateUser'])->name('update.user');
+
+    Route::post('/update/product', [ProductController::class, 'update'])->name('update.product');
+
+    Route::get('/analitik', function () {
+        $bulan = Request::query('month');
+        $controller = new AnalitikController();
+        $data = $controller->analitik($bulan);
+        return view('analitik', compact('data'));
+    })->name('analitik');
+
+    Route::post('delete/user/{id}', [UserController::class, 'deleteUser'])->name('delete.user');
+
+    Route::post('delete/product/{id}', [ProductController::class, 'destroy'])->name('delete.product');
+
+});

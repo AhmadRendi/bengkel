@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
@@ -45,10 +46,15 @@ class Authentication extends Controller
             $creadentials = $request->only('email', 'password');
 
             $user = $this->findUserByEmail($request->input('email'));
-
             $this->validationPassword($creadentials['password'], $user->password);
 
-            return redirect()->route('dashboard')->with(['success' => 'Login Berhasil']);
+            if(Auth::attempt($creadentials)) {
+                $request->session()->regenerate();
+                return redirect()->route('dashboard')->with(['success' => 'Login Berhasil']);
+            }
+
+            // $this->validationPassword($creadentials['password'], $user->password);
+            // return redirect()->route('dashboard')->with(['success' => 'Login Berhasil']);
         } catch (\Exception $e) {
             return redirect()->route('login')->with(['modal_error' => $e->getMessage()]);
         }
