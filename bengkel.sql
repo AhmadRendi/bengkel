@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 13, 2025 at 01:10 PM
+-- Generation Time: Jul 15, 2025 at 12:01 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -43,7 +43,13 @@ CREATE TABLE `invoices` (
 
 INSERT INTO `invoices` (`id`, `namaPelanggan`, `catatan`, `alamat`, `is_active`, `created_at`, `updated_at`) VALUES
 (1, 'Fulan 1', 'Tidak Tersedia', 'Tidak Tersedia', 1, '2025-07-13 01:39:05', '2025-07-13 01:39:05'),
-(2, 'Fulan 2', 'Tidak Tersedia', 'Tidak Tersedia', 1, '2025-07-13 01:44:20', '2025-07-13 01:44:20');
+(2, 'Fulan 2', 'Tidak Tersedia', 'Tidak Tersedia', 1, '2025-07-13 01:44:20', '2025-07-13 01:44:20'),
+(3, 'Fulan 3', 'Tidak Tersedia', 'Tidak Tersedia', 1, '2025-07-14 05:11:07', '2025-07-14 05:11:07'),
+(4, 'Fulan', 'Tidak Tersedia', 'Tidak Tersedia', 1, '2025-07-09 16:00:00', '2025-07-14 05:15:12'),
+(5, 'Fulan 3', 'Tidak Tersedia', 'Tidak Tersedia', 1, '2025-06-29 16:00:00', '2025-07-14 06:45:59'),
+(6, 'Fulan 3', 'Tidak Tersedia', 'Tidak Tersedia', 1, '2025-06-16 16:00:00', '2025-07-14 06:53:26'),
+(7, 'Fulan', 'Tidak Tersedia', 'Tidak Tersedia', 1, '2025-07-13 16:00:00', '2025-07-14 07:12:26'),
+(8, 'Fulan', 'Tidak Tersedia', 'Tidak Tersedia', 1, '2025-07-13 16:00:00', '2025-07-14 07:12:50');
 
 -- --------------------------------------------------------
 
@@ -67,7 +73,14 @@ CREATE TABLE `items` (
 INSERT INTO `items` (`id`, `produks_id`, `jumlah`, `invoices_id`, `created_at`, `updated_at`) VALUES
 (1, 1, 4, 1, '2025-07-13 01:39:05', '2025-07-13 01:39:05'),
 (2, 2, 3, 2, '2025-07-13 01:44:20', '2025-07-13 01:44:20'),
-(3, 1, 2, 2, '2025-07-13 01:44:20', '2025-07-13 01:44:20');
+(3, 1, 2, 2, '2025-07-13 01:44:20', '2025-07-13 01:44:20'),
+(4, 2, 1, 3, '2025-07-14 05:11:07', '2025-07-14 05:11:07'),
+(5, 2, 1, 4, '2025-07-14 05:15:12', '2025-07-14 05:15:12'),
+(6, 2, 1, 5, '2025-07-14 06:45:59', '2025-07-14 06:45:59'),
+(7, 1, 1, 6, '2025-06-16 16:00:00', '2025-07-14 06:53:26'),
+(8, 1, 1, 7, '2025-07-13 16:00:00', '2025-07-14 07:12:26'),
+(9, 2, 1, 7, '2025-07-13 16:00:00', '2025-07-14 07:12:26'),
+(10, 1, 1, 8, '2025-07-13 16:00:00', '2025-07-14 07:12:50');
 
 -- --------------------------------------------------------
 
@@ -115,8 +128,8 @@ CREATE TABLE `produks` (
 --
 
 INSERT INTO `produks` (`id`, `nama`, `sku`, `deskripsi`, `kategori`, `harga`, `stok`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, 'Tas', 'TAS', 'Tidak ada', 'Fashion', 100000, 11, 1, '2025-07-12 05:28:33', '2025-07-12 05:55:03'),
-(2, 'Ransel', 'RNS', 'Tidak Ada', 'Fashion', 10000, 10, 1, '2025-07-13 01:43:50', '2025-07-13 01:43:50');
+(1, 'Tas', 'TAS', 'Tidak ada', 'Fashion', 100000, 9, 1, '2025-07-12 05:28:33', '2025-07-14 07:12:50'),
+(2, 'Ransel', 'RNS', 'Tidak Ada', 'Fashion', 10000, 9, 1, '2025-07-13 01:43:50', '2025-07-14 07:12:26');
 
 -- --------------------------------------------------------
 
@@ -138,7 +151,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('Ar2z1NhuBPT6zHK6rwZTAJLTxAZHAgYHo0AVZXfz', NULL, '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 OPR/120.0.0.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiMGN2SEt5eVZrQml2SjFsNVBwaHd2b0FtVnVQZmU1N0dodFpla0NaNyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMS9hZGQtaW52b2ljZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1752404873);
+('NpAVmKnkHyFStN6vBcTVO5YG1OvIXyvTkKSnzYgy', 1, '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 OPR/120.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiS3NsajRsODE4SWZHOEdmNFpNUzRyODk5Z2xNeW5CZ3MwUjlUTDR3NiI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czozMToiaHR0cDovL2xvY2FsaG9zdDo4MDAwL2Rhc2hib2FyZCI7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjMzOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYWRkLWludm9pY2UiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1752573605),
+('ocaS3ubooVjwr3veXxRI4skT2W0SiwXBboZDPylE', NULL, '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 OPR/120.0.0.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiVGJCVjZSelJrMTlsSnBQT2x5YjBkWDNoUzh2cXFrSUQyQ3pERllvRCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9sb2dpbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MzoidXJsIjthOjE6e3M6ODoiaW50ZW5kZWQiO3M6MzE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9kYXNoYm9hcmQiO319', 1752572688);
 
 -- --------------------------------------------------------
 
@@ -151,7 +165,7 @@ CREATE TABLE `users` (
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `role` varchar(255) NOT NULL DEFAULT 'user',
+  `role` varchar(255) NOT NULL DEFAULT 'karyawan',
   `is_active` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -162,8 +176,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, 'Fulan', 'fulan@gmail.com', '$2y$12$NOK8znVQQfiR5UXbr3poJuoH0VgEf4wd6rEn.tAF/NPXtphZft6PK', 'user', 1, '2025-07-12 05:27:44', '2025-07-12 05:44:44'),
-(2, 'Fulan Kedua', 'fulasKedua@gmail.com', '$2y$12$.m2OjAYKiJUryO9aoESQIuYOl.RaefQut/vN3yUkbyS5YafWf9YEy', 'user', 1, '2025-07-12 05:35:49', '2025-07-12 05:45:38');
+(1, 'Fulan', 'fulan@gmail.com', '$2y$12$NOK8znVQQfiR5UXbr3poJuoH0VgEf4wd6rEn.tAF/NPXtphZft6PK', 'karyawan', 1, '2025-07-12 05:27:44', '2025-07-12 05:44:44'),
+(2, 'Fulan Kedua', 'fulasKedua@gmail.com', '$2y$12$.m2OjAYKiJUryO9aoESQIuYOl.RaefQut/vN3yUkbyS5YafWf9YEy', 'karyawan', 1, '2025-07-12 05:35:49', '2025-07-12 05:45:38'),
+(3, 'admin', 'admin@gmail.com', '$2y$12$B2J5HM0uxP7Ugh6F1VrpD.UDLuaXt8dfv20MRP4r6dl/wuv1ROTWS', 'admin', 1, '2025-07-15 01:55:28', '2025-07-15 01:55:28');
 
 --
 -- Indexes for dumped tables
@@ -219,13 +234,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `invoices`
 --
 ALTER TABLE `invoices`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -243,7 +258,7 @@ ALTER TABLE `produks`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
