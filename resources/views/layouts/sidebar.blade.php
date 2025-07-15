@@ -14,31 +14,33 @@
                 <span>Dashboard</span>
             </a>
         </li>
-        <li class="nav-item">
-            <a href="#usersSubmenu" class="nav-link {{ request()->routeIs('user.*') ? 'active' : '' }}"
-                data-bs-toggle="collapse" aria-expanded="{{ request()->routeIs('user.*') ? 'true' : 'false' }}"
-                data-bs-target="#usersSubmenu" id="usersMenuToggle">
-                <i class="fas fa-users"></i>
-                Pengguna
-                <i class="fas fa-chevron-down float-end"></i>
-            </a>
-            <ul class="collapse submenu list-group {{ request()->routeIs('user.*') ? 'show' : '' }}" id="usersSubmenu">
-                <li>
-                    <a href="{{ route('users') }}"
-                        class="list-group-item {{ request()->routeIs('users') ? 'active' : '' }}">
-                        <i class="fas fa-list"></i>
-                        Semua Pengguna
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('register') }}"
-                        class="list-group-item {{ request()->routeIs('register') ? 'active' : '' }}">
-                        <i class="fas fa-plus"></i>
-                        Tambah Pengguna
-                    </a>
-                </li>
-            </ul>
-        </li>
+        @if(Auth::user()->role === 'admin')
+            <li class="nav-item">
+                <a href="#usersSubmenu" class="nav-link {{ request()->routeIs('user.*') ? 'active' : '' }}"
+                    data-bs-toggle="collapse" aria-expanded="{{ request()->routeIs('user.*') ? 'true' : 'false' }}"
+                    data-bs-target="#usersSubmenu" id="usersMenuToggle">
+                    <i class="fas fa-users"></i>
+                    Pengguna
+                    <i class="fas fa-chevron-down float-end"></i>
+                </a>
+                <ul class="collapse submenu list-group {{ request()->routeIs('user.*') ? 'show' : '' }}" id="usersSubmenu">
+                    <li>
+                        <a href="{{ route('users') }}"
+                            class="list-group-item {{ request()->routeIs('users') ? 'active' : '' }}">
+                            <i class="fas fa-list"></i>
+                            Semua Pengguna
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('register') }}"
+                            class="list-group-item {{ request()->routeIs('register') ? 'active' : '' }}">
+                            <i class="fas fa-plus"></i>
+                            Tambah Pengguna
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        @endif
 
         <li class="nav-item">
             <a href="#usersSubmenu" class="nav-link {{ request()->routeIs('product.*') ? 'active' : '' }}"
@@ -57,13 +59,15 @@
                         Semua Produk
                     </a>
                 </li>
-                <li>
-                    <a href="{{ route('add-product') }}"
-                        class="list-group-item {{ request()->routeIs('add-product') ? 'active' : '' }}">
-                        <i class="fas fa-plus"></i>
-                        Tambah Produk
-                    </a>
-                </li>
+                @if(Auth::user()->role === 'admin')
+                    <li>
+                        <a href="{{ route('add-product') }}"
+                            class="list-group-item {{ request()->routeIs('add-product') ? 'active' : '' }}">
+                            <i class="fas fa-plus"></i>
+                            Tambah Produk
+                        </a>
+                    </li>
+                @endif
             </ul>
         </li>
 
@@ -93,30 +97,14 @@
                 </li>
             </ul>
         </li>
-        <!-- <li class="nav-item">
-            <a class="nav-link" href="#analytics">
-                <i class="fas fa-chart-bar"></i>
-                <span>Analitik</span>
-            </a>
-        </li> -->
-        <li class="nav-item">
-            <a href="{{ route('analitik') }}" class="nav-link {{ request()->routeIs('analitik') ? 'active' : '' }}">
-                <i class="fas fa-chart-bar"></i>
-                <span>Analitik</span>
-            </a>
-        </li>
-        <!-- <li class="nav-item">
-            <a class="nav-link" href="#reports">
-                <i class="fas fa-file-alt"></i>
-                <span>Laporan</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#settings">
-                <i class="fas fa-cog"></i>
-                <span>Pengaturan</span>
-            </a>
-        </li> -->
+        @if(Auth::user()->role === 'admin')
+            <li class="nav-item">
+                <a href="{{ route('analitik') }}" class="nav-link {{ request()->routeIs('analitik') ? 'active' : '' }}">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Analitik</span>
+                </a>
+            </li>
+        @endif
         <li class="nav-item" mt-4>
             <a href="{{ route('logout') }}" class="nav-link {{  request()->routeIs('logout') ? 'active' : '' }}">
                 <i class="fas fa-sign-out-alt"></i>
