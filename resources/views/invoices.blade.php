@@ -4,6 +4,16 @@
     @include('layouts.navbar', ['page' => 'Semua Nota'])
     <div class="container-fluid px-4">
 
+        <div class="products-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-success btn-sm" onclick="exportNota()">
+                        <i class="fas fa-download me-1"></i>Export
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <div id="usersContainer">
             <div class="users-table-container">
                 <table class="table products-table align-middle text-center" id="tableUsers">
@@ -32,8 +42,8 @@
                                             <i class="fas fa-download"></i> PDF
                                         </a>
                                         <!-- <button class="btn btn-sm btn-danger">
-                                            <i class="fas fa-trash"></i> Hapus
-                                        </button> -->
+                                                        <i class="fas fa-trash"></i> Hapus
+                                                    </button> -->
                                     </div>
                                 </td>
                             </tr>

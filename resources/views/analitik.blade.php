@@ -27,8 +27,11 @@
                         <i class="fas fa-download me-1"></i>Export
                     </button>
                     <!-- <button class="btn btn-outline-primary btn-sm">
-                        <i class="fas fa-sync-alt me-1"></i>Refresh
+                        <i class="fas fa-calculator me-1"></i>Rumus
                     </button> -->
+                    <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modalRumus">
+                        <i class="fas fa-calculator me-1"></i> Lihat Rumus
+                    </button>   
                 </div>
             </div>
         </div>

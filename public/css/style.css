@@ -2878,3 +2878,7 @@ body {
         border: 1px solid #ddd;
     }
 }
+
+.dt-buttons {
+  display: none !important;
+}

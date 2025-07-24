@@ -55,9 +55,9 @@
                 <div class="invoice-header">
                     <div class="company-info">
                         <div>
-                            <div class="company-logo">YC</div>
+                            <!-- <div class="company-logo">YC</div> -->
                             <div class="mt-3">
-                                <h5 class="mb-1">Your Company</h5>
+                                <h5 class="mb-1">BENGKEL SINAR MOTOR</h5>
                                 <p class="text-muted mb-0">
                                     Jl. Contoh No. 123<br>
                                     Jakarta, Indonesia 12345<br>
@@ -181,7 +181,8 @@
 
 
 <!-- Modal Edit Produk -->
-<div class="modal modal-lg" id="editProdukModal" aria-hidden="true" aria-labelledby="editProdukModalLabel" tabindex="-1">
+<div class="modal modal-lg" id="editProdukModal" aria-hidden="true" aria-labelledby="editProdukModalLabel"
+    tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -199,7 +200,8 @@
                                     <div class="col-md-6 mb-3">
                                         <input type="hidden" name="id" id="editProdukId" arial-hidden="true">
                                         <label class="form-label">Nama Produk</label>
-                                        <input type="text" name="nama" id="editNamaProduk" class="form-control" required>
+                                        <input type="text" name="nama" id="editNamaProduk" class="form-control"
+                                            required>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">SKU</label>
@@ -208,7 +210,8 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Deskripsi</label>
-                                    <textarea name="deskripsi" id="editDeskripsiProduk" class="form-control" rows="4"></textarea>
+                                    <textarea name="deskripsi" id="editDeskripsiProduk" class="form-control"
+                                        rows="4"></textarea>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
@@ -224,11 +227,13 @@
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label">Harga (Rp)</label>
-                                        <input type="number" name="harga" id="editHargaProduk" class="form-control" required>
+                                        <input type="number" name="harga" id="editHargaProduk" class="form-control"
+                                            required>
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label">Stok</label>
-                                        <input type="number" name="stok" id="editStokProduk" class="form-control" required>
+                                        <input type="number" name="stok" id="editStokProduk" class="form-control"
+                                            required>
                                     </div>
                                 </div>
                                 <div class="d-flex gap-2 justify-content-end">
@@ -243,6 +248,49 @@
                         </div>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Rumus Perhitungan Estimasi Stok -->
+<div class="modal fade" id="modalRumus" tabindex="-1" aria-labelledby="modalRumusLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="modalRumusLabel">
+                    Rumus Perhitungan Estimasi Stok
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Tutup"></button>
+            </div>
+            <div class="modal-body">
+                <p>Rumus untuk menghitung estimasi stok selama 30 hari ke depan:</p>
+                <div class="border p-3 rounded bg-light">
+                    <p><strong>Rata-rata Harian (R):</strong></p>
+                    <p class="text-center">
+                        <math>
+                            <mi>R</mi> = <mfrac>
+                                <mi>T</mi>
+                                <mi>H</mi>
+                            </mfrac>
+                        </math><br>
+                        <small><em>dimana T = total jumlah terjual, H = hari berjalan bulan ini</em></small>
+                    </p>
+
+                    <hr>
+
+                    <p><strong>Estimasi Stok (E):</strong></p>
+                    <p class="text-center">
+                        <math>
+                            <mi>E</mi> = ⌈ R × 30 ⌉
+                        </math><br>
+                        <small><em>(dibulatkan ke atas)</em></small>
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
             </div>
         </div>
     </div>

@@ -31,13 +31,13 @@
                                 <td>{{ $product['kategori'] }}</td>
                                 <td>{{ 'Rp ' . number_format($product['harga'], 0, ',', '.') }}</td>
                                 <td>{{ $product['stok'] }} unit</td>
-                                <td>{{ \Carbon\Carbon::parse( $product['updated_at'] )->format('d M Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($product['updated_at'])->format('d M Y') }}</td>
                                 <td>
                                     <div class="d-flex gap-1">
                                         <!-- <button class="btn btn-sm btn-outline-primary"
-                                            onclick="viewProduct({{ $product['id'] }})" title="Lihat">
-                                            <i class="fas fa-eye"></i>
-                                        </button> -->
+                                                    onclick="viewProduct({{ $product['id'] }})" title="Lihat">
+                                                    <i class="fas fa-eye"></i>
+                                                </button> -->
                                         <button class="btn btn-sm btn-outline-success"
                                             onclick="editProduct({{ $product['id'] }})" title="Edit">
                                             <i class="fas fa-edit"></i>

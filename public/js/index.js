@@ -616,27 +616,117 @@ function deleteProduk(id) {
 document.getElementById('tanggal').valueAsDate = new Date();
 
 function exportTableToPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF('p', 'pt', 'a4');
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF('p', 'pt', 'a4');
 
-    html2canvas(document.getElementById('tableProducts')).then(canvas => {
-        const imgData = canvas.toDataURL('image/png');
-        const imgProps= doc.getImageProperties(imgData);
-        const pdfWidth = doc.internal.pageSize.getWidth();
-        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+  html2canvas(document.getElementById('tableProducts')).then(canvas => {
+    const imgData = canvas.toDataURL('image/png');
+    const imgProps = doc.getImageProperties(imgData);
+    const pdfWidth = doc.internal.pageSize.getWidth();
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-        doc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-        doc.save('laporan-analitik.pdf');
-    });
+    doc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    doc.save('laporan-analitik.pdf');
+  });
 }
 
 function updateFilterMountAnalitik() {
-    const month = document.getElementById('monthFilter').value;
-    const baseUrl = "analitik";  // route dinamically from Laravel
+  const month = document.getElementById('monthFilter').value;
+  const baseUrl = "analitik";  // route dinamically from Laravel
 
-    if (month === "") {
-        window.location.href = baseUrl;  // Tampilkan semua
-    } else {
-        window.location.href = baseUrl + '?month=' + month;
-    }
+  if (month === "") {
+    window.location.href = baseUrl;  // Tampilkan semua
+  } else {
+    window.location.href = baseUrl + '?month=' + month;
+  }
 }
+
+function exportNota() {
+  const table = $('#tableUsers').DataTable({
+    destroy: true,
+    dom: 'Bfrtip',
+    buttons: [
+      {
+        extend: 'pdfHtml5',
+        text: 'Export ke PDF',
+        title: '', // Kosongkan agar tidak double judul
+        orientation: 'portrait',
+        pageSize: 'A4',
+        exportOptions: {
+          columns: ':visible:not(:last-child)'
+        },
+        customize: function (doc) {
+          // Ubah margin halaman
+          doc.pageMargins = [40, 100, 40, 40];
+
+          // Tambahkan header instansi di atas halaman
+          doc.content.unshift({
+            stack: [
+              { text: 'PEMERINTAH KABUPATEN WAKATOBI', style: 'header' },
+              { text: 'KECAMATAN WANGI-WANGI', style: 'subheader' },
+              { text: 'DESA SOMBU', style: 'subheader' },
+              { text: 'Jl. Poros Desa Sombu No. ...  Tlp. (0404) ...... Wangi-Wangi', style: 'small' },
+              { text: ' ', margin: [0, 4] },
+              { text: 'LAPORAN NOTA', style: 'title' },
+              { text: ' ', margin: [0, 8] }
+            ],
+            alignment: 'center'
+          });
+
+          // Atur lebar kolom (opsional jika perlu)
+          doc.content[1].table.widths = ['15%', '45%', '40%'];
+
+          // Tambahkan garis pada semua sel tabel
+          var objLayout = {};
+          objLayout['hLineWidth'] = function () { return 0.5; };
+          objLayout['vLineWidth'] = function () { return 0.5; };
+          objLayout['hLineColor'] = function () { return '#aaa'; };
+          objLayout['vLineColor'] = function () { return '#aaa'; };
+          objLayout['paddingLeft'] = function () { return 8; };
+          objLayout['paddingRight'] = function () { return 8; };
+          doc.content[1].layout = objLayout;
+
+          // Tambahkan style
+          doc.styles = {
+            header: {
+              fontSize: 14,
+              bold: true,
+              alignment: 'center'
+            },
+            subheader: {
+              fontSize: 12,
+              bold: true,
+              alignment: 'center'
+            },
+            small: {
+              fontSize: 10,
+              alignment: 'center'
+            },
+            title: {
+              fontSize: 12,
+              bold: true,
+              alignment: 'center',
+              decoration: 'underline'
+            },
+            tableHeader: {
+              bold: true,
+              fontSize: 11,
+              color: 'black',
+              fillColor: '#f2f2f2',
+              alignment: 'center'
+            }
+          };
+        }
+      }
+    ],
+    ordering: false,
+    paging: false,
+    searching: false,
+    info: false
+  });
+
+  table.button('.buttons-pdf').trigger();
+
+  table.button('.buttons-pdf').hide();
+}
+
