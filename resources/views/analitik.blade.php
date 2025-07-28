@@ -31,8 +31,11 @@
                     </button> -->
                     <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modalRumus">
                         <i class="fas fa-calculator me-1"></i> Lihat Rumus
-                    </button>   
+                    </button>
                 </div>
+                <select id="tahun" class="form-select" style="width: auto;" name="tahun" onclick="updateFilterMountAnalitik()">
+                    <option value="">Semua Tahun</option>
+                </select>
             </div>
         </div>
         <div id="productsContainer">

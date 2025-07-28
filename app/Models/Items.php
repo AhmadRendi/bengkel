@@ -37,11 +37,15 @@ class Items extends Model
     //         ->get();
     // }
 
-    public function getDataPenjuala($bulan = null)
+    public function getDataPenjuala($bulan = null, $year = null)
     {
+
         if ($bulan) {
             $startDate = Carbon::createFromDate(now()->year, $bulan, 1)->startOfMonth();
             $endDate = Carbon::createFromDate(now()->year, $bulan, 1)->endOfMonth();
+        } else if ($year) {
+            $startDate = Carbon::createFromDate($year, now()->month, 1)->startOfYear();
+            $endDate = Carbon::createFromDate($year, now()->month, 31)->endOfYear();
         } else {
             $startDate = Carbon::now()->startOfMonth();
             $endDate = Carbon::now()->endOfMonth();

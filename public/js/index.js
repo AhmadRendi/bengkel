@@ -135,6 +135,17 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
+const tahunSelect = document.getElementById("tahun");
+const tahunSekarang = new Date().getFullYear();
+const tahunAwal = 2000;
+
+for (let tahun = tahunSekarang; tahun >= tahunAwal; tahun--) {
+  const option = document.createElement("option");
+  option.value = tahun;
+  option.textContent = tahun;
+  tahunSelect.appendChild(option);
+}
+
 document.querySelectorAll('.video-play-btn').forEach(btn => {
   btn.addEventListener('click', function () {
     alert('Video akan diputar di sini');
@@ -636,15 +647,56 @@ function exportTableToPDF() {
   });
 }
 
+// function updateFilterYearsAnalitik() {
+//   const year = document.getElementById('tahun').value;
+//   const baseUrl = "analitik";
+
+//   if (year === "") {
+//     window.location.href = baseUrl;
+//   } else {
+//     window.location.href = baseUrl + '?year=' + year;
+//   }
+// }
+
+// function updateFilterMountAnalitik() {
+//   const month = document.getElementById('monthFilter').value;
+//   const year = document.getElementById('tahun').value;
+//   const baseUrl = "analitik";
+
+//   if( month !== "" && year !== "") {
+//     if(year != ""){
+//       window.location.href = baseUrl + '?month=' + month + '&year=' + year;
+//     }else {
+//       window.location.href = baseUrl + '?month=' + month + '&year=' + year;
+//     }
+//   }else {
+//     window.location.href = baseUrl;
+//   }
+//   // if (month === "") {
+//   //   window.location.href = baseUrl;
+//   // } else {
+//   //   window.location.href = baseUrl + '?month=' + month;
+//   // }
+// }
+
 function updateFilterMountAnalitik() {
   const month = document.getElementById('monthFilter').value;
-  const baseUrl = "analitik";  // route dinamically from Laravel
+  const year = document.getElementById('tahun').value;
+  const baseUrl = "analitik";
+  let queryParams = [];
 
-  if (month === "") {
-    window.location.href = baseUrl;  // Tampilkan semua
-  } else {
-    window.location.href = baseUrl + '?month=' + month;
+  if (month !== "") {
+    queryParams.push("month=" + month);
   }
+
+  if (year !== "") {
+    queryParams.push("year=" + year);
+  }
+
+  console.log('Query parameters:', queryParams);
+  const finalUrl = queryParams.length > 0 ? baseUrl + "?" + queryParams.join("&") : baseUrl;
+
+  window.location.href = finalUrl;
 }
 
 function exportNota() {
@@ -733,4 +785,3 @@ function exportNota() {
 
   table.button('.buttons-pdf').trigger();
 }
-
