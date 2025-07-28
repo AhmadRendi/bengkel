@@ -658,46 +658,46 @@ function exportTableToPDF() {
 //   }
 // }
 
-// function updateFilterMountAnalitik() {
-//   const month = document.getElementById('monthFilter').value;
-//   const year = document.getElementById('tahun').value;
-//   const baseUrl = "analitik";
-
-//   if( month !== "" && year !== "") {
-//     if(year != ""){
-//       window.location.href = baseUrl + '?month=' + month + '&year=' + year;
-//     }else {
-//       window.location.href = baseUrl + '?month=' + month + '&year=' + year;
-//     }
-//   }else {
-//     window.location.href = baseUrl;
-//   }
-//   // if (month === "") {
-//   //   window.location.href = baseUrl;
-//   // } else {
-//   //   window.location.href = baseUrl + '?month=' + month;
-//   // }
-// }
-
 function updateFilterMountAnalitik() {
   const month = document.getElementById('monthFilter').value;
-  const year = document.getElementById('tahun').value;
+  // const year = document.getElementById('tahun').value;
   const baseUrl = "analitik";
-  let queryParams = [];
 
-  if (month !== "") {
-    queryParams.push("month=" + month);
+  // if( month !== "" && year !== "") {
+  //   if(year != ""){
+  //     window.location.href = baseUrl + '?month=' + month + '&year=' + year;
+  //   }else {
+  //     window.location.href = baseUrl + '?month=' + month + '&year=' + year;
+  //   }
+  // }else {
+  //   window.location.href = baseUrl;
+  // }
+  if (month === "") {
+    window.location.href = baseUrl;
+  } else {
+    window.location.href = baseUrl + '?month=' + month;
   }
-
-  if (year !== "") {
-    queryParams.push("year=" + year);
-  }
-
-  console.log('Query parameters:', queryParams);
-  const finalUrl = queryParams.length > 0 ? baseUrl + "?" + queryParams.join("&") : baseUrl;
-
-  window.location.href = finalUrl;
 }
+
+  // function updateFilterMountAnalitik() {
+  //   const month = document.getElementById('monthFilter').value;
+  //   const year = document.getElementById('tahun').value;
+  //   const baseUrl = "analitik";
+  //   let queryParams = [];
+
+  //   if (month !== "") {
+  //     queryParams.push("month=" + month);
+  //   }
+
+  //   if (year !== "") {
+  //     queryParams.push("year=" + year);
+  //   }
+
+  //   console.log('Query parameters:', queryParams);
+  //   const finalUrl = queryParams.length > 0 ? baseUrl + "?" + queryParams.join("&") : baseUrl;
+
+  //   window.location.href = finalUrl;
+  // }
 
 function exportNota() {
   const table = $('#tableUsers').DataTable({
