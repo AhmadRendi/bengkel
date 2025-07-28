@@ -36,7 +36,7 @@ class AnalitikController extends Controller
                 ];
             }
         }
-        // dd($prediksiStok); // Debugging line to check the calculated data
+
         return $prediksiStok;
     }
 
@@ -50,10 +50,10 @@ class AnalitikController extends Controller
     //     return $this->kalkulasi($data);
     // }
 
-    public function analitik($bulan = null)
+    public function analitik($bulan = null, $year = null)
     {
         $itemsObject = new Items();
-        $data = $itemsObject->getDataPenjuala($bulan);
+        $data = $itemsObject->getDataPenjuala($bulan, $year);
 
         // dd($data); // Debugging line to check the data  
 

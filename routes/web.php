@@ -92,9 +92,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/analitik', function () {
         $bulan = Request::query('month');
-        // $tahun = Request::query('year');
+        $tahun = Request::query('year');
         $controller = new AnalitikController();
-        $data = $controller->analitik($bulan);
+        $data = $controller->analitik($bulan, $tahun);
         return view('analitik', compact('data'));
     })->name('analitik');
 

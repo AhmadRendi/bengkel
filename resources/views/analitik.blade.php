@@ -33,9 +33,9 @@
                         <i class="fas fa-calculator me-1"></i> Lihat Rumus
                     </button>
                 </div>
-                <!-- <select id="tahun" class="form-select" style="width: auto;" name="tahun" onclick="updateFilterMountAnalitik()">
+                <select id="tahun" class="form-select" style="width: auto;" name="tahun" onclick="updateFilterMountAnalitik()">
                     <option value="">Semua Tahun</option>
-                </select> -->
+                </select>
             </div>
         </div>
         <div id="productsContainer">
