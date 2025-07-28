@@ -33,9 +33,9 @@
                         <i class="fas fa-calculator me-1"></i> Lihat Rumus
                     </button>
                 </div>
-                <select id="tahun" class="form-select" style="width: auto;" name="tahun" onclick="updateFilterMountAnalitik()">
+                <!-- <select id="tahun" class="form-select" style="width: auto;" name="tahun" onclick="updateFilterMountAnalitik()">
                     <option value="">Semua Tahun</option>
-                </select>
+                </select> -->
             </div>
         </div>
         <div id="productsContainer">
@@ -49,6 +49,7 @@
                             <th>Kategori</th>
                             <th>Penjualan Bulan Ini</th>
                             <th>Estimasi Stok Bulan Depan</th>
+                            <th>Estimasi Stok Tahun Depan</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -66,6 +67,7 @@
                                 <td>{{ $item['kategori'] }}</td>
                                 <td>{{ $item['penjualan_bulanan'] }}</td>
                                 <td>{{ $item['estimasi_stok'] }} unit</td>
+                                <td>{{ $item['estimasi_stok_tahunan'] }} unit</td>
                             </tr>
                         @endforeach
                     </tbody>

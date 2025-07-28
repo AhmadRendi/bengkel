@@ -22,11 +22,13 @@ class AnalitikController extends Controller
             if ($produk) {
                 $jumlahHariBerjalan = now()->day;
                 $rataHarian = $item->totalJumlah / $jumlahHariBerjalan;
-                $estimasiStok = ceil($rataHarian * 30);
+                $estimasiStokBulanan = ceil($rataHarian * 30);
+                $estimasiStokTahunan = ceil($rataHarian * 365);
 
                 $prediksiStok[$item->produks_id] = [
                     'penjualan_bulanan' => $item->totalJumlah,
-                    'estimasi_stok' => $estimasiStok,
+                    'estimasi_stok' => $estimasiStokBulanan,
+                    'estimasi_stok_tahunan' => $estimasiStokTahunan,
                     'nama_produk' => $produk->nama,
                     'stok' => $produk->stok,
                     'kategori' => $produk->kategori,
