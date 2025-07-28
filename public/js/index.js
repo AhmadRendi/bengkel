@@ -95,6 +95,46 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
+// Show error modal if there's an error message in the session
+document.addEventListener('DOMContentLoaded', function () {
+  const errorMessage = document.getElementById('hasModalError')?.value;
+
+  console.log('Error message:', errorMessage);
+
+  if (errorMessage) {
+    // const modalBody = document.querySelector('#errorModal .modal-body');
+    // modalBody.textContent = errorMessage;
+
+    // const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+    // errorModal.show();
+
+    Swal.fire(
+      'Kesalahan!',
+      errorMessage,
+      'error'
+    );
+  }
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  const errorMessage = document.getElementById('hasModalSuccess')?.value;
+
+  if (errorMessage) {
+    // const modalBody = document.querySelector('#successModal .modal-body');
+    // modalBody.textContent = errorMessage;
+
+    // const errorModal = new bootstrap.Modal(document.getElementById('successModal'));
+    // errorModal.show();
+
+    console.log('Success message:', errorMessage);
+    Swal.fire(
+      'Berhasil!',
+      errorMessage,
+      'success'
+    );
+  }
+});
+
 document.querySelectorAll('.video-play-btn').forEach(btn => {
   btn.addEventListener('click', function () {
     alert('Video akan diputar di sini');
@@ -212,41 +252,7 @@ document.addEventListener('DOMContentLoaded', function () {
   new DataTable('#tableUsers');
 });
 
-// Show error modal if there's an error message in the session
-document.addEventListener('DOMContentLoaded', function () {
-  const errorMessage = document.getElementById('hasModalError')?.value;
 
-  if (errorMessage) {
-    // const modalBody = document.querySelector('#errorModal .modal-body');
-    // modalBody.textContent = errorMessage;
-
-    // const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
-    // errorModal.show();
-
-    Swal.fire(
-      'Kesalahan!',
-      errorMessage,
-      'error'
-    );
-  }
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-  const errorMessage = document.getElementById('hasModalSuccess')?.value;
-
-  if (errorMessage) {
-    // const modalBody = document.querySelector('#successModal .modal-body');
-    // modalBody.textContent = errorMessage;
-
-    // const errorModal = new bootstrap.Modal(document.getElementById('successModal'));
-    // errorModal.show();
-    Swal.fire(
-      'Berhasil!',
-      errorMessage,
-      'success'
-    );
-  }
-});
 
 // Add Invoice functionality
 // This script handles the addition of products to the invoice form dynamically
@@ -662,12 +668,12 @@ function exportNota() {
           // Tambahkan header instansi di atas halaman
           doc.content.unshift({
             stack: [
-              { text: 'PEMERINTAH KABUPATEN WAKATOBI', style: 'header' },
-              { text: 'KECAMATAN WANGI-WANGI', style: 'subheader' },
-              { text: 'DESA SOMBU', style: 'subheader' },
-              { text: 'Jl. Poros Desa Sombu No. ...  Tlp. (0404) ...... Wangi-Wangi', style: 'small' },
+              { text: 'BENGKEL SINAR MOTOR', style: 'header' },
+              { text: 'KECAMATAN ENREKANG', style: 'subheader' },
+              { text: 'KABUPATEN ENREKANG', style: 'subheader' },
+              { text: 'Jl. KEMAKMURAN No. 24  Tlp. (0404) ...... ENREKANG', style: 'small' },
               { text: ' ', margin: [0, 4] },
-              { text: 'LAPORAN NOTA', style: 'title' },
+              { text: 'LAPORAN NOTA PENJUALAN', style: 'title' },
               { text: ' ', margin: [0, 8] }
             ],
             alignment: 'center'
@@ -726,7 +732,5 @@ function exportNota() {
   });
 
   table.button('.buttons-pdf').trigger();
-
-  table.button('.buttons-pdf').hide();
 }
 

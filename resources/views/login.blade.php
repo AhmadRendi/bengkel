@@ -1,5 +1,4 @@
 @include('layouts.header')
-
 <div class="auth-container">
     <div class="auth-card">
         <!-- Left Panel -->

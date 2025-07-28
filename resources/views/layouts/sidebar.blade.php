@@ -5,7 +5,7 @@
 <!-- Sidebar -->
 <nav class="sidebar" id="sidebar">
     <div class="sidebar-header">
-        <h4><i class="fas fa-tachometer-alt me-2"></i>Admin Panel</h4>
+        <h4><i class="fas fa-tachometer-alt me-2"></i>BENGKEL SINAR MOTOR</h4>
     </div>
     <ul class="sidebar-nav nav flex-column">
         <li class="nav-item">

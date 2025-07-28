@@ -21,14 +21,15 @@ class Authentication extends Controller
     private function findUserByEmail(string $email): ?User
     {
         $user = $this->objectUser->findUserByEmail($email);
-        if(!$user) {
+        if (!$user) {
             throw new \Exception('Email Tidak Ditemukan');
         }
         return $user;
     }
 
-    private function validationPassword(string $plainPassword, $hashedPassword){
-        if(!Hash::check($plainPassword, $hashedPassword)){
+    private function validationPassword(string $plainPassword, $hashedPassword)
+    {
+        if (!Hash::check($plainPassword, $hashedPassword)) {
             throw new \Exception('Passwords Salah');
         }
         return;
@@ -48,10 +49,10 @@ class Authentication extends Controller
             $user = $this->findUserByEmail($request->input('email'));
             $this->validationPassword($creadentials['password'], $user->password);
 
-            if(Auth::attempt($creadentials)) {
+            if (Auth::attempt($creadentials)) {
                 $request->session()->regenerate();
-                return redirect()->route('dashboard')->with(['success' => 'Login Berhasil']);
             }
+            return redirect()->route('dashboard')->with(['success' => 'Login Berhasil']);
 
             // $this->validationPassword($creadentials['password'], $user->password);
             // return redirect()->route('dashboard')->with(['success' => 'Login Berhasil']);

@@ -36,7 +36,7 @@
                     aria-label="Tutup"></button>
             </div>
             <div class="modal-body fw-semibold text-danger text-center">
-                {{ session('modal_error') }}
+                {{ session('success') }}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Tutup</button>
