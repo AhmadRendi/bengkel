@@ -34,12 +34,15 @@ class InvoiceController extends Controller
             $invoice->created_at = $request->tanggal ?? now();
             $invoice->save();
 
-            // // Simpan item terkait dengan invoice
-            foreach ($request->produk_ids as $productId) {
+            // Simpan item terkait dengan invoice
+            for ($i = 0; $i < count($request->produk_ids); $i++) {
+                $productId = $request->produk_ids[$i];
+                $quantity = $request->jumlah[$i];
+
                 $item = new Items();
-                $product->updateStokAfterPurchase($productId, $request->jumlah[$productId]);
+                $product->updateStokAfterPurchase($productId, $quantity);
                 $item->produks_id = $productId;
-                $item->jumlah = $request->jumlah[$productId];
+                $item->jumlah = $quantity;
                 $item->created_at = $request->tanggal ?? now();
                 $item->invoices_id = $invoice->id;
                 $item->save();
@@ -75,6 +78,16 @@ class InvoiceController extends Controller
         }
     }
 
+    public function showInvoiceDetail($id)
+    {
+        try {
+            $invoice = Invoice::with('items.produk')->findOrFail($id);
+            return view('invoiceDetail', compact('invoice'));
+        } catch (\Exception $e) {
+            return redirect()->route('invoices')->with('modal_error', 'Gagal mengambil detail invoice: ' . $e->getMessage());
+        }
+    }
+
 
     public function downloadPdf($id)
     {
@@ -93,6 +106,29 @@ class InvoiceController extends Controller
                 ->download('Invoice-' . $invoice->id . '.pdf');
         } catch (\Exception $e) {
             return redirect()->back()->with('modal_error', 'Gagal generate PDF: ' . $e->getMessage());
+        }
+    }
+
+    public function exportAllInvoicesPdf()
+    {
+        try {
+            $invoices = Invoice::with('items.produk')->get();
+            $pdf = Pdf::loadView('pdfAllInvoices', compact('invoices'));
+            return $pdf->download('semua-invoice.pdf');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('modal_error', 'Gagal generate PDF semua invoice: ' . $e->getMessage());
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $invoice = Invoice::findOrFail($id);
+            $invoice->items()->delete(); // Delete associated items
+            $invoice->delete(); // Delete the invoice
+            return redirect()->route('invoices')->with('success', 'Invoice berhasil dihapus!');
+        } catch (\Exception $e) {
+            return redirect()->route('invoices')->with('modal_error', 'Gagal menghapus invoice: ' . $e->getMessage());
         }
     }
 }

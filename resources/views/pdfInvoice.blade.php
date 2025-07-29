@@ -105,10 +105,10 @@
         <!-- <div class="company-logo">YC</div> -->
         <div class="company-info">
             <h5 style="margin: 0;">BENGKEL SINAR MOTOR</h5>
-            <p>Jl. Contoh No. 123<br>
-            Jakarta, Indonesia 12345<br>
+            <p>Jl. Kemakmuran No. 24<br>
+            Kec. Enrekang Kab. Enrekang<br>
             Phone: +62 21-1234-5678<br>
-            Email: info@yourcompany.com</p>
+            </p>
             <p>Tanggal: {{ $invoice->created_at->format('d-m-Y') }}</p>
         </div>
     </div>

@@ -80,6 +80,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/invoice/{id}/download-pdf', [InvoiceController::class, 'downloadPdf'])->name('invoice.download.pdf');
 
+    Route::get('/invoices/export-pdf-all', [InvoiceController::class, 'exportAllInvoicesPdf'])->name('invoices.export.pdf.all');
+
+    Route::get('/invoices/{id}', [InvoiceController::class, 'showInvoiceDetail'])->name('invoices.show');
+
     Route::get('/find/user/{id}', [UserController::class, 'findUserById'])->name('find.user');
 
     Route::post('/reset-password/{id}', [UserController::class, 'resetPassword'])->name('user.reset.password');
@@ -90,16 +94,13 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/update/product', [ProductController::class, 'update'])->name('update.product');
 
-    Route::get('/analitik', function () {
-        $bulan = Request::query('month');
-        $tahun = Request::query('year');
-        $controller = new AnalitikController();
-        $data = $controller->analitik($bulan, $tahun);
-        return view('analitik', compact('data'));
-    })->name('analitik');
+    Route::get('/analitik', [AnalitikController::class, 'analitik'])->name('analitik');
+    Route::get('/analitik/export-pdf', [AnalitikController::class, 'exportAnalitikPdf'])->name('analitik.export.pdf');
 
     Route::post('delete/user/{id}', [UserController::class, 'deleteUser'])->name('delete.user');
 
     Route::post('delete/product/{id}', [ProductController::class, 'destroy'])->name('delete.product');
+
+    Route::delete('/invoices/{id}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
 
 });

@@ -1999,6 +1999,18 @@ body {
   overflow: hidden;
 }
 
+.products-table th,
+.products-table td {
+  font-size: 0.75rem; /* Smaller font size */
+  padding: 0.5rem; /* Reduced padding */
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+.products-table thead th {
+  vertical-align: middle;
+}
+
+
 .products-table {
   width: 100%;
   margin: 0;

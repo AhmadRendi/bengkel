@@ -15,12 +15,11 @@
                         <div>
                             <div class="company-logo">YC</div>
                             <div class="mt-3">
-                                <h5 class="mb-1">Your Company</h5>
+                                <h5 class="mb-1">BENGKEL SINAR MOTOR</h5>
                                 <p class="text-muted mb-0">
-                                    Jl. Contoh No. 123<br>
-                                    Jakarta, Indonesia 12345<br>
+                                    Jl. Kemakmuran No. 24<br>
+                                    Kec. Enrekang Kab. Enrekang<br>
                                     Phone: +62 21-1234-5678<br>
-                                    Email: info@yourcompany.com
                                 </p>
                             </div>
                         </div>
@@ -36,7 +35,7 @@
                                 autocomplete="off">
                             <div id="customerDropdown" class="customer-dropdown"></div>
                             <h6 class="mt-3">Tanggal</h6>
-                            <input type="date" name="tanggal" id="tanggal" class="form-control mt-2" placeholder="Tanggal Invoice">
+                            <input type="date" name="created_at" id="tanggal" class="form-control mt-2" placeholder="Tanggal Invoice">
                         </div>
                         <!-- Invoice Items -->
                         <div class="invoice-items mt-3">
@@ -51,6 +50,10 @@
                                         </option>
                                     @endforeach
                                 </select>
+                                <div class="input-group mt-2">
+                                    <input type="number" id="jumlahInput" class="form-control" value="1" min="1">
+                                    <button type="button" id="addItemButton" class="btn btn-primary">Tambah</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -110,18 +113,8 @@
 
                 <!-- Invoice Actions -->
                 <div class="invoice-actions">
-                    <!-- <button type="button" class="btn-invoice btn-cancel" onclick="cancelInvoice()">
-                    <i class="fas fa-times"></i>
-                    Batal
-                </button> -->
-                    <!-- <button type="button" class="btn-invoice btn-save" onclick="saveInvoice()">
-                    <i class="fas fa-save"></i>
-                    Simpan Draft
-                </button> -->
-                    <!-- <button type="button" class="btn-invoice btn-preview" onclick="previewInvoice()">
-                    <i class="fas fa-eye"></i>
-                    Preview
-                </button> -->
+                    <input type="hidden" name="produk_ids" id="hiddenProdukIds">
+                    <input type="hidden" name="jumlah" id="hiddenJumlah">
                     <button type="submit" class="btn-invoice btn-send">
                         <i class="fas fa-paper-plane"></i>
                         Simpan
@@ -133,3 +126,182 @@
 </main>
 
 @include('layouts.footer')
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const produkSelect = document.getElementById('produkSelect');
+        const jumlahInput = document.getElementById('jumlahInput');
+        const addItemButton = document.getElementById('addItemButton');
+        const selectedItemsTableBody = document.getElementById('selectedItems');
+        const summarySubtotal = document.getElementById('summarySubtotal');
+        const summaryTax = document.getElementById('summaryTax');
+        const summaryTotal = document.getElementById('summaryTotal');
+        const namaPelangganInput = document.getElementById('namaPelanggan');
+        const customerDropdown = document.getElementById('customerDropdown');
+        const tanggalInput = document.getElementById('tanggal');
+
+        let invoiceItems = [];
+
+        // Set current date for tanggal input
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0'); // Months start at 0!
+        const dd = String(today.getDate()).padStart(2, '0');
+        tanggalInput.value = `${yyyy}-${mm}-${dd}`;
+
+        // Fetch customers for autocomplete
+        namaPelangganInput.addEventListener('input', function() {
+            const query = this.value;
+            if (query.length > 2) {
+                fetch(`/api/customers?query=${query}`)
+                    .then(response => response.json())
+                    .then(customers => {
+                        customerDropdown.innerHTML = '';
+                        if (customers.length > 0) {
+                            customerDropdown.style.display = 'block';
+                            customers.forEach(customer => {
+                                const div = document.createElement('div');
+                                div.classList.add('customer-dropdown-item');
+                                div.textContent = customer.nama;
+                                div.addEventListener('click', function() {
+                                    namaPelangganInput.value = customer.nama;
+                                    customerDropdown.style.display = 'none';
+                                });
+                                customerDropdown.appendChild(div);
+                            });
+                        } else {
+                            customerDropdown.style.display = 'none';
+                        }
+                    });
+            } else {
+                customerDropdown.style.display = 'none';
+            }
+        });
+
+        addItemButton.addEventListener('click', function() {
+            const selectedOption = produkSelect.options[produkSelect.selectedIndex];
+            if (!selectedOption.value) {
+                alert('Pilih produk terlebih dahulu!');
+                return;
+            }
+
+            const productId = selectedOption.value;
+            const productName = selectedOption.dataset.nama;
+            const productPrice = parseFloat(selectedOption.dataset.harga);
+            const quantity = parseInt(jumlahInput.value);
+
+            if (isNaN(quantity) || quantity <= 0) {
+                alert('Jumlah harus angka positif!');
+                return;
+            }
+
+            const existingItemIndex = invoiceItems.findIndex(item => item.id === productId);
+
+            if (existingItemIndex > -1) {
+                // Update quantity if item already exists
+                invoiceItems[existingItemIndex].quantity += quantity;
+                invoiceItems[existingItemIndex].total = invoiceItems[existingItemIndex].quantity * invoiceItems[existingItemIndex].price;
+            } else {
+                // Add new item
+                invoiceItems.push({
+                    id: productId,
+                    nama: productName,
+                    price: productPrice,
+                    quantity: quantity,
+                    total: productPrice * quantity
+                });
+            }
+
+            renderInvoiceItems();
+            updateGrandTotal();
+
+            // Reset form for next item selection
+            produkSelect.value = ""; // Reset selected product to default
+            jumlahInput.value = "1"; // Reset quantity to 1
+        });
+
+        function renderInvoiceItems() {
+            selectedItemsTableBody.innerHTML = '';
+            invoiceItems.forEach((item, index) => {
+                const row = selectedItemsTableBody.insertRow();
+                row.innerHTML = `
+                    <td>${item.nama}</td>
+                    <td>Rp ${item.price.toLocaleString('id-ID')}</td>
+                    <td>
+                        <input type="number" class="form-control item-quantity" value="${item.quantity}" min="1" data-index="${index}">
+                        <input type="hidden" name="items[${index}][id]" value="${item.id}">
+                        <input type="hidden" name="items[${index}][quantity]" value="${item.quantity}">
+                        <input type="hidden" name="items[${index}][price]" value="${item.price}">
+                    </td>
+                    <td>Rp ${item.total.toLocaleString('id-ID')}</td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm remove-item" data-index="${index}">Hapus</button>
+                    </td>
+                `;
+            });
+
+            // Add event listeners for quantity change and remove buttons
+            document.querySelectorAll('.item-quantity').forEach(input => {
+                input.addEventListener('change', function() {
+                    const index = this.dataset.index;
+                    const newQuantity = parseInt(this.value);
+                    if (!isNaN(newQuantity) && newQuantity > 0) {
+                        invoiceItems[index].quantity = newQuantity;
+                        invoiceItems[index].total = invoiceItems[index].quantity * invoiceItems[index].price;
+                        renderInvoiceItems(); // Re-render to update totals
+                        updateGrandTotal();
+                    } else {
+                        this.value = invoiceItems[index].quantity; // Revert to old quantity if invalid
+                    }
+                });
+            });
+
+            document.querySelectorAll('.remove-item').forEach(button => {
+                button.addEventListener('click', function() {
+                    const index = this.dataset.index;
+                    invoiceItems.splice(index, 1);
+                    renderInvoiceItems();
+                    updateGrandTotal();
+                });
+            });
+        }
+
+        function updateGrandTotal() {
+            let subtotal = invoiceItems.reduce((sum, item) => sum + item.total, 0);
+            let tax = subtotal * 0.10; // 10% tax
+            let grandTotal = subtotal + tax;
+
+            summarySubtotal.textContent = `Rp ${subtotal.toLocaleString('id-ID')}`;
+            summaryTax.textContent = `Rp ${tax.toLocaleString('id-ID')}`;
+            summaryTotal.textContent = `Rp ${grandTotal.toLocaleString('id-ID')}`;
+        }
+
+        // Handle form submission to include invoice items
+        const invoiceForm = document.querySelector('form');
+        invoiceForm.addEventListener('submit', function(event) {
+            if (!namaPelangganInput.value.trim()) {
+                alert('Nama pelanggan wajib diisi!');
+                event.preventDefault(); // Prevent form submission
+                return;
+            }
+
+            // Clear previous hidden inputs for produk_ids and jumlah
+            document.querySelectorAll('input[name="produk_ids[]"]').forEach(input => input.remove());
+            document.querySelectorAll('input[name="jumlah[]"]').forEach(input => input.remove());
+
+            invoiceItems.forEach(item => {
+                const produkIdInput = document.createElement('input');
+                produkIdInput.type = 'hidden';
+                produkIdInput.name = 'produk_ids[]';
+                produkIdInput.value = item.id;
+                invoiceForm.appendChild(produkIdInput);
+
+                const jumlahItemInput = document.createElement('input');
+                jumlahItemInput.type = 'hidden';
+                jumlahItemInput.name = 'jumlah[]';
+                jumlahItemInput.value = item.quantity;
+                invoiceForm.appendChild(jumlahItemInput);
+            });
+        });
+    });
+</script>

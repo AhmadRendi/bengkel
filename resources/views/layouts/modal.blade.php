@@ -59,10 +59,10 @@
                             <div class="mt-3">
                                 <h5 class="mb-1">BENGKEL SINAR MOTOR</h5>
                                 <p class="text-muted mb-0">
-                                    Jl. Contoh No. 123<br>
-                                    Jakarta, Indonesia 12345<br>
+                                    Jl. Kemakmuran No.24<br>
+                                    Kec. Enrekang, Kab. Enrekang<br>
                                     Phone: +62 21-1234-5678<br>
-                                    Email: info@yourcompany.com
+                                    
                                 </p>
                             </div>
                         </div>
