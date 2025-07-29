@@ -32,6 +32,7 @@
                                         <option value="">Pilih Kategori</option>
                                         <option value="OLI">OLI</option>
                                         <option value="BAN">BAN</option>
+                                        <option value="SPAREPART">SPAREPART</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4 mb-3">
