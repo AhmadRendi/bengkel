@@ -47,6 +47,7 @@ class UserController extends Controller
         $user->id= $request->input('id');
         $user->name = $request->input('name');
         $user->email = $request->input('email');
+        $user->role = $request->input('role');
         $user->save();
 
         return redirect()->route('users')->with('success', 'User updated successfully.');

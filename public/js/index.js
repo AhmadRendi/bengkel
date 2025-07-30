@@ -447,7 +447,7 @@ function editUser(id) {
       document.getElementById('editUserId').value = response.id;
       document.getElementById('editUserName').value = response.name;
       document.getElementById('editUserEmail').value = response.email;
-      // document.getElementById('editUserRole').value = response.role;
+      document.getElementById('editUserRole').value = response.role;
 
       // Show modal
       const modal = new bootstrap.Modal(document.getElementById('editUserModal'));

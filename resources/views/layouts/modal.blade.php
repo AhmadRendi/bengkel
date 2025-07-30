@@ -161,14 +161,14 @@
                     <label for="editUserName" class="form-label">Nama Pengguna</label>
                     <input type="text" name="name" id="editUserName" class="form-control mb-3"
                         placeholder="Nama Pengguna">
-                    <label for="email" class="form-label">Email</label>
+                    <label for="editUserEmail" class="form-label">Email</label>
                     <input type="email" name="email" id="editUserEmail" class="form-control mb-3"
                         placeholder="Email Pengguna">
-                    <!-- <label for="role" class="form-label"> Role</label> -->
-                    <!-- <select name="role" id="editUserRole" class="form-control mb-3">
+                    <label for="editUserRole" class="form-label">Role</label>
+                    <select name="role" id="editUserRole" class="form-control mb-3">
                         <option value="admin">Admin</option>
-                        <option value="user">User</option>
-                    </select> -->
+                        <option value="karyawan">Karyawan</option>
+                    </select>
                     <div class="mb-3">
                         <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
