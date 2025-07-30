@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invoice; // Import model Invoice
 use App\Models\Items;
 use App\Models\Produk;
 use Illuminate\Http\Request;
@@ -53,9 +54,10 @@ class AnalitikController extends Controller
 
             for ($month = 1; $month <= 12; $month++) {
                 $salesDataForProduct = Items::select(DB::raw('SUM(jumlah) as totalJumlah'))
-                    ->where('produks_id', $product->id)
-                    ->whereYear('created_at', $year)
-                    ->whereMonth('created_at', $month)
+                    ->join('invoices', 'items.invoices_id', '=', 'invoices.id')
+                    ->where('items.produks_id', $product->id)
+                    ->whereYear('invoices.tanggal', $year)
+                    ->whereMonth('invoices.tanggal', $month)
                     ->first();
 
                 $totalJumlah = $salesDataForProduct->totalJumlah ?? 0;
@@ -94,9 +96,10 @@ class AnalitikController extends Controller
 
             for ($month = 1; $month <= 12; $month++) {
                 $salesDataForProduct = Items::select(DB::raw('SUM(jumlah) as totalJumlah'))
-                    ->where('produks_id', $product->id)
-                    ->whereYear('created_at', $year)
-                    ->whereMonth('created_at', $month)
+                    ->join('invoices', 'items.invoices_id', '=', 'invoices.id')
+                    ->where('items.produks_id', $product->id)
+                    ->whereYear('invoices.tanggal', $year)
+                    ->whereMonth('invoices.tanggal', $month)
                     ->first();
 
                 $totalJumlah = $salesDataForProduct->totalJumlah ?? 0;

@@ -35,7 +35,7 @@
                                 autocomplete="off">
                             <div id="customerDropdown" class="customer-dropdown"></div>
                             <h6 class="mt-3">Tanggal</h6>
-                            <input type="date" name="created_at" id="tanggal" class="form-control mt-2" placeholder="Tanggal Invoice">
+                            <input type="date" name="tanggal" id="tanggal" class="form-control mt-2" placeholder="Tanggal Invoice">
                         </div>
                         <!-- Invoice Items -->
                         <div class="invoice-items mt-3">
