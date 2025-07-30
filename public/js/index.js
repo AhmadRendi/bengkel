@@ -540,12 +540,12 @@ function deleteUser(id) {
   console.log('Deleting user with ID:', id);
   Swal.fire({
     title: 'Hapus Pengguna?',
-    text: "Apakah Anda yakin ingin Menghapus pengguna ini?",
+    text: "Apakah Anda yakin ingin menghapus pengguna ini?",
     icon: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
-    confirmButtonText: 'Ya, reset!',
+    confirmButtonText: 'Ya, hapus!',
     cancelButtonText: 'Batal'
   }).then((result) => {
     if (result.isConfirmed) {
@@ -567,7 +567,7 @@ function deleteUser(id) {
           } else {
             Swal.fire(
               'Gagal!',
-              response.message || 'Gagal mereset password.',
+              response.message || 'Gagal menghapus pengguna.',
               'error'
             );
           }
@@ -584,15 +584,15 @@ function deleteUser(id) {
 }
 
 function deleteProduk(id) {
-  console.log('Deleting user with ID:', id);
+  console.log('Deleting product with ID:', id);
   Swal.fire({
     title: 'Hapus Produk?',
-    text: "Apakah Anda yakin ingin Menghapus pengguna ini?",
+    text: "Apakah Anda yakin ingin menghapus produk ini?",
     icon: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
-    confirmButtonText: 'Ya, reset!',
+    confirmButtonText: 'Ya, hapus!',
     cancelButtonText: 'Batal'
   }).then((result) => {
     if (result.isConfirmed) {
@@ -614,7 +614,7 @@ function deleteProduk(id) {
           } else {
             Swal.fire(
               'Gagal!',
-              response.message || 'Gagal mereset password.',
+              response.message || 'Gagal menghapus produk.',
               'error'
             );
           }

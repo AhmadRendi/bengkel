@@ -49,33 +49,53 @@ class AnalitikController extends Controller
                 'kategori' => $product->kategori,
                 'harga' => $product->harga,
                 'monthly_sales' => [],
-                'estimasi_stok_tahunan_total' => 0, // Will be calculated later
+                'estimasi_stok_tahunan_total' => 0,
             ];
 
-            $totalYearlySales = 0;
+            $actualSales = [];
+            $currentMonth = Carbon::now()->month;
+            $currentYear = Carbon::now()->year;
 
             for ($month = 1; $month <= 12; $month++) {
-                $salesDataForProduct = Items::select(DB::raw('SUM(jumlah) as totalJumlah'))
-                    ->join('invoices', 'items.invoices_id', '=', 'invoices.id')
-                    ->where('items.produks_id', $product->id)
-                    ->whereYear('invoices.tanggal', $year)
-                    ->whereMonth('invoices.tanggal', $month)
-                    ->first();
+                $totalJumlah = 0;
+                $estimasiStok = 0;
 
-                $totalJumlah = $salesDataForProduct->totalJumlah ?? 0;
-                $totalYearlySales += $totalJumlah;
+                if ($year < $currentYear || ($year == $currentYear && $month <= $currentMonth)) {
+                    // Use actual sales for past and current months
+                    $salesDataForProduct = Items::select(DB::raw('SUM(jumlah) as totalJumlah'))
+                        ->join('invoices', 'items.invoices_id', '=', 'invoices.id')
+                        ->where('items.produks_id', $product->id)
+                        ->whereYear('invoices.tanggal', $year)
+                        ->whereMonth('invoices.tanggal', $month)
+                        ->first();
 
-                $calculatedData = $this->kalkulasi($totalJumlah, $product, $month, $year);
+                    $totalJumlah = $salesDataForProduct->totalJumlah ?? 0;
+                    $actualSales[$month] = $totalJumlah; // Store actual sales for prediction
+                    $estimasiStok = $this->kalkulasi($totalJumlah, $product, $month, $year)['estimasi_stok'];
+                } else {
+                    // Predict for future months based on average of past actual sales in the current year
+                    $averageMonthlySales = 0;
+                    $monthsWithSales = 0;
+                    foreach ($actualSales as $pastMonthSales) {
+                        if ($pastMonthSales > 0) {
+                            $averageMonthlySales += $pastMonthSales;
+                            $monthsWithSales++;
+                        }
+                    }
+
+                    if ($monthsWithSales > 0) {
+                        $averageMonthlySales = $averageMonthlySales / $monthsWithSales;
+                    }
+
+                    $estimasiStok = ceil($averageMonthlySales); // Simple prediction: average of past sales
+                }
 
                 $productMonthlyData['monthly_sales'][$month] = [
-                    'penjualan_bulanan' => $calculatedData['penjualan_bulanan'],
-                    'estimasi_stok' => $calculatedData['estimasi_stok'],
+                    'penjualan_bulanan' => $totalJumlah, // Actual sales for past/current, 0 for future
+                    'estimasi_stok' => $estimasiStok,
                 ];
+                $productMonthlyData['estimasi_stok_tahunan_total'] += $estimasiStok;
             }
-
-            $rataRataPenjualanTahunan = $totalYearlySales / 12;
-            $productMonthlyData['estimasi_stok_tahunan_total'] = ceil($rataRataPenjualanTahunan * 12);
-
             $productsData[] = $productMonthlyData;
         }
 
@@ -99,23 +119,49 @@ class AnalitikController extends Controller
                 'estimasi_stok_tahunan_total' => 0,
             ];
 
+            $actualSales = [];
+            $currentMonth = Carbon::now()->month;
+            $currentYear = Carbon::now()->year;
+
             for ($month = 1; $month <= 12; $month++) {
-                $salesDataForProduct = Items::select(DB::raw('SUM(jumlah) as totalJumlah'))
-                    ->join('invoices', 'items.invoices_id', '=', 'invoices.id')
-                    ->where('items.produks_id', $product->id)
-                    ->whereYear('invoices.tanggal', $year)
-                    ->whereMonth('invoices.tanggal', $month)
-                    ->first();
+                $totalJumlah = 0;
+                $estimasiStok = 0;
 
-                $totalJumlah = $salesDataForProduct->totalJumlah ?? 0;
+                if ($year < $currentYear || ($year == $currentYear && $month <= $currentMonth)) {
+                    // Use actual sales for past and current months
+                    $salesDataForProduct = Items::select(DB::raw('SUM(jumlah) as totalJumlah'))
+                        ->join('invoices', 'items.invoices_id', '=', 'invoices.id')
+                        ->where('items.produks_id', $product->id)
+                        ->whereYear('invoices.tanggal', $year)
+                        ->whereMonth('invoices.tanggal', $month)
+                        ->first();
 
-                $calculatedData = $this->kalkulasi($totalJumlah, $product, $month, $year);
+                    $totalJumlah = $salesDataForProduct->totalJumlah ?? 0;
+                    $actualSales[$month] = $totalJumlah; // Store actual sales for prediction
+                    $estimasiStok = $this->kalkulasi($totalJumlah, $product, $month, $year)['estimasi_stok'];
+                } else {
+                    // Predict for future months based on average of past actual sales in the current year
+                    $averageMonthlySales = 0;
+                    $monthsWithSales = 0;
+                    foreach ($actualSales as $pastMonthSales) {
+                        if ($pastMonthSales > 0) {
+                            $averageMonthlySales += $pastMonthSales;
+                            $monthsWithSales++;
+                        }
+                    }
+
+                    if ($monthsWithSales > 0) {
+                        $averageMonthlySales = $averageMonthlySales / $monthsWithSales;
+                    }
+
+                    $estimasiStok = ceil($averageMonthlySales); // Simple prediction: average of past sales
+                }
 
                 $productMonthlyData['monthly_sales'][$month] = [
-                    'penjualan_bulanan' => $calculatedData['penjualan_bulanan'],
-                    'estimasi_stok' => $calculatedData['estimasi_stok'],
+                    'penjualan_bulanan' => $totalJumlah, // Actual sales for past/current, 0 for future
+                    'estimasi_stok' => $estimasiStok,
                 ];
-                $productMonthlyData['estimasi_stok_tahunan_total'] += $calculatedData['estimasi_stok_tahunan'];
+                $productMonthlyData['estimasi_stok_tahunan_total'] += $estimasiStok;
             }
             $productsData[] = $productMonthlyData;
         }

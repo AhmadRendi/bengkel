@@ -43,7 +43,7 @@
                                         <form action="{{ route('invoices.destroy', $invoice->id) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this invoice?');">
+                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus invoice ini?');">
                                                 <i class="fas fa-trash"></i> Hapus
                                             </button>
                                         </form>

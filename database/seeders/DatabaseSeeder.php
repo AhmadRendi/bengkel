@@ -55,5 +55,7 @@ class DatabaseSeeder extends Seeder
         foreach ($products as $productData) {
             Produk::create($productData);
         }
+
+        $this->call(InvoiceSeeder::class);
     }
 }
