@@ -62,7 +62,7 @@
                                     Jl. Kemakmuran No.24<br>
                                     Kec. Enrekang, Kab. Enrekang<br>
                                     Phone: +62 21-1234-5678<br>
-                                    
+
                                 </p>
                             </div>
                         </div>
@@ -218,11 +218,9 @@
                                         <label class="form-label">Kategori</label>
                                         <select name="kategori" id="editKategoriProduk" class="form-control" required>
                                             <option value="">Pilih Kategori</option>
-                                            <option value="Electronics">Electronics</option>
-                                            <option value="Fashion">Fashion</option>
-                                            <option value="Home">Home & Living</option>
-                                            <option value="Sports">Sports</option>
-                                            <option value="Books">Books</option>
+                                            <option value="OLI">OLI</option>
+                                            <option value="BAN">BAN</option>
+                                            <option value="SPAREPART">SPAREPART</option>
                                         </select>
                                     </div>
                                     <div class="col-md-4 mb-3">

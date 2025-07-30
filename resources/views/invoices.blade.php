@@ -30,7 +30,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $invoice['namaPelanggan'] }}</td>
-                                <td>{{ \Carbon\Carbon::parse($invoice['created_at'])->format('d M Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($invoice['tanggal'])->format('d M Y') }}</td>
                                 <td>
                                     <div class="invoice-card-actions">
                                         <a href="{{ route('invoices.show', $invoice['id']) }}" class="btn btn-sm btn-primary">

@@ -29,7 +29,7 @@ class ProductController extends Controller
                 'stok' => 'required|integer|min:0',
             ]);
             $product = Produk::create($validatedData);
-            return redirect()->route('add-product')->with('success', 'Product saved successfully');
+            return redirect()->route('dashboard')->with('success', 'Product saved successfully');
         } catch (\Exception $e) {
             return redirect()->route('add-product')->with('modal_error', $e->getMessage());
         }

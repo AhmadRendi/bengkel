@@ -18,7 +18,7 @@
                         </div>
                         <div class="col-md-6 text-md-end">
                             <h6>Detail Invoice:</h6>
-                            <p><strong>Tanggal Invoice:</strong> {{ \Carbon\Carbon::parse($invoice->created_at)->format('d M Y') }}</p>
+                            <p><strong>Tanggal Invoice:</strong> {{ \Carbon\Carbon::parse($invoice->tanggal)->format('d M Y') }}</p>
                             <p><strong>Catatan:</strong> {{ $invoice->catatan ?? 'Tidak Ada' }}</p>
                         </div>
                     </div>
