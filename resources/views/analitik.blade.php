@@ -20,7 +20,7 @@
                     <a href="{{ route('analitik.export.pdf', ['year' => $selectedYear]) }}" class="btn btn-outline-success btn-sm" target="_blank">
                         <i class="fas fa-download me-1"></i>Export
                     </a>
-                    <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modalRumus">
+                    <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modalRumus">
                         <i class="fas fa-calculator me-1"></i> Lihat Rumus
                     </button>
                 </form>

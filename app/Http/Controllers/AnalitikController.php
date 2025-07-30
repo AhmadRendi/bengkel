@@ -52,6 +52,8 @@ class AnalitikController extends Controller
                 'estimasi_stok_tahunan_total' => 0, // Will be calculated later
             ];
 
+            $totalYearlySales = 0;
+
             for ($month = 1; $month <= 12; $month++) {
                 $salesDataForProduct = Items::select(DB::raw('SUM(jumlah) as totalJumlah'))
                     ->join('invoices', 'items.invoices_id', '=', 'invoices.id')
@@ -61,6 +63,7 @@ class AnalitikController extends Controller
                     ->first();
 
                 $totalJumlah = $salesDataForProduct->totalJumlah ?? 0;
+                $totalYearlySales += $totalJumlah;
 
                 $calculatedData = $this->kalkulasi($totalJumlah, $product, $month, $year);
 
@@ -68,9 +71,11 @@ class AnalitikController extends Controller
                     'penjualan_bulanan' => $calculatedData['penjualan_bulanan'],
                     'estimasi_stok' => $calculatedData['estimasi_stok'],
                 ];
-                // Sum up yearly estimated stock for each product
-                $productMonthlyData['estimasi_stok_tahunan_total'] += $calculatedData['estimasi_stok_tahunan'];
             }
+
+            $rataRataPenjualanTahunan = $totalYearlySales / 12;
+            $productMonthlyData['estimasi_stok_tahunan_total'] = ceil($rataRataPenjualanTahunan * 12);
+
             $productsData[] = $productMonthlyData;
         }
 

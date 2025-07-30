@@ -71,7 +71,7 @@ class ProductController extends Controller
     {
         try {
             $product = Produk::find($id);
-            $product->hapusProduk($id);
+            $product->delete();
             return response()->json(['message' => 'Success'], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Failed to delete user'], 500);
