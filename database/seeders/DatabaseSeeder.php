@@ -14,23 +14,26 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // User Seeder (using firstOrCreate to prevent duplicates)
+        User::firstOrCreate(
+            ['email' => 'admin@gmail.com'],
+            [
+                'name' => 'admin',
+                'password' => Hash::make('admin#123'),
+                'role' => 'admin',
+            ]
+        );
 
-        User::create([
-            'name' => 'admin',
-            'email' => 'admin@gmail.com',
-            'password' => Hash::make('admin#123'),
-            'role' => 'admin',
-        ]);
+        User::firstOrCreate(
+            ['email' => 'rahmat@gmail.com'],
+            [
+                'name' => 'rahmat',
+                'password' => Hash::make('rahmat'),
+                'role' => 'karyawan',
+            ]
+        );
 
-        User::create([
-            'name' => 'rahmat',
-            'email' => 'rahmat@gmail.com',
-            'password' => Hash::make('rahmat'),
-            'role' => 'karyawan',
-        ]);
-
-        // Produk Seeder
+        // Produk Seeder (using firstOrCreate to prevent duplicates)
         $products = [
             // OLI
             ['nama' => 'Yamalube Matic', 'sku' => 'YMLBMTC', 'deskripsi' => 'Oli mesin matic Yamalube', 'kategori' => 'OLI', 'harga' => 45000, 'stok' => 500],
@@ -53,9 +56,9 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($products as $productData) {
-            Produk::create($productData);
+            Produk::firstOrCreate(['nama' => $productData['nama']], $productData);
         }
 
-        $this->call(InvoiceSeeder::class);
+        $this->call(DummyTransactionSeeder::class);
     }
 }

@@ -2,166 +2,222 @@
 @include('layouts.sidebar')
 
 <main class="main-content" id="mainContent">
-    @include('layouts.navbar', ['page' => 'Analitik'])
+    @include('layouts.navbar', ['page' => 'Analitik Prediksi Stok (WMA)'])
+
     <div class="container-fluid px-4">
-        <!-- Filter Controls -->
-        <div class="products-header">
-            <div class="filter-controls">
+        {{-- Card untuk Tabel Penjualan Aktual --}}
+        <div class="card shadow-sm mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Data Penjualan Aktual per Produk (Tahun {{ $selectedYear }})</h5>
                 <form action="{{ route('analitik') }}" method="GET" class="d-flex gap-2 align-items-center">
                     <label for="yearFilter" class="form-label mb-0">Pilih Tahun:</label>
-                    <select class="form-select" id="yearFilter" name="year" style="width: auto;" onchange="this.form.submit()">
+                    <select class="form-select form-select-sm" id="yearFilter" name="year" onchange="this.form.submit()">
                         @php
-                            $currentYear = date('Y');
-                            for ($i = $currentYear; $i >= $currentYear - 5; $i--) {
-                                echo '<option value="' . $i . '" ' . ($selectedYear == $i ? 'selected' : '') . '>' . $i . '</option>';
+                        $currentYear = Carbon\Carbon::now()->year;
+                        for ($y = $currentYear; $y >= $currentYear - 5; $y--) {
+                        echo '<option value="' . $y . '" ' . ($selectedYear == $y ? ' selected' : '' ) . '>' . $y . '</option>' ;
                             }
-                        @endphp
-                    </select>
-                    <a href="{{ route('analitik.export.pdf', ['year' => $selectedYear]) }}" class="btn btn-outline-success btn-sm" target="_blank">
-                        <i class="fas fa-download me-1"></i>Export
-                    </a>
-                    <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modalRumus">
-                        <i class="fas fa-calculator me-1"></i> Lihat Rumus
-                    </button>
+                            @endphp
+                            </select>
+                            @foreach ($input as $key => $value)
+                            @if ($key !== 'year')
+                            <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                            @endif
+                            @endforeach
+                </form>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered table-striped">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Produk</th>
+                                @for ($month = 1; $month <= 12; $month++)
+                                    <th>{{ Carbon\Carbon::create()->month($month)->translatedFormat('M') }}</th>
+                                    @endfor
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($allProductsSalesData as $productSales)
+                            <tr>
+                                <td>{{ $productSales['nama'] }}</td>
+                                @for ($month = 1; $month <= 12; $month++)
+                                    <td>{{ $productSales['monthly_sales'][$month] }}</td>
+                                    @endfor
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="13" class="text-center">Tidak ada data penjualan aktual untuk tahun ini.</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        {{-- Card untuk Kontrol Form --}}
+        <div class="card shadow-sm mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Kontrol Prediksi</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ route('analitik') }}" method="GET" class="row g-3 align-items-end">
+                    <div class="col-md-5">
+                        <label for="product_id" class="form-label">Pilih Produk untuk Dianalisis:</label>
+                        <select name="product_id" id="product_id" class="form-select" required>
+                            <option value="" disabled {{ !isset($input['product_id']) ? 'selected' : '' }}>-- Pilih Produk --</option>
+                            @foreach ($allProducts as $product)
+                            <option value="{{ $product->id }}" {{ (isset($input['product_id']) && $input['product_id'] == $product->id) ? 'selected' : '' }}>
+                                {{ $product->nama }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="periods" class="form-label">Gunakan Data (Bulan Terakhir):</label>
+                        <input type="number" name="periods" id="periods" class="form-control" value="{{ $input['periods'] ?? 3 }}" min="2" max="12">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100">Buat Prediksi</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-info w-100" data-bs-toggle="modal" data-bs-target="#wmaFormulaModal">
+                            Lihat Rumus
+                        </button>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="{{ route('analitik') }}" class="btn btn-secondary w-100">Reset</a>
+                    </div>
                 </form>
             </div>
         </div>
 
-        <div class="products-table-container" style="overflow-x: auto; margin-bottom: 2rem;">
-            <h5 class="mb-3">Tabel Penjualan Bulanan</h5>
-            <table class="table products-table" id="salesTable">
-                <thead>
-                    <tr>
-                        <th>Produk</th>
-                        <th>Stok Saat Ini</th>
-                        <th>Harga</th>
-                        <th>Kategori</th>
-                        @for ($month = 1; $month <= 12; $month++)
-                            <th>{{ Carbon\Carbon::create()->month($month)->translatedFormat('F') }}</th>
-                        @endfor
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($productsData as $product)
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div>
-                                        <div class="fw-semibold">{{ $product['nama_produk'] }}</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>{{ $product['stok'] }}</td>
-                            <td>Rp {{ number_format($product['harga'], 0, ',', '.') }}</td>
-                            <td>{{ $product['kategori'] }}</td>
-                            @for ($month = 1; $month <= 12; $month++)
-                                <td>{{ $product['monthly_sales'][$month]['penjualan_bulanan'] }}</td>
-                            @endfor
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="{{ 4 + 12 }}" class="text-center">Tidak ada data penjualan untuk ditampilkan.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+        {{-- Container untuk Hasil Analisis --}}
+        @if ($selectedProduct)
+        <div class="card shadow-sm" id="predictionResultsCard">
+            <div class="card-header">
+                <h5 class="mb-0">Hasil Analisis untuk: <span class="text-primary">{{ $selectedProduct->nama }}</span></h5>
+            </div>
+            <div class="card-body">
+                @if ($predictionData)
+                <div class="row">
+                    {{-- Kolom Kiri: Data dan Hasil --}}
+                    <div class="col-lg-6">
+                        <h6 class="text-muted">Informasi Produk</h6>
+                        <ul class="list-group mb-4">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Stok Saat Ini
+                                <span class="badge bg-info rounded-pill fs-6">{{ $selectedProduct->stok }} unit</span>
+                            </li>
+                        </ul>
 
-        <div class="products-table-container" style="overflow-x: auto;">
-            <h5 class="mb-3">Tabel Prediksi Stok Bulanan</h5>
-            <table class="table products-table" id="predictionTable">
-                <thead>
-                    <tr>
-                        <th>Produk</th>
-                        <th>Stok Saat Ini</th>
-                        <th>Harga</th>
-                        <th>Kategori</th>
-                        @for ($month = 1; $month <= 12; $month++)
-                            <th>{{ Carbon\Carbon::create()->month($month)->translatedFormat('F') }}</th>
-                        @endfor
-                        <th>Estimasi Stok Tahun Depan</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($productsData as $product)
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div>
-                                        <div class="fw-semibold">{{ $product['nama_produk'] }}</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>{{ $product['stok'] }}</td>
-                            <td>Rp {{ number_format($product['harga'], 0, ',', '.') }}</td>
-                            <td>{{ $product['kategori'] }}</td>
-                            @for ($month = 1; $month <= 12; $month++)
-                                <td>{{ $product['monthly_sales'][$month]['estimasi_stok'] }} unit</td>
-                            @endfor
-                            <td>{{ $product['estimasi_stok_tahunan_total'] }} unit</td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="{{ 4 + 12 + 1 }}" class="text-center">Tidak ada data prediksi untuk ditampilkan.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                        <h6 class="text-muted">Data Historis Penjualan (Dasar Perhitungan)</h6>
+                        <table class="table table-sm table-bordered table-striped mb-4">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Periode</th>
+                                    <th>Penjualan (Unit)</th>
+                                    <th>Bobot (Weight)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($predictionData['historical_data'] as $data)
+                                <tr>
+                                    <td>{{ $data['period'] }}</td>
+                                    <td>{{ $data['sales'] }}</td>
+                                    <td>{{ $data['weight'] }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                        <h6 class="text-muted">Hasil Prediksi (Weighted Moving Average)</h6>
+                        <div class="alert alert-success">
+                            <p class="fs-5 mb-1 fw-bold">Prediksi Kebutuhan Stok 1 Bulan ke Depan: <span class="text-danger">{{ $predictionData['wma_prediction_1_month'] }} unit</span></p>
+                            <small class="text-muted">Perhitungan: <code>{{ $predictionData['calculation_summary'] }}</code></small>
+                        </div>
+
+                        <h6 class="text-muted">Estimasi Jangka Panjang</h6>
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center text-dark">
+                                Estimasi Kebutuhan 6 Bulan
+                                <span class="fw-bold">{{ $predictionData['estimate_6_months'] }} unit</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center text-dark">
+                                Estimasi Kebutuhan 1 Tahun
+                                <span class="fw-bold">{{ $predictionData['estimate_12_months'] }} unit</span>
+                            </li>
+                        </ul>
+                        <small class="form-text text-muted mt-2">*Estimasi jangka panjang adalah hasil perkalian dari prediksi 1 bulan dan bersifat kasar.</small>
+
+                        <a href="{{ route('analitik.export.prediction.pdf', ['product_id' => $selectedProduct->id, 'periods' => $input['periods'] ?? 3]) }}" class="btn btn-success mt-3" target="_blank">
+                            <i class="fas fa-file-pdf me-2"></i> Export Laporan Prediksi
+                        </a>
+                    </div>
+
+                    {{-- Kolom Kanan: Grafik --}}
+                    <div class="col-lg-6">
+                        <h6 class="text-muted">Grafik Penjualan & Prediksi</h6>
+                        <div style="height: 400px;">
+                            <canvas id="predictionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                @else
+                <div class="alert alert-warning text-center">
+                    <h5 class="alert-heading">Data Tidak Cukup</h5>
+                    <p>Tidak cukup data penjualan historis (minimal 2 bulan) untuk produk "{{ $selectedProduct->nama }}" untuk membuat prediksi yang akurat.</p>
+                </div>
+                @endif
+            </div>
         </div>
+        @else
+        <div class="alert alert-info text-center">
+            <h5 class="alert-heading">Mulai Analisis</h5>
+            <p>Silakan pilih produk dan tentukan periode data untuk memulai prediksi kebutuhan stok.</p>
+        </div>
+        @endif
     </div>
 </main>
 
-<!-- Modal Rumus -->
-<div class="modal fade" id="modalRumus" tabindex="-1" aria-labelledby="modalRumusLabel" aria-hidden="true">
+<!-- Modal Rumus WMA -->
+<div class="modal fade" id="wmaFormulaModal" tabindex="-1" aria-labelledby="wmaFormulaModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalRumusLabel">Rumus Prediksi Stok</h5>
+                <h5 class="modal-title" id="wmaFormulaModalLabel">Metode Weighted Moving Average (WMA)</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <h6>1. Penjualan Bulanan (Aktual)</h6>
-                <p>Untuk bulan-bulan yang sudah berlalu atau bulan saat ini, data penjualan diambil langsung dari catatan transaksi (jumlah produk yang terjual pada bulan tersebut).</p>
-                <p><strong>Rumus:</strong> Jumlah produk terjual pada bulan X</p>
-                <p><strong>Contoh:</strong> Jika pada bulan Januari terjual 10 unit "Yamalube Matic", maka penjualan bulanan Januari adalah 10 unit.</p>
+                <p>Metode Weighted Moving Average (WMA) memberikan bobot yang berbeda pada setiap data historis, dengan data terbaru diberikan bobot yang lebih besar. Ini membantu mencerminkan tren terkini dengan lebih baik.</p>
+                <h6>Rumus WMA:</h6>
+                <p class="text-center fs-4 fw-bold">WMA = (Σ (Xₜ × W)) / ΣW</p>
+                <ul>
+                    <li><strong>Xₜ</strong>: Nilai penjualan aktual pada periode waktu ke-t (misalnya, jumlah unit terjual pada bulan tertentu).</li>
+                    <li><strong>W</strong>: Bobot yang diberikan pada periode waktu ke-t. Data terbaru memiliki bobot tertinggi.</li>
+                    <li><strong>Σ (Xₜ × W)</strong>: Jumlah dari hasil perkalian penjualan aktual dengan bobotnya untuk setiap periode.</li>
+                    <li><strong>ΣW</strong>: Jumlah total dari semua bobot.</li>
+                </ul>
 
-                <hr>
+                <h6>Contoh Perhitungan:</h6>
+                <p>Misalkan kita menggunakan 3 bulan data historis dengan bobot 3, 2, 1 (bulan terbaru bobot 3, bulan sebelumnya bobot 2, dst.).</p>
+                <p>Data Penjualan:</p>
+                <ul>
+                    <li>Bulan 1 (Terlama): 100 unit (Bobot 1)</li>
+                    <li>Bulan 2 (Tengah): 120 unit (Bobot 2)</li>
+                    <li>Bulan 3 (Terbaru): 150 unit (Bobot 3)</li>
+                </ul>
+                <p>Perhitungan:</p>
+                <p class="ms-4"><code>(100 × 1) + (120 × 2) + (150 × 3)</code></p>
+                <p class="ms-4"><code>= 100 + 240 + 450</code></p>
+                <p class="ms-4"><code>= 790</code></p>
+                <p class="ms-4">Total Bobot (ΣW) = <code>1 + 2 + 3 = 6</code></p>
+                <p class="ms-4">WMA = <code>790 / 6 = 131.67</code></p>
+                <p>Jadi, prediksi penjualan untuk bulan berikutnya adalah sekitar <strong>132 unit</strong> (dibulatkan).</p>
 
-                <h6>2. Estimasi Stok Bulanan (Prediksi)</h6>
-                <p>Untuk bulan-bulan yang akan datang, estimasi stok dihitung berdasarkan rata-rata penjualan bulanan dari bulan-bulan yang sudah berlalu di tahun yang sama.</p>
-                <p><strong>Rumus:</strong> <code>CEIL (Total Penjualan Aktual Bulan Lalu / Jumlah Bulan dengan Penjualan Aktual)</code></p>
-                <p><strong>Penjelasan:</strong>
-                    <ul>
-                        <li><code>Total Penjualan Aktual Bulan Lalu</code>: Jumlah total unit produk yang terjual dari awal tahun hingga bulan terakhir yang memiliki data penjualan.</li>
-                        <li><code>Jumlah Bulan dengan Penjualan Aktual</code>: Jumlah bulan dari awal tahun hingga bulan terakhir yang memiliki data penjualan (tidak termasuk bulan dengan penjualan 0 jika tidak ada penjualan sama sekali).</li>
-                        <li><code>CEIL</code>: Fungsi pembulatan ke atas, memastikan hasil prediksi adalah bilangan bulat (unit produk).</li>
-                    </ul>
-                </p>
-                <p><strong>Contoh:</strong>
-                    Misalkan sekarang bulan Juli 2025.
-                    <br>Penjualan "Yamalube Matic" di tahun 2025:
-                    <ul>
-                        <li>Januari: 10 unit</li>
-                        <li>Februari: 15 unit</li>
-                        <li>Maret: 0 unit</li>
-                        <li>April: 12 unit</li>
-                        <li>Mei: 8 unit</li>
-                        <li>Juni: 0 unit</li>
-                    </ul>
-                    Untuk memprediksi penjualan Juli 2025:
-                    <br>Total Penjualan Aktual Bulan Lalu = 10 + 15 + 0 + 12 + 8 + 0 = 45 unit
-                    <br>Jumlah Bulan dengan Penjualan Aktual = 6 bulan (Januari-Juni)
-                    <br>Rata-rata Penjualan Bulanan = 45 / 6 = 7.5 unit
-                    <br>Estimasi Stok Bulanan (Juli) = <code>CEIL(7.5)</code> = 8 unit
-                </p>
-                <p>Jika tidak ada data penjualan aktual sama sekali di tahun berjalan, maka prediksi untuk bulan-bulan mendatang akan menjadi 0.</p>
-
-                <hr>
-
-                <h6>3. Estimasi Stok Tahun Depan (Total)</h6>
-                <p>Ini adalah total estimasi stok yang dibutuhkan untuk satu tahun penuh, dihitung dengan menjumlahkan semua estimasi stok bulanan (aktual untuk bulan lalu/saat ini, prediksi untuk bulan mendatang).</p>
-                <p><strong>Rumus:</strong> <code>SUM (Estimasi Stok Bulanan untuk setiap bulan dalam 1 tahun)</code></p>
-                <p><strong>Contoh:</strong> Jika estimasi stok bulanan untuk setiap bulan adalah 8 unit, maka Estimasi Stok Tahun Depan = 8 unit/bulan * 12 bulan = 96 unit.</p>
+                <h6>Penerapan di Sistem Ini:</h6>
+                <p>Sistem ini menggunakan jumlah bulan historis yang Anda pilih untuk menentukan bobot secara otomatis (bulan terbaru memiliki bobot tertinggi). Hasil WMA akan memprediksi kebutuhan stok untuk 1 bulan ke depan. Estimasi untuk 6 bulan dan 1 tahun adalah hasil perkalian dari prediksi 1 bulan tersebut.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -171,3 +227,72 @@
 </div>
 
 @include('layouts.footer')
+
+{{-- Script untuk Chart.js --}}
+@if ($selectedProduct && $predictionData)
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('predictionChart').getContext('2d');
+
+        const historicalLabels = @json(array_column($predictionData['historical_data'], 'period'));
+        const historicalSales = @json(array_column($predictionData['historical_data'], 'sales'));
+        const predictionLabel = 'Prediksi Bulan Depan';
+        const predictionValue = @json($predictionData['wma_prediction_1_month']); // Corrected syntax
+
+        console.log('Historical Labels:', historicalLabels);
+        console.log('Historical Sales:', historicalSales);
+        console.log('Prediction Value:', predictionValue);
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [...historicalLabels, predictionLabel],
+                datasets: [{
+                    label: 'Jumlah Penjualan (Unit)',
+                    data: [...historicalSales, predictionValue],
+                    backgroundColor: [
+                        ...historicalSales.map(() => 'rgba(54, 162, 235, 0.6)'),
+                        'rgba(255, 99, 132, 0.6)'
+                    ],
+                    borderColor: [
+                        ...historicalSales.map(() => 'rgba(54, 162, 235, 1)'),
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Jumlah Unit Terjual'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return ` ${context.dataset.label}: ${context.raw} unit`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Scroll to the bottom of the page
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    });
+</script>
+@endif
+
+
