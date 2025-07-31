@@ -9,24 +9,26 @@
         <div class="card shadow-sm mb-4">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Data Penjualan Aktual per Produk (Tahun {{ $selectedYear }})</h5>
-                <form action="{{ route('analitik') }}" method="GET" class="d-flex gap-2 align-items-center">
+                <form action="{{ route('analitik') }}" method="GET" class="d-flex gap-2 align-items-center flex-wrap">
                     <label for="yearFilter" class="form-label mb-0">Pilih Tahun:</label>
-                    <select class="form-select form-select-sm" id="yearFilter" name="year" onchange="this.form.submit()">
+                    <select class="form-select form-select-sm" id="yearFilter" name="year">
                         @php
                         $currentYear = Carbon\Carbon::now()->year;
                         for ($y = $currentYear; $y >= $currentYear - 5; $y--) {
                         echo '<option value="' . $y . '" ' . ($selectedYear == $y ? ' selected' : '' ) . '>' . $y . '</option>' ;
                             }
                             @endphp
-                            </select>
-                            @foreach ($input as $key => $value)
-                            @if ($key !== 'year')
-                            <input type="hidden" name="{{ $key }}" value="{{ $value }}">
-                            @endif
-                            @endforeach
+                    </select>
+                    
+                    <button type="submit" class="btn btn-primary btn-sm">Filter</button>
+                    <a href="{{ route('analitik') }}" class="btn btn-secondary btn-sm" hidden>Reset Filter</a>
+                    <a href="{{ route('export.penjualan.pdf', request()->query()) }}" class="btn btn-success btn-sm ms-auto">Export Penjualan ke PDF</a>
                 </form>
             </div>
             <div class="card-body">
+                <div class="alert alert-info mb-3">
+                    Total Penjualan Aktual (Periode Terpilih): <strong>Rp {{ number_format($totalSalesRevenue, 0, ',', '.') }}</strong>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-sm table-bordered table-striped">
                         <thead class="table-light">
@@ -86,7 +88,7 @@
                             Lihat Rumus
                         </button>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2" hidden>
                         <a href="{{ route('analitik') }}" class="btn btn-secondary w-100">Reset</a>
                     </div>
                 </form>
@@ -96,8 +98,9 @@
         {{-- Container untuk Hasil Analisis --}}
         @if ($selectedProduct)
         <div class="card shadow-sm" id="predictionResultsCard">
-            <div class="card-header">
+            <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Hasil Analisis untuk: <span class="text-primary">{{ $selectedProduct->nama }}</span></h5>
+                <a href="{{ route('export.prediksi.pdf', ['product_id' => $selectedProduct->id, 'periods' => $input['periods'] ?? 3]) }}" class="btn btn-success btn-sm">Export Prediksi ke PDF</a>
             </div>
             <div class="card-body">
                 @if ($predictionData)
@@ -106,7 +109,7 @@
                     <div class="col-lg-6">
                         <h6 class="text-muted">Informasi Produk</h6>
                         <ul class="list-group mb-4">
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <li class="list-group-item d-flex justify-content-between align-items-center text-dark">
                                 Stok Saat Ini
                                 <span class="badge bg-info rounded-pill fs-6">{{ $selectedProduct->stok }} unit</span>
                             </li>
@@ -150,10 +153,6 @@
                             </li>
                         </ul>
                         <small class="form-text text-muted mt-2">*Estimasi jangka panjang adalah hasil perkalian dari prediksi 1 bulan dan bersifat kasar.</small>
-
-                        <a href="{{ route('analitik.export.prediction.pdf', ['product_id' => $selectedProduct->id, 'periods' => $input['periods'] ?? 3]) }}" class="btn btn-success mt-3" target="_blank">
-                            <i class="fas fa-file-pdf me-2"></i> Export Laporan Prediksi
-                        </a>
                     </div>
 
                     {{-- Kolom Kanan: Grafik --}}

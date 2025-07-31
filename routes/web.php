@@ -95,7 +95,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/update/product', [ProductController::class, 'update'])->name('update.product');
 
     Route::get('/analitik', [AnalitikController::class, 'analitik'])->name('analitik');
-    Route::get('/analitik/export-pdf', [AnalitikController::class, 'exportAnalitikPdf'])->name('analitik.export.pdf');
+    Route::get('/analitik/export/penjualan', [AnalitikController::class, 'exportPenjualanPdf'])->name('export.penjualan.pdf');
+    Route::get('/analitik/export/prediksi', [AnalitikController::class, 'exportPrediksiPdf'])->name('export.prediksi.pdf');
 
     Route::post('delete/user/{id}', [UserController::class, 'deleteUser'])->name('delete.user');
 
